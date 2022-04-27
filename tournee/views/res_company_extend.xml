@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_inherit_cna_company_form" model="ir.ui.view">
+            <field name="name">view.inherit.cna.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+
+                <field name="website" position="after">
+                    <field name="start_code"/>
+                    <field name="end_code"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

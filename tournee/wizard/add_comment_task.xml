@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="add_comment_task_wizard_form" model="ir.ui.view">
+            <field name="name">add.comment.task.wizard.form</field>
+            <field name="model">add.comment.task.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="is_required" invisible="1"/>
+                        <field name="comments" attrs="{'required': [('is_required', '=', True)]}"/>
+                    </group>
+
+                    <footer>
+                        <button string="Valider" name="validate" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

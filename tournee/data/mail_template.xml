@@ -1,0 +1,27 @@
+<odoo>
+	<data noupdate="0">
+		<record id="email_template_anomalie" model="mail.template">
+            <field name="name">Anomalie</field>
+            <field name="model_id" ref="tournee.model_tags_task_anomalie"/>
+            <field name="subject">${object.company_id.name} ${'Anomalie'} (Ref ${object.task_id.name or 'n/a' })</field>
+            <field name="email_from">${(object.create_uid.email_formatted or user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.id}</field>
+
+            <field name="auto_delete" eval="True"/>
+			<field name="body_html" type="html">
+				<p>Tournée: ${object.task_id.name}</p>
+				<p>Date anomalie: ${object.date_anomalie}</p>
+				<p>Lieu: ${object.tag_id.name}</p>
+				<p>Chargé de sécurité: ${object.charge_security_id.display_name}</p>
+				<p>Anomalie: ${object.anomalie_id.display_name or ""}</p>
+				<p>Commentaire: ${object.anomalie_commentaire_id.display_name or ""}</p>
+				<p>Criticité: ${object.criticite or ""}</p>
+				<p>Depuis le : ${object.depuis_le or ""}</p>
+				<p>Etat: ${object.state or ""}</p>
+				<p>Commentaire: ${object.comment or ""}</p>
+				<p>Lien photo: <a href="${object.url}" class="btn btn-secondary rounded-circle btn-lg">${object.url}</a></p>
+
+			</field>
+        </record>
+	</data>
+</odoo>

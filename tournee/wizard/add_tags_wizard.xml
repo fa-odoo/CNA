@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="add_tags_wizard_form" model="ir.ui.view">
+            <field name="name">add.tags.wizard.form</field>
+            <field name="model">add.tags.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Ajouter">
+                    <group>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                    </group>
+                    <footer>
+                        <button string="Ajouter" name="add_tags" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+	       <record id="add_tags_wizard_action" model="ir.actions.act_window">
+		      <field name="name">Ajout des tag</field>
+		      <field name="res_model">add.tags.wizard</field>
+		      <field name="view_mode">form</field>
+		      <field name="target">new</field>
+		    </record>
+    </data>
+</odoo>

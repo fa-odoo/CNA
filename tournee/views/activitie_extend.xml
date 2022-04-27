@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_inherit_view_cna_activitie_form_form" model="ir.ui.view">
+            <field name="name">view.inherit.cna.activitie.form</field>
+            <field name="model">cna.activitie</field>
+            <field name="inherit_id" ref="activities.view_cna_activitie_form"/>
+            <field name="arch" type="xml">
+
+                <field name="lieu_id" position="after">
+                    <field name="tag_id" domain="[('navire_id', '=', navire_id)]" attrs="{'invisible':[('access_point','!=','navire')]}"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_activities_form" model="ir.ui.view">
+        <field name="name">res.partner.stock.warning</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']//field[@name='ref']" position="attributes">
+                <attribute name="string">Badge</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="rapport_incident_pivot_view" model="ir.ui.view">
+        <field name="name">cna.incident.pivot</field>
+        <field name="model">cna.incident</field>
+        <field name="arch" type="xml">
+            <pivot string="Incident">
+                <field name="name" type="row"/>
+
+            </pivot>
+        </field>
+    </record>
+    <record id="rapport_incident_graph_view" model="ir.ui.view">
+        <field name="name">cna.incident.graph</field>
+        <field name="model">cna.incident</field>
+        <field name="arch" type="xml">
+            <graph string="Incident">
+                <field name="name" type="row"/>
+
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="rapport_incident_form_view" model="ir.ui.view">
+        <field name="name">cna.incident.form</field>
+        <field name="model">cna.incident</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_done" type="object" states="draft" class="btn-primary" string="Clôturer"/>
+                    <button name="action_to_draft" type="object" states="done" class="btn-primary" string="Nouveau"/>
+                    <button name="action_rapport_incident_send" string="Envoyer par mail" type="object" states="draft, done"
+                            class="btn-primary"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}"/>
+                            <field name="short_description_id" domain="[('incident_type_id', '=', incident_type_id)]"
+                                   options="{'no_create':1, 'no_edit':1}"/>
+                            <field name="site" options="{'no_create':1, 'no_edit':1}"/>
+
+                            <field name="access_point"/>
+
+                            <field name="navire_id" attrs="{'invisible':[('access_point','!=','navire')]}"/>
+                            <field name="lieu" domain="[('navire_id', '=', navire_id)]"
+                                   options="{'no_create':1, 'no_edit':1}"/>
+
+
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="create_date" string="Crée le"/>
+                            <field name="create_uid" string="Par"/>
+                            <field name="write_date" string="Modifié le"/>
+                            <field name="write_uid" string="Par"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="incident"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="company_id" invisible="0"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Informations">
+                            <group>
+                                <group>
+                                    <field name="auteur"/>
+                                    <field name="auteur_badge"/>
+                                </group>
+                                <group>
+                                    <field name="victime"/>
+                                    <field name="victime_badge"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="person_av" widget="many2many_tags"
+                                           domain="[('personne_avise', '=', True)]"
+                                           options="{'no_create':1, 'no_edit':1}"/>
+                                </group>
+                                <group>
+                                    <field name="agent_int" widget="many2many_tags"
+                                           domain="[('agent_intervenant', '=', True)]"
+                                           options="{'no_create':1, 'no_edit':1}"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="secour" widget="many2many_tags"/>
+                                </group>
+                                <group>
+                                    <field name="mesure" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Objet">
+                            <field name="object"/>
+                        </page>
+                        <page string="Description Evènement">
+                            <field name="description"/>
+                        </page>
+                        <page string="Actions">
+                            <field name="action"/>
+                        </page>
+                        <page string="attachemnt_ids" invisible="1">
+                            <field name="attachemnt_ids"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="rapport_incident_tree_view" model="ir.ui.view">
+        <field name="name">cna.incident.tree</field>
+        <field name="model">cna.incident</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <button name="action_valide_mass_incident" class="oe_highlight" type="object" string="Cloturé"/>
+                </header>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="rmodel_importance_tree_view" model="ir.ui.view">
+        <field name="name">model.importance.tree</field>
+        <field name="model">model.importance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="priority"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="rapport_incident_search_view" model="ir.ui.view">
+        <field name="name">Incident.search</field>
+        <field name="model">cna.incident</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="site_form_view" model="ir.ui.view">
+        <field name="name">site.view.form</field>
+        <field name="model">site.site</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Lieu">
+                            <field name="lieu_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="site_id" invisible="1"/>
+                                    <field name="type" required="1"/>
+                                    <field name="navire_id"
+                                           attrs="{'invisible': [('type', '!=', 'navire')],'required':[('type', '=', 'navire')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_rapport_incident" model="ir.actions.act_window">
+<!--        <field name="name">INTERVENTION FEU</field>-->
+        <field name="name">Main courante</field>
+        <field name="res_model">cna.incident</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <record id="view_employee_form_leave_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.leave.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="personne_avise"/>
+                <field name="agent_intervenant"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_site_site" model="ir.actions.act_window">
+        <field name="name">Site</field>
+        <field name="res_model">site.site</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_secours" model="ir.actions.act_window">
+        <field name="name">Secours</field>
+        <field name="res_model">secours.secours</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_model_importance" model="ir.actions.act_window">
+        <field name="name">Importance des modèles</field>
+        <field name="res_model">model.importance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_model_mesure_prise" model="ir.actions.act_window">
+        <field name="name">Mesure prise</field>
+        <field name="res_model">mesure.prise</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="action_navire" model="ir.actions.act_window">
+        <field name="name">Navire</field>
+        <field name="res_model">navire.navire</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_navire" sequence="5" name='Navire'
+              parent="industry_fsm.fsm_menu_settings" action="action_navire"/>
+
+    <menuitem id="menu_activities_root" sequence="5" name='Evènements'
+              parent="industry_fsm.fsm_menu_root" groups="activities.activities_user"/>
+    <menuitem id="menu_site_site" sequence="5" name='Sites' groups="activities.activities_user"
+              parent="industry_fsm.fsm_menu_settings" action="action_site_site"/>
+    <menuitem id="menu_secours" sequence="5" name='Secours' groups="activities.activities_user"
+              parent="industry_fsm.fsm_menu_settings" action="action_secours"/>
+    <menuitem id="menu_model_importance" sequence="5" name='Importance'
+              parent="industry_fsm.fsm_menu_settings" action="action_model_importance"/>
+
+    <menuitem id="menu_model_importance" sequence="5" name='Mesure prise'
+              parent="industry_fsm.fsm_menu_settings" action="action_model_mesure_prise"/>
+
+    <menuitem id="menu_rapport_incident" parent="menu_activities_root" action="action_rapport_incident"/>
+
+
+</odoo>

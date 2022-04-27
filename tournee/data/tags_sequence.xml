@@ -1,0 +1,9 @@
+<odoo>
+	<data>
+		  <record id="seq_tags" model="ir.sequence">
+            <field name="name">Tags</field>
+            <field name="code">tags.tags</field>
+            <field name="padding">3</field>
+        </record>
+	</data>
+</odoo>

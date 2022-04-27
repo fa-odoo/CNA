@@ -1,0 +1,14 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_tags_user","Tags user","model_tags_tags","base.group_user",1,0,0,0
+"access_add_tags_wizard_user","add.tags.wizard user","model_add_tags_wizard","base.group_user",1,1,1,1
+"access_add_comment_task_wizard_user","add.comment.task.wizard user","tournee.model_add_comment_task_wizard","base.group_user",1,1,1,1
+"access_tags_manager","Tags manager","model_tags_tags","tournee.tags_manager",1,1,1,1
+"access_tags_task_anomalie_user","tags.task.anomalie USER","model_tags_task_anomalie","tournee.tags_user",1,1,1,1
+"access_tags_anomalie_user","tags.anomalie USER","model_tags_anomalie","tournee.tags_user",1,1,1,1
+"access_tags_anomalie_commentaire_user","tags.anomalie.commentaire USER","model_tags_anomalie_commentaire","tournee.tags_user",1,1,1,1
+"access_task_tags_line_user","task.tags.line USER","model_task_tags_line","industry_fsm.group_fsm_user",1,1,1,1
+"access_ronde_ronde_user","ronde.ronde USER","model_ronde_ronde","industry_fsm.group_fsm_user",1,0,0,0
+"access_ronde_ronde_manager","ronde.ronde manager","model_ronde_ronde","tournee.tags_manager",1,1,1,1
+"access_ronde_tags_user","ronde.tags USER","model_ronde_tags","industry_fsm.group_fsm_user",1,0,0,0
+"access_ronde_tags_manager","ronde.tags manager","model_ronde_tags","tournee.tags_manager",1,1,1,1
+"access_navire_manager","Navire manager","activities.model_navire_navire","tournee.tags_manager",1,1,1,1
