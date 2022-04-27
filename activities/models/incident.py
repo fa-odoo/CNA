@@ -1,0 +1,213 @@
+# -*- coding: utf-8 -*-
+
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError, UserError
+
+
+class Incident(models.Model):
+    _name = 'cna.incident'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    def action_rapport_incident_send(self):
+        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+        self.ensure_one()
+        template_id = self.env['ir.model.data'].xmlid_to_res_id('activities.email_template_rapport_incident',
+                                                                raise_if_not_found=False)
+        lang = self.env.context.get('lang')
+        template = self.env['mail.template'].browse(template_id)
+        if template.lang:
+            lang = template._render_lang(self.ids)[self.id]
+
+        ctx = {
+            'default_model': 'cna.incident',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'force_email': True,
+        }
+        print('template_itemplate_idd', template_id, ctx)
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
+
+    def get_default_priority(self):
+        rec = self.env['model.importance'].search([('name', '=', 'cna.incident')])
+        if rec:
+            return rec.priority
+        else:
+            return '0'
+
+    name = fields.Char('ID', default='/', readonly=True, tracking=True)
+    incident = fields.Boolean(tracking=True)
+    date_start = fields.Datetime('Heure début', tracking=True)
+    date_end = fields.Datetime('Heure fin', tracking=True)
+    description = fields.Text("Description", tracking=True)
+    action = fields.Text("Actions", tracking=True)
+    site = fields.Many2one('site.site', string="Site", tracking=True)
+    lieu = fields.Many2one('site.lieu', "Lieu", tracking=True)
+    auteur = fields.Char("Auteur", tracking=True)
+    auteur_badge = fields.Char("Badge", tracking=True)
+    victime = fields.Char("Victime", tracking=True)
+    victime_badge = fields.Char("Badge", tracking=True)
+    company_id = fields.Many2one('res.company', default=lambda s: s.env.company, tracking=True)
+    priority = fields.Selection([
+        ('0', 'Normal'),
+        ('1', 'Low'),
+        ('2', 'High'),
+        ('3', 'Critique')], string="Importance", default=get_default_priority, tracking=True)
+    state = fields.Selection([
+        ('draft', 'En cours'),
+        ('done', 'Clôturé')
+    ], 'Status', default='draft', index=True, required=True, readonly=True, copy=False, tracking=True)
+
+    person_av = fields.Many2many(comodel_name="hr.employee", relation="incipednt_person_av_rel", string="Personne avisée", tracking=True)
+    agent_int = fields.Many2many(comodel_name="hr.employee", relation="incipednt_agent_int_rel", string="Agent intervenant", tracking=True)
+    secour = fields.Many2many(comodel_name="secours.secours", string="Secours demandés", tracking=True)
+    mesure = fields.Many2many(comodel_name="mesure.prise", string="Mesure prise", tracking=True)
+
+    attachemnt_ids = fields.Many2many('ir.attachment', compute='get_record_attachment', tracking=True)
+
+    incident_type_id = fields.Many2one(comodel_name="incident.type", string="Type d'incident", required=False, tracking=True)
+    short_description_id = fields.Many2one(comodel_name="incident.type.short.description", string="Courte description",
+                                           required=False, tracking=True)
+    object = fields.Text(string="Objet", required=False, tracking=True)
+    access_point = fields.Selection(string="Point d'Accès", selection=[('navire', 'Navire'), ('sol', 'Sol')],
+                                    required=False, tracking=True)
+    navire_id = fields.Many2one(comodel_name="navire.navire", string="Navire", required=False, tracking=True)
+    tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag", required=False, tracking=True)
+
+    def get_record_attachment(self):
+        for rec in self:
+            attachement = self.env['ir.attachment'].search([('res_id', '=', rec.id),
+                                                            ('res_model', '=', 'cna.incident')])
+            if attachement:
+                rec.attachemnt_ids = attachement
+            else:
+                rec.attachemnt_ids = False
+
+    def action_done(self):
+        return self.write({'state': 'done'})
+
+    def action_to_draft(self):
+        return self.write({'state': 'draft'})
+
+    @api.model
+    def create(self, vals):
+        res = super(Incident, self).create(vals)
+
+        res.name = self.env['ir.sequence'].next_by_code('cna.incident') or ''
+
+        # add followers
+        if res.incident_type_id:
+            res.message_follower_ids.unlink()
+            res.message_follower_ids = [
+                (0, 0, {'res_model': 'cna.incident', 'res_id': res.id, 'partner_id': follower.id}) for follower in
+                res.incident_type_id.follower_ids]
+
+        if res.auteur:
+            res.auteur = res.auteur.upper()
+
+        if res.victime:
+            res.victime = res.victime.upper()
+
+        return res
+
+    def write(self, values):
+
+        for incident in self:
+            if incident.state == 'done' and not self.env.user.has_group('activities.group_change_incident_done'):
+                raise UserError("Vous n'êtes pas autorisé de modifier une incident cloturé")
+
+        if values.get('auteur'):
+            values['auteur'] = values['auteur'].upper()
+
+        if values.get('victime'):
+            values['victime'] = values['victime'].upper()
+
+        res = super(Incident, self).write(values)
+
+        # change followers if incident type changed
+        if values.get('incident_type_id'):
+            for rec in self:
+                rec.message_follower_ids.unlink()
+                rec.message_follower_ids = [
+                    (0, 0, {'res_model': 'cna.incident', 'res_id': rec.id, 'partner_id': follower.id}) for follower in
+                    rec.incident_type_id.follower_ids]
+
+        return res
+
+    @api.onchange('access_point')
+    def _onchange_access_point(self):
+        self.navire_id = False
+
+    def action_valide_mass_incident(self):
+        for incident in self.env['cna.incident'].browse(self.env.context.get('active_ids')):
+            incident.action_done()
+
+    def unlink(self):
+        for rec in self:
+            if rec.state == 'done':
+                raise UserError('Vous ne pouvez pas supprimer une incident cloturé !')
+        return super(Incident, self).unlink()
+
+
+class Site(models.Model):
+    _name = 'site.site'
+
+    name = fields.Char(required=True, string='Nom')
+    lieu_ids = fields.One2many('site.lieu', 'site_id', 'Lieux')
+
+
+class SiteLieu(models.Model):
+    _name = 'site.lieu'
+
+    name = fields.Char(required=True, string='Nom')
+    site_id = fields.Many2one('site.site', 'Site', required=True)
+    type = fields.Selection(string="Type", selection=[('navire', 'Navire'), ('sol', 'Sol')],
+                            required=False)
+    navire_id = fields.Many2one(comodel_name="navire.navire", string="Navire", required=False)
+
+
+class Secours(models.Model):
+    _name = 'secours.secours'
+
+    name = fields.Char(required=True, string='Nom')
+
+
+class ModelImportance(models.Model):
+    _name = 'model.importance'
+
+    name = fields.Char(required=True, string='Model')
+    priority = fields.Selection([
+        ('0', 'Normal'),
+        ('1', 'Low'),
+        ('2', 'High'),
+        ('3', 'Critique')], string="Importance")
+
+
+class MesurePrise(models.Model):
+    _name = 'mesure.prise'
+
+    name = fields.Char(string="Nom", required=True, )
+
+
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
+
+    personne_avise = fields.Boolean('Personne avisé')
+    agent_intervenant = fields.Boolean('Agent intervenant')
+
+
+class Navire(models.Model):
+    _name = 'navire.navire'
+
+    name = fields.Char('Navire', required=True)
+    site_id = fields.Many2one('site.site', 'Site', required=True)

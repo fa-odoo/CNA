@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="activitie_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <!-- <t t-call="web.external_layout"> -->
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h4 style="margin-bottom:20px;text-decoration: underline;">Information sur l'activité</h4>
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Nom
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.name"/>
+                                    </td>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Point d'Accès
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.access_point"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Type d'activité
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.type_activitie_id"/>
+                                    </td>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Lieu
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.lieu_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Courte description
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.type_activitie_short_desc_id"/>
+                                    </td>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Navire
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.navire_id"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Site
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.site"/>
+                                    </td>
+                                    <td style="width:23%;font-weight:bold;">
+                                        Tag
+                                    </td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:23%;">
+                                        <span t-field="doc.tag_id"/>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <h4 style="margin-top:30px;text-decoration: underline;">Actions</h4>
+                            <p t-field="doc.actions"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_activitie_report" model="ir.actions.report">
+            <field name="name">Activité</field>
+            <field name="model">cna.activitie</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">activities.activitie_report_template</field>
+            <field name="report_file">activities.activitie_report_template</field>
+            <field name="print_report_name">('Activité - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="activities.model_cna_activitie"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

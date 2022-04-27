@@ -1,0 +1,139 @@
+<odoo>
+    <data>
+
+        <record id="ronde_form_view" model="ir.ui.view">
+            <field name="name">ronde.ronde.form.view</field>
+            <field name="model">ronde.ronde</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="%(add_tags_wizard_action)d" type="action" string="Ajouter des tags"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="navire_id"/>
+
+                        </group>
+                        <notebook>
+                            <page string="tags">
+                                <field name="tag_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="tag_id"/>
+                                        <field name="is_required"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_task_tags_line_tree" model="ir.ui.view">
+            <field name="name">view.task.tags.line.tree</field>
+            <field name="model">task.tags.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="scan_date"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="tags_form_view" model="ir.ui.view">
+            <field name="name">tags.form.view</field>
+            <field name="model">tags.tags</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+
+                        <div class="oe_button_box">
+                            <button name="action_see_all_scan" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                                    <span class="o_stat_text">Historique des scans</span>
+                            </button>
+                        </div>
+
+
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="numero"/>
+                            <field name="site_id"/>
+                            <field name="navire_id" domain="[('site_id', '=', site_id)]"/>
+                            <field name="lot"/>
+                            <field name="position"/>
+                            <field name="bloc"/>
+                            <field name="couple"/>
+                            <field name="charge_security_id"/>
+                            <field name="last_date_scan"/>
+                            <field name="tag_file" widget="pdf_viewer"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tags_tree_view" model="ir.ui.view">
+            <field name="name">tags.tree.view</field>
+            <field name="model">tags.tags</field>
+            <field name="arch" type="xml">
+                <tree multi_edit="1" sample="1">
+                    <field name="name"/>
+                    <field name="numero"/>
+                    <field name="last_date_scan"/>
+                    <field name="site_id" options="{'no_create':1, 'no_edit':1}"/>
+                    <field name="navire_id" domain="[('site_id', '=', site_id)]"
+                           options="{'no_create':1, 'no_edit':1}"/>
+                    <field name="lot"/>
+                    <field name="position"/>
+                    <field name="bloc"/>
+                    <field name="couple"/>
+                    <field name="charge_security_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tags_search_view" model="ir.ui.view">
+            <field name="name">tags.search</field>
+            <field name="model">tags.tags</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="site_id"/>
+                    <field name="navire_id"/>
+                    <field name="charge_security_id"/>
+
+                    <filter string="Non scané plus 4H" name="last_date_scan"
+                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+
+                    <filter string="Non scané plus 6H" name="last_date_scan"
+                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=6)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+
+                    <filter string="Non scané plus 12H" name="last_date_scan"
+                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_tags" model="ir.actions.act_window">
+            <field name="name">Tags</field>
+            <field name="res_model">tags.tags</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_ronde" model="ir.actions.act_window">
+            <field name="name">Ronde</field>
+            <field name="res_model">ronde.ronde</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_tags" sequence="5" name='Tags'
+                  parent="industry_fsm.fsm_menu_settings" action="action_tags"/>
+
+        <menuitem id="menu_ronde" sequence="5" name='Ronde'
+                  parent="industry_fsm.fsm_menu_settings" action="action_ronde"/>
+    </data>
+</odoo>

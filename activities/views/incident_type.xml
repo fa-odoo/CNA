@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_incident_type_form" model="ir.ui.view">
+            <field name="name">view.incident.type.form</field>
+            <field name="model">incident.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="follower_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="responsable_id"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Courte description">
+                                <field name="short_description_ids">
+                                    <tree editable="bottom">
+                                        <field name="name" string=" "/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_incident_type_tree" model="ir.ui.view">
+            <field name="name">view.incident.type.tree</field>
+            <field name="model">incident.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_incident_type_view" model="ir.actions.act_window">
+            <field name="name">Type d'incident</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">incident.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_incident_type_view" sequence="5" name="Type d'incident"
+                  parent="industry_fsm.fsm_menu_settings" action="action_incident_type_view"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="action_report_rapport_incident" model="ir.actions.report">
+            <field name="name">Incident</field>
+            <field name="model">cna.incident</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">activities.report_rapport_incident</field>
+            <field name="report_file">activities.report_rapport_incident</field>
+            <field name="print_report_name">('Incident - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="activities.model_cna_incident"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

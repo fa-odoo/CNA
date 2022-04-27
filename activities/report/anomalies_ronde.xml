@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="anomalies_ronde_report_template">
+
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header">
+                        <table style="width:100%;border-collapse: collapse;border-bottom: 1px solid black;">
+                            <tr>
+                                <td style="width:50%;border-right: 1px solid black;">
+                                    <div style="margin-left:12px;margin-bottom:27px;">
+                                        <span style="font-weight:bold;">Status :
+                                            <t t-esc="o.stage_id.name"/>
+                                        </span>
+                                        <br/>
+                                        <span style="font-weight:bold;">Evenments :
+                                            <t t-esc="o.id"/>
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        Date Début :
+                                        <span t-field="o.planned_date_begin"/>
+                                        <br/>
+                                        Date Fin :
+                                        <span t-field="o.planned_date_end"/>
+                                    </div>
+                                </td>
+                                <td style="width:50%;">
+                                    <t t-set="all_tags"
+                                       t-value="o.tag_anomalie_ids.filtered(lambda line: line.hors_parcours == False)"/>
+                                    <t t-set="all_scaned_tags"
+                                       t-value="o.tag_anomalie_ids.filtered(lambda line: line.hors_parcours == False and line.state == 'done')"/>
+                                    <div style="margin-left:12px;margin-bottom:27px;">
+                                        ID :
+                                        <span t-field="o.id"/>
+                                        <br/>
+                                        Agent :
+                                        <span t-field="o.user_id"/>
+                                        <br/>
+                                        <br/>
+                                        Nombre de Points de Controle :
+                                        <span t-esc="len(all_scaned_tags)"/>
+                                        /
+                                        <span t-esc="len(all_tags)"/>
+                                        <br/>
+                                        Réusite :<span t-field="o.score"/>% | Durrée :
+                                        <span t-field="o.effective_hours" t-options='{"widget": "timesheet_uom"}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <table style="width:100%;border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid black;">
+                                <td colspan="7">
+                                    <div style="margin-left:12px;margin-top:3px;margin-bottom:3px;">
+                                        <span style="font-weight:bold;">Site :</span>
+                                        <span t-field="o.navire_id.site_id.name"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black;">
+                                <td colspan="7">
+                                    <div style="margin-left:12px;margin-top:3px;margin-bottom:3px;">
+                                        <span style="font-weight:bold;">commentaires :</span>
+                                        <t t-set="all_comments" t-value="o.get_all_comments()"/>
+                                        <t t-if="all_comments">
+                                            <ul>
+                                                <t t-foreach="all_comments" t-as="comment">
+                                                    <li>
+                                                        <t t-esc="comment"/>
+                                                    </li>
+                                                </t>
+                                            </ul>
+                                        </t>
+                                        <t t-else="">
+                                            N/C
+                                        </t>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="text-align:center; font-weight:bold;text-decoration: underline;">
+                                <td style="border-right: 1px solid black;">
+                                    <div style="margin-top:3px;margin-bottom:3px;">Identifiant</div>
+                                </td>
+                                <td style="border-right: 1px solid black;">Point de Controle</td>
+                                <td style="border-right: 1px solid black;">Type</td>
+                                <td style="border-right: 1px solid black;">Date et Heure</td>
+                                <td style="border-right: 1px solid black;">Réalisé</td>
+                                <td style="border-right: 1px solid black;">Evènements</td>
+                                <td style="border-left: 1px solid black;">Commentaires</td>
+                            </tr>
+                            <t t-foreach="o.tag_anomalie_ids" t-as="line">
+                                <t t-set="first_line" t-value="True"/>
+                                <t t-set="all_anomalies" t-value="line.get_anomalies()"/>
+                                <t t-if="all_anomalies">
+                                    <t t-foreach="all_anomalies" t-as="anomalie">
+                                        <t t-if="first_line">
+                                            <t t-set="first_line" t-value="False"/>
+                                            <tr style="text-align:center;">
+                                                <td style="border-right: 1px solid black;">
+                                                    <div style="margin-top:3px;margin-bottom:3px;">
+                                                        <span t-esc="line.tag_id.numero"/>
+                                                    </div>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <span t-esc="line.tag_id.name"/>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">Lieu</td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <span t-field="line.scan_date"/>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-if="line.state == 'draft'">NON</t>
+                                                    <t t-if="line.state == 'done'">OUI</t>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <span t-field="anomalie.anomalie_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="anomalie.anomalie_commentaire_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                            <tr style="text-align:center;">
+                                                <td style="border-right: 1px solid black;">
+                                                    <div style="margin-top:3px;margin-bottom:3px;"></div>
+                                                </td>
+                                                <td style="border-right: 1px solid black;"></td>
+                                                <td style="border-right: 1px solid black;"></td>
+                                                <td style="border-right: 1px solid black;"></td>
+                                                <td style="border-right: 1px solid black;"></td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <span t-field="anomalie.anomalie_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="anomalie.anomalie_commentaire_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <tr style="text-align:center;">
+                                        <td style="border-right: 1px solid black;">
+                                            <div style="margin-top:3px;margin-bottom:3px;">
+                                                <span t-esc="line.tag_id.numero"/>
+                                            </div>
+                                        </td>
+                                        <td style="border-right: 1px solid black;">
+                                            <span t-esc="line.tag_id.name"/>
+                                        </td>
+                                        <td style="border-right: 1px solid black;">Lieu</td>
+                                        <td style="border-right: 1px solid black;">
+                                            <span t-field="line.scan_date"/>
+                                        </td>
+                                        <td style="border-right: 1px solid black;">
+                                            <t t-if="line.state == 'draft'">NON</t>
+                                            <t t-if="line.state == 'done'">OUI</t>
+                                        </td>
+                                        <td style="border-right: 1px solid black;">
+                                            N/C
+                                        </td>
+                                        <td>
+                                            N/C
+                                        </td>
+                                    </tr>
+
+                                </t>
+
+                            </t>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+
+        </template>
+
+
+        <record id="action_report_anomalies_ronde" model="ir.actions.report">
+            <field name="name">Anomalies ronde</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">activities.anomalies_ronde_report_template</field>
+            <field name="report_file">activities.anomalies_ronde_report_template</field>
+            <field name="print_report_name">('Anomalies ronde - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

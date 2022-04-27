@@ -1,0 +1,44 @@
+# sphinx build directories
+_build/
+!.gitignore
+
+# compiled python files
+*.pyc
+.idea
+# setup.py egg_info
+*.egg-info
+
+# emacs backup files
+*~
+
+# hg stuff
+*.orig
+
+# vim tmp files
+*.swp
+.ropeproject/
+
+status
+.settings/
+
+# various virtualenv
+/backup/
+/build/
+/dist/
+/include/
+/lib/
+/log/
+/man/
+/share/
+/src/
+/var/
+
+*.dump.gz
+*.dump
+
+.vscode
+.DS_Store
+/.idea/
+
+# Jupyter temp files
+.ipynb_checkpoints/

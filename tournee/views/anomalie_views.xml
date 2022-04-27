@@ -1,0 +1,242 @@
+<odoo>
+    <data>
+        <record id="project_task_view_form" model="ir.ui.view">
+            <field name="name">project.task.view.form.fsm.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <!-- replace button to call the new method:task_done to add comments then close task -->
+                <xpath expr="//header//button[@name='action_fsm_validate'][hasclass('btn-primary')]" position="replace">
+                    <button class="btn-primary" name="task_done" type="object" string="marquer comme fait"
+                            attrs="{'invisible': [('display_mark_as_done_primary', '=', False)]}"/>
+                </xpath>
+
+                <!-- replace button to call the new method:task_done to add comments then close task -->
+                <xpath expr="//header//button[@name='action_fsm_validate'][hasclass('btn-secondary')]"
+                       position="replace">
+                    <button class="btn-secondary" name="task_done" type="object" string="marquer comme fait"
+                            attrs="{'invisible': [('display_mark_as_done_secondary', '=', False)]}"/>
+                </xpath>
+
+
+                <form position="inside">
+                    <field name="_barcode_scanned" widget="barcode_handler"/>
+                </form>
+                <field name="partner_id" position="before">
+                    <field name="navire_id"/>
+                    <field name="ronde_id" domain="[('navire_id', '=', navire_id)]"/>
+                    <field name="score"/>
+                    <field name="comments"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Tags">
+                        <field name="tag_anomalie_ids" attrs="{'readonly':[('fsm_done', '=', True)]}">
+                            <tree editable="bottom">
+                                <field name="tag_id"/>
+                                <field name="hors_parcours"/>
+                                <field name="create_date" string="Créé le"/>
+                                <field name="create_uid" string="Créé par"/>
+                                <field name="scan_date"/>
+                                <field name="state"/>
+                                <field name="is_required"/>
+
+                                <button name="open_tags_anomalie" string="Anomalies" type="object"
+                                        attrs="{'invisible':[('state','!=','done')]}"/>
+                            </tree>
+                        </field>
+
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        <record id="tags_anomalie_tree_view" model="ir.ui.view">
+            <field name="name">tags.anomalie.tree.view</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="line_id" invisible="1"/>
+                    <field name="date_anomalie" invisible="1"/>
+                    <field name="date"/>
+                    <field name="hour" widget="float_time"/>
+                    <field name="tag_id"/>
+                    <field name="charge_security_id"/>
+
+
+                    <field name="task_id" invisible="1"/>
+                    <field name="anomalie_id"/>
+                    <field name="anomalie_commentaire_id" domain="[('anomalie_id', '=', anomalie_id)]"/>
+                    <field name="criticite"/>
+                    <field name="depuis_le"/>
+                    <field name="state"/>
+                    <field name="comment"/>
+                    <field name="document_id" invisible="1"/>
+                    <field name="url"/>
+                </tree>
+            </field>
+        </record>
+        <record id="tags_task_anomalie_pivot_view" model="ir.ui.view">
+            <field name="name">tags.task.anomalie.pivot</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <pivot string="Anomalies">
+                    <field name="tag_id" type="row"/>
+
+                </pivot>
+            </field>
+        </record>
+        <record id="tags_task_anomalie_graph_view" model="ir.ui.view">
+            <field name="name">tags.task.anomalie.graph</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <graph string="Anomalies">
+                    <field name="tag_id" type="row"/>
+
+                </graph>
+            </field>
+        </record>
+        <record id="task_tags_anomalie_form_view" model="ir.ui.view">
+            <field name="name">tags.anomalie.form.view</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_anomalie_send" string="Envoyer par mail"
+                                type="object" class="btn-primary"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="line_id" invisible="1"/>
+                            <field name="task_id"/>
+                            <field name="date_anomalie"/>
+                            <field name="date" invisible="1"/>
+                            <field name="hour" widget="float_time" invisible="1"/>
+                            <field name="tag_id"/>
+
+                            <field name="charge_security_id"/>
+                            <field name="anomalie_id"/>
+                            <field name="anomalie_commentaire_id" options="{'no_create':1, 'no_edit':1}"
+                                   domain="[('anomalie_id', '=', anomalie_id)]"/>
+                            <field name="criticite"/>
+                            <field name="depuis_le"/>
+                            <field name="state"/>
+                            <field name="comment"/>
+                            <field name="document_id" invisible="1"/>
+
+                            <field name="url"/>
+                            <field name="create_share_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="tags_anomalie_form_view" model="ir.ui.view">
+            <field name="name">tags.anomalie.form.view</field>
+            <field name="model">tags.anomalie</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page string="Commentaires">
+                                <field name="commentaire_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="criticite"/>
+                                        <field name="anomalie_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_tags_anomalie" model="ir.actions.act_window">
+            <field name="name">Anomalies</field>
+            <field name="res_model">tags.anomalie</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_tags_anomalie_tournee" model="ir.actions.act_window">
+            <field name="name">Anomalies des tournées</field>
+            <field name="res_model">tags.task.anomalie</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem id="menu_tags_anomalie" sequence="5" name='Anomalie'
+                  parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie"/>
+        <menuitem id="menu_tags_anomalie_tournee" sequence="5" name='Anomalie des tournées'
+                  parent="industry_fsm.fsm_tasks_menu" action="action_tags_anomalie_tournee"/>
+
+
+        <record id="industry_fsm.fsm_menu_root" model="ir.ui.menu">
+            <field name="name">Main Courante</field>
+            <field name="action" ref="activities.action_rapport_incident"/>
+        </record>
+
+        <record id="view_tags_task_anomalie_analyse_tree" model="ir.ui.view">
+            <field name="name">view.tags.task.anomalie.analyse.tree</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <tree create="0" delete="0">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="week" options='{"fg_color": "red"}'/>
+                    <field name="day"/>
+                    <field name="date_anomalie"/>
+                    <field name="lot"/>
+                    <field name="bloc"/>
+                    <field name="couple"/>
+                    <field name="charge_security_id"/>
+                    <field name="anomalie_id"/>
+                    <field name="anomalie_commentaire_id"/>
+                    <field name="depuis_le"/>
+
+                    <field name="red_color_criticite" invisible="1"/>
+                    <field name="orange_color_criticite" invisible="1"/>
+                    <field name="yellow_color_criticite" invisible="1"/>
+
+                    <field name="criticite"
+                           options='{"bg_color": "red:red_color_criticite == True; orange:orange_color_criticite == True; yellow:yellow_color_criticite == True"}'/>
+
+                    <field name="green_color_state" invisible="1"/>
+                    <field name="blue_color_state" invisible="1"/>
+                    <field name="state"
+                           options='{"fg_color": "white", "bg_color": "green:green_color_state == True; #0066ff:blue_color_state == True"}'/>
+
+                    <field name="comment"/>
+                    <field name="url"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_analyse_anomalie_tournee" model="ir.actions.act_window">
+            <field name="name">Analyse des anomalies des tournées</field>
+            <field name="res_model">tags.task.anomalie</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="context" eval="{
+                'tree_view_ref': 'tournee.view_tags_task_anomalie_analyse_tree'}"/>
+        </record>
+
+
+        <menuitem id="menu_analyse_anomalie_tournee" sequence="2" name='Analyse des anomalies des tournées'
+                  parent="industry_fsm.fsm_menu_reporting" action="action_analyse_anomalie_tournee"/>
+
+
+    </data>
+</odoo>
