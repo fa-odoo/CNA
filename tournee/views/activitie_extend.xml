@@ -10,7 +10,8 @@
             <field name="arch" type="xml">
 
                 <field name="lieu_id" position="after">
-                    <field name="tag_id" domain="[('navire_id', '=', navire_id)]" attrs="{'invisible':[('access_point','!=','navire')]}"/>
+                    <field name="tag_id" domain="[('navire_id', '=', navire_id)]" attrs="{'invisible':[('access_point','!=','navire')]}"
+                    context="{'default_navire_id': navire_id, 'default_site_id': site}"/>
                 </field>
 
             </field>
