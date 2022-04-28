@@ -51,9 +51,10 @@
                     <group>
                         <group>
                             <field name="priority" widget="priority"/>
-                            <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}"/>
+                            <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}" required="1"/>
                             <field name="short_description_id" domain="[('incident_type_id', '=', incident_type_id)]"
                                    options="{'no_create':1, 'no_edit':1}"/>
+                               <field name="object"/>
                             <field name="site" options="{'no_create':1, 'no_edit':1}"/>
 
                             <field name="access_point"/>
@@ -118,9 +119,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Objet">
-                            <field name="object"/>
-                        </page>
+
                         <page string="Description Evènement">
                             <field name="description"/>
                         </page>
@@ -199,6 +198,14 @@
                                     <field name="type" required="1"/>
                                     <field name="navire_id"
                                            attrs="{'invisible': [('type', '!=', 'navire')],'required':[('type', '=', 'navire')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Navires">
+                            <field name="navire_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="site_id" invisible="1"/>
                                 </tree>
                             </field>
                         </page>

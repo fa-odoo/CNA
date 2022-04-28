@@ -45,13 +45,18 @@ class Incident(models.Model):
         else:
             return '0'
 
+    def get_default_site(self):
+        site_ids = self.env['site.site'].search([])
+        if site_ids:
+            return site_ids[0]
+
     name = fields.Char('ID', default='/', readonly=True, tracking=True)
     incident = fields.Boolean(tracking=True)
     date_start = fields.Datetime('Heure début', tracking=True)
     date_end = fields.Datetime('Heure fin', tracking=True)
     description = fields.Text("Description", tracking=True)
     action = fields.Text("Actions", tracking=True)
-    site = fields.Many2one('site.site', string="Site", tracking=True)
+    site = fields.Many2one('site.site', string="Site", tracking=True, default=get_default_site)
     lieu = fields.Many2one('site.lieu', "Lieu", tracking=True)
     auteur = fields.Char("Auteur", tracking=True)
     auteur_badge = fields.Char("Badge", tracking=True)
@@ -147,6 +152,7 @@ class Incident(models.Model):
     @api.onchange('access_point')
     def _onchange_access_point(self):
         self.navire_id = False
+        self.lieu = False
 
     def action_valide_mass_incident(self):
         for incident in self.env['cna.incident'].browse(self.env.context.get('active_ids')):
@@ -164,6 +170,7 @@ class Site(models.Model):
 
     name = fields.Char(required=True, string='Nom')
     lieu_ids = fields.One2many('site.lieu', 'site_id', 'Lieux')
+    navire_ids = fields.One2many('navire.navire', 'site_id', 'Navires')
 
 
 class SiteLieu(models.Model):
