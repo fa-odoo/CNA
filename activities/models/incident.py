@@ -73,8 +73,8 @@ class Incident(models.Model):
         ('done', 'Clôturé')
     ], 'Status', default='draft', index=True, required=True, readonly=True, copy=False, tracking=True)
 
-    person_av = fields.Many2many(comodel_name="hr.employee", relation="incipednt_person_av_rel", string="Personne avisée", tracking=True)
-    agent_int = fields.Many2many(comodel_name="hr.employee", relation="incipednt_agent_int_rel", string="Agent intervenant", tracking=True)
+    person_av = fields.Many2many(comodel_name="incident.personne.avise", relation="incident_person_av_rel", string="Personnes avisées", tracking=True)
+    agent_int = fields.Many2many(comodel_name="agent.intervenant", relation="incident_agent_int_rel", string="Agents intervenants", tracking=True)
     secour = fields.Many2many(comodel_name="secours.secours", string="Secours demandés", tracking=True)
     mesure = fields.Many2many(comodel_name="mesure.prise", string="Mesure prise", tracking=True)
 
@@ -165,6 +165,17 @@ class Incident(models.Model):
         return super(Incident, self).unlink()
 
 
+class PersonneAvise(models.Model):
+    _name = 'incident.personne.avise'
+
+    name = fields.Char(required=True, string='Nom')
+
+class AgentIntervenant(models.Model):
+    _name = 'agent.intervenant'
+
+    name = fields.Char(required=True, string='Nom')
+
+
 class Site(models.Model):
     _name = 'site.site'
 
@@ -206,11 +217,6 @@ class MesurePrise(models.Model):
     name = fields.Char(string="Nom", required=True, )
 
 
-class HrEmployee(models.Model):
-    _inherit = 'hr.employee'
-
-    personne_avise = fields.Boolean('Personne avisé')
-    agent_intervenant = fields.Boolean('Agent intervenant')
 
 
 class Navire(models.Model):

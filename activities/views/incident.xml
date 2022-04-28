@@ -101,12 +101,12 @@
                             <group>
                                 <group>
                                     <field name="person_av" widget="many2many_tags"
-                                           domain="[('personne_avise', '=', True)]"
+
                                            options="{'no_create':1, 'no_edit':1}"/>
                                 </group>
                                 <group>
                                     <field name="agent_int" widget="many2many_tags"
-                                           domain="[('agent_intervenant', '=', True)]"
+
                                            options="{'no_create':1, 'no_edit':1}"/>
                                 </group>
                             </group>
@@ -221,17 +221,6 @@
         <field name="view_mode">tree,form,pivot,graph</field>
     </record>
 
-    <record id="view_employee_form_leave_inherit" model="ir.ui.view">
-        <field name="name">hr.employee.leave.form.inherit</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
-        <field name="arch" type="xml">
-            <field name="company_id" position="after">
-                <field name="personne_avise"/>
-                <field name="agent_intervenant"/>
-            </field>
-        </field>
-    </record>
 
     <record id="action_site_site" model="ir.actions.act_window">
         <field name="name">Site</field>
