@@ -22,7 +22,7 @@
 <!--								<tbody>-->
 									<tr style="background-color:#aeacac;height: 60px;">
 										<td colspan="2" class="text-center" style="valign:center;">
-											Evènement: Incident
+											Evènement: <span t-field="doc.incident_type_id"/>
 										</td>
 									</tr>
 							</table>
@@ -52,7 +52,8 @@
 											</strong>
 										</td>
 										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Code
-											Evènement: N/C
+											Evènement: <t t-if="doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
+											<t t-else=""> N/C</t>
 										</td>
 									</tr>
 									<tr>
@@ -108,6 +109,12 @@
 												<br/>
 												Lieu:
 												<span t-field="doc.lieu"/>
+												<t t-if="doc.tag_id">
+													<br/>
+												Tag:
+												<span t-field="doc.tag_id"/>
+												</t>
+
 											</p>
 										</td>
 									</tr>
@@ -118,9 +125,19 @@
 							<h5 style="text-decoration: underline;">Description Evènement:<br/>
 							</h5>
 						</div>
+
 						<div class="row">
 
 							<p><span t-field="doc.description"/></p>
+
+						</div>
+						<div class="row">
+							<h5 style="text-decoration: underline;">Objet:<br/>
+							</h5>
+						</div>
+						<div class="row">
+
+							<p><span t-field="doc.object"/></p>
 
 						</div>
 						<div class="row">
@@ -143,43 +160,26 @@
 							<tr>
 								<td colspan="2" style="border-right:None;" >
 									<span style="font-weight: bold !important;text-decoration: underline;">Auteur</span>: <span t-field="doc.auteur"/></td>
-								<td colspan="2" style="border-right:None;border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Société</span>: <span t-field="doc.auteur_company"/></td>
 								<td colspan="2" style="border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Badge</span>: <span t-field="doc.auteur_badge"/></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="border-right:None;"><span style="font-weight: bold !important;text-decoration: underline;">Victime</span>: <span t-field="doc.victime"/> </td>
-								<td colspan="2" style="border-right:None;border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Société</span>: <span t-field="doc.victime_company"/></td>
 								<td colspan="2" style="border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Badge</span>: <span t-field="doc.victime_badge"/></td>
 							</tr>
 							<tr>
-								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée 1</span>: <span t-field="doc.person_av1"/> </td>
-								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant 1</span>: <span t-field="doc.agent_int1"/></td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée 2</span>: <span t-field="doc.person_av2"/> </td>
-								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant 2</span>: <span t-field="doc.agent_int2"/></td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée 3</span>: <span t-field="doc.person_av3"/> </td>
-								<td colspan="3" style="border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant 3</span>: <span t-field="doc.agent_int3"/></td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Secours demandés 1</span>:
-									<span t-field="doc.secour1"/> </td>
-								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Mesure prise 1</span>:
-									<span t-field="doc.mesure1"/></td>
-							</tr>
-						<tr>
-								<td colspan="3" style="border-top:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Secours demandés 2</span>:
-									<span t-field="doc.secour2"/> </td>
-								<td colspan="3" style="border-top:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Mesure prise 2</span>:
-									<span t-field="doc.mesure2"/></td>
+								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée</span>: <span t-field="doc.person_av"/> </td>
+								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant</span>: <span t-field="doc.agent_int"/></td>
 							</tr>
 
+
+							<tr>
+								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
+									<span style="font-weight: bold !important;text-decoration: underline;">Secours demandés </span>:
+									<span t-field="doc.secour"/> </td>
+								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
+									<span style="font-weight: bold !important;text-decoration: underline;">Mesure prise </span>:
+									<span t-field="doc.mesure"/></td>
+							</tr>
 
 						</table>
 

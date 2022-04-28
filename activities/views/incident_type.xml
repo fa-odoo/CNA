@@ -11,7 +11,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="follower_ids" widget="many2many_tags"/>
+                                <field name="follower_ids" widget="many2many_tags" options="{'no_create':1}"/>
                             </group>
                             <group>
                                 <field name="responsable_id"/>
@@ -19,10 +19,10 @@
 
                         </group>
                         <notebook>
-                            <page string="Courte description">
+                            <page string="Courtes descriptions">
                                 <field name="short_description_ids">
                                     <tree editable="bottom">
-                                        <field name="name" string=" "/>
+                                        <field name="name" />
                                     </tree>
                                 </field>
                             </page>

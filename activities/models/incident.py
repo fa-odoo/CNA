@@ -45,13 +45,18 @@ class Incident(models.Model):
         else:
             return '0'
 
+    def get_default_site(self):
+        site_ids = self.env['site.site'].search([])
+        if site_ids:
+            return site_ids[0]
+
     name = fields.Char('ID', default='/', readonly=True, tracking=True)
     incident = fields.Boolean(tracking=True)
     date_start = fields.Datetime('Heure début', tracking=True)
     date_end = fields.Datetime('Heure fin', tracking=True)
     description = fields.Text("Description", tracking=True)
     action = fields.Text("Actions", tracking=True)
-    site = fields.Many2one('site.site', string="Site", tracking=True)
+    site = fields.Many2one('site.site', string="Site", tracking=True, default=get_default_site)
     lieu = fields.Many2one('site.lieu', "Lieu", tracking=True)
     auteur = fields.Char("Auteur", tracking=True)
     auteur_badge = fields.Char("Badge", tracking=True)
@@ -68,8 +73,8 @@ class Incident(models.Model):
         ('done', 'Clôturé')
     ], 'Status', default='draft', index=True, required=True, readonly=True, copy=False, tracking=True)
 
-    person_av = fields.Many2many(comodel_name="hr.employee", relation="incipednt_person_av_rel", string="Personne avisée", tracking=True)
-    agent_int = fields.Many2many(comodel_name="hr.employee", relation="incipednt_agent_int_rel", string="Agent intervenant", tracking=True)
+    person_av = fields.Many2many(comodel_name="incident.personne.avise", relation="incident_person_av_rel", string="Personnes avisées", tracking=True)
+    agent_int = fields.Many2many(comodel_name="agent.intervenant", relation="incident_agent_int_rel", string="Agents intervenants", tracking=True)
     secour = fields.Many2many(comodel_name="secours.secours", string="Secours demandés", tracking=True)
     mesure = fields.Many2many(comodel_name="mesure.prise", string="Mesure prise", tracking=True)
 
@@ -147,6 +152,7 @@ class Incident(models.Model):
     @api.onchange('access_point')
     def _onchange_access_point(self):
         self.navire_id = False
+        self.lieu = False
 
     def action_valide_mass_incident(self):
         for incident in self.env['cna.incident'].browse(self.env.context.get('active_ids')):
@@ -159,11 +165,23 @@ class Incident(models.Model):
         return super(Incident, self).unlink()
 
 
+class PersonneAvise(models.Model):
+    _name = 'incident.personne.avise'
+
+    name = fields.Char(required=True, string='Nom')
+
+class AgentIntervenant(models.Model):
+    _name = 'agent.intervenant'
+
+    name = fields.Char(required=True, string='Nom')
+
+
 class Site(models.Model):
     _name = 'site.site'
 
     name = fields.Char(required=True, string='Nom')
     lieu_ids = fields.One2many('site.lieu', 'site_id', 'Lieux')
+    navire_ids = fields.One2many('navire.navire', 'site_id', 'Navires')
 
 
 class SiteLieu(models.Model):
@@ -199,11 +217,6 @@ class MesurePrise(models.Model):
     name = fields.Char(string="Nom", required=True, )
 
 
-class HrEmployee(models.Model):
-    _inherit = 'hr.employee'
-
-    personne_avise = fields.Boolean('Personne avisé')
-    agent_intervenant = fields.Boolean('Agent intervenant')
 
 
 class Navire(models.Model):
