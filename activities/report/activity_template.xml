@@ -51,8 +51,8 @@
 												<t t-if="not doc.incident">Non</t>
 											</strong>
 										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Code
-											Evènement: <t t-if="doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
+										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Description courte:
+											 <t t-if="doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
 											<t t-else=""> N/C</t>
 										</td>
 									</tr>
