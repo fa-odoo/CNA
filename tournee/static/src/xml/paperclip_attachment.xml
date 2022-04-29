@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="CameraAttachment" t-inherit="mail.ChatterTopbar" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//button[hasclass('o_ChatterTopbar_buttonAttachments')]" position="replace">
+            <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonAttachments" type="button"
+                    t-att-disabled="chatter.isDisabled" t-on-click="chatter.onClickButtonAttachments">
+                                <i class="fa fa-fw fa-camera"/>
+                <t t-if="chatter.isDisabled or !chatter.isShowingAttachmentsLoading">
+                                    <span class="o_ChatterTopbar_buttonCount o_ChatterTopbar_buttonAttachmentsCount"
+                                          t-esc="chatter.thread ? chatter.thread.allAttachments.length : 0"/>
+                                </t>
+                <t t-else="">
+                                    <i class="o_ChatterTopbar_buttonAttachmentsCountLoader fa fa-circle-o-notch fa-spin"
+                                       aria-label="Attachment counter loading..."/>
+                                </t>
+                            </button>
+        </xpath>
+
+    </t>
+</templates>
