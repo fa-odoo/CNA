@@ -1,86 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <template id="activitie_report_template">
             <t t-call="web.html_container">
-                <t t-call="web.internal_layout">
-                    <!-- <t t-call="web.external_layout"> -->
-                    <t t-foreach="docs" t-as="doc">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="activities.layout">
+
+                        <div class="oe_structure"/>
                         <div class="page">
-                            <h4 style="margin-bottom:20px;text-decoration: underline;">Information sur l'activité</h4>
-                            <table style="width:100%">
-                                <tr>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Nom
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.name"/>
-                                    </td>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Point d'Accès
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.access_point"/>
-                                    </td>
-                                </tr>
+                            <div class="row">
+                                <div class="col-7 offset-2 text-center">
+                                    <h5>ISP | Security Solutions for CDA</h5>
+                                    <h5>Rapport d'Evènement</h5>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row mt16">
+                                <table class="table table-bordered">
+                                    <tr style="background-color:#aeacac;height: 60px;">
+                                        <td colspan="2" class="text-center" style="valign:center;">
+                                            Evènement : <span t-field="doc.type_activitie_id"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row mt16">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                                <strong>
+                                                    Status : <span t-field="doc.state"/>
+                                                </strong>
+                                            </td>
+                                            <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                                <strong>
+                                                    Nom : <span t-field="doc.name"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                                Description courte:
+                                                <t t-if="doc.type_activitie_short_desc_id">
+                                                    <span t-field="doc.type_activitie_short_desc_id"/>
+                                                </t>
+                                                <t t-else="">N/C</t>
+                                            </td>
+                                            <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"></td>
+                                        </tr>
+                                        <tr style="page-break-inside: avoid !important;">
+                                            <td colspan="2"
+                                                style="padding:6px 2px 2px 8px;page-break-inside: avoid !important;">
+                                                <p>
+                                                    <t t-if="doc.site">
+                                                        Site : <span t-field="doc.site"/>
+                                                    </t>
 
-                                <tr>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Type d'activité
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.type_activitie_id"/>
-                                    </td>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Lieu
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.lieu_id"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Courte description
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.type_activitie_short_desc_id"/>
-                                    </td>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Navire
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.navire_id"/>
-                                    </td>
-                                </tr>
+                                                    <t t-if="doc.access_point">
+                                                        <br/>Point d'Accès : <span t-field="doc.access_point"/>
+                                                    </t>
 
-                                <tr>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Site
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.site"/>
-                                    </td>
-                                    <td style="width:23%;font-weight:bold;">
-                                        Tag
-                                    </td>
-                                    <td style="width:4%;">:</td>
-                                    <td style="width:23%;">
-                                        <span t-field="doc.tag_id"/>
-                                    </td>
-                                </tr>
+                                                    <t t-if="doc.lieu_id">
+                                                        <br/>Lieu : <span t-field="doc.lieu_id"/>
+                                                    </t>
 
-                            </table>
+                                                    <t t-if="doc.navire_id">
+                                                        <br/>Navire : <span t-field="doc.navire_id"/>
+                                                    </t>
 
-                            <h4 style="margin-top:30px;text-decoration: underline;">Actions</h4>
-                            <p t-field="doc.actions"/>
+                                                    <t t-if="doc.tag_id">
+                                                        <br/>Tag : <span t-field="doc.tag_id"/>
+                                                    </t>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <h5 style="text-decoration: underline;">Actions<br/></h5>
+                            </div>
+                            <div class="row">
+                                <p><span t-field="doc.actions"/></p>
+                            </div>
+
+                            <t t-set="attachment_ids" t-value="doc.get_attachment_ids()"/>
+                            <t t-if="attachment_ids">
+                                <div class="row">
+                                    <p class="text-center">
+                                        <span style="font-weight: bold !important;text-decoration: underline;">
+                                            <strong>Pièces jointes:</strong>
+                                        </span>
+                                        <br/>
+                                    </p>
+                                </div>
+                                <t t-foreach="attachment_ids" t-as="attach">
+                                    <t t-if="attach.image_src">
+                                        <p>
+                                            <span t-field="attach.name"/>
+                                            <br/>
+                                        </p>
+                                        <p>
+                                            <img t-att-src="attach.image_src" width="600" height="400"/>
+                                            <br/>
+                                        </p>
+                                    </t>
+                                </t>
+                            </t>
                         </div>
                     </t>
                 </t>

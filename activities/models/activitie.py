@@ -21,6 +21,7 @@ class Activitie(models.Model):
         ('draft', 'En cours'),
         ('done', 'Clôturé')
     ], 'Status', default='draft', index=True, required=True, readonly=True, copy=False, tracking=True)
+    company_id = fields.Many2one('res.company', default=lambda s: s.env.company, tracking=True)
 
     def action_done(self):
         for rec in self:
@@ -50,3 +51,9 @@ class Activitie(models.Model):
             if rec.state == 'done':
                 raise UserError('Vous ne pouvez pas supprimer une activité cloturé !')
         return super(Activitie, self).unlink()
+
+    def get_attachment_ids(self):
+        for rec in self:
+            attachment_ids = self.env['ir.attachment'].search([('res_id', '=', rec.id),
+                                                               ('res_model', '=', 'cna.activitie')])
+            return attachment_ids or False
