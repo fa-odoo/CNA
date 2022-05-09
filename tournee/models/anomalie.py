@@ -98,6 +98,15 @@ class ProjectTask(models.Model):
         return self.env['tags.task.anomalie'].search([('line_id', 'in', self.tag_anomalie_ids.mapped('id'))]).mapped(
             'anomalie_commentaire_id.name') or False
 
+    def open_all_anomalies(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Anomalies',
+            'res_model': 'tags.task.anomalie',
+            'view_mode': 'tree',
+            'domain': [('task_id', '=', self.id)]
+        }
+
 
 class TaskTagsLine(models.Model):
     _name = 'task.tags.line'
