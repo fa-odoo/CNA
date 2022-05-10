@@ -36,6 +36,7 @@
         'views/incident_extend.xml',
         'views/activitie_extend.xml',
         'views/res_company_extend.xml',
+        'views/tourne_views.xml',
 
 
 

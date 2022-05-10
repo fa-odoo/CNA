@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_tourne_analyse_tree" model="ir.ui.view">
+            <field name="name">view.tourne.analyse.tree</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="score"/>
+                    <button name="open_all_anomalies" class="oe_highlight" type="object" string="Anomalies"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tourne_historique_view" model="ir.actions.act_window">
+            <field name="name">Tournée Historique</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="context" eval="{
+                'tree_view_ref': 'tournee.view_tourne_analyse_tree'}"/>
+        </record>
+
+        <menuitem id="menu_tourne_historique_view" name="Analyse / historique des tournées"
+                  parent="industry_fsm.fsm_menu_reporting" action="action_tourne_historique_view" sequence="3"/>
+
+    </data>
+</odoo>
