@@ -208,7 +208,7 @@ class TagsTaskAnomalie(models.Model):
                                          store=True)
     depuis_le = fields.Date('Depuis le')
     state = fields.Selection([('draft', 'Prise en compte'), ('resolu', 'Résolu')], string='Etat')
-    comment = fields.Char("Commentaire")
+    comment = fields.Char("Notes")
     document_id = fields.Many2one('documents.document', compute="compute_attachement")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     url = fields.Char(related='create_share_id.full_url', string="Lien photo")
