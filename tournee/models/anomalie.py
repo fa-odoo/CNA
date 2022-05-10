@@ -98,6 +98,17 @@ class ProjectTask(models.Model):
         return self.env['tags.task.anomalie'].search([('line_id', 'in', self.tag_anomalie_ids.mapped('id'))]).mapped(
             'anomalie_commentaire_id.name') or False
 
+    def action_timer_stop(self):
+        if self.user_timer_id.timer_start and self.display_timesheet_timer:
+            rounded_hours = self._get_rounded_hours(self.user_timer_id._get_minutes_spent())
+            wizard_object = self.env['project.task.create.timesheet'].create({
+                'time_spent': rounded_hours,
+                'description': 'Tournée .....',
+                'task_id': self.id
+            })
+            wizard_object.save_timesheet()
+        else:
+            return False
     def open_all_anomalies(self):
         return {
             'type': 'ir.actions.act_window',
@@ -204,7 +215,7 @@ class TagsTaskAnomalie(models.Model):
     date_anomalie = fields.Datetime(default=fields.Datetime.now())
     date = fields.Date(compute='split_date_anomalie', store=True)
     hour = fields.Float(compute='split_date_anomalie', store=True, string='Heure')
-    charge_security_id = fields.Many2one('res.users', 'Chargé de sécurité', related="tag_id.charge_security_id",
+    respo_zone_id = fields.Many2one('res.users', 'Responsable zone', related="tag_id.respo_zone_id",
                                          store=True)
     depuis_le = fields.Date('Depuis le')
     state = fields.Selection([('draft', 'Prise en compte'), ('resolu', 'Résolu')], string='Etat')
@@ -225,9 +236,9 @@ class TagsTaskAnomalie(models.Model):
     day = fields.Selection(string="Jour", selection=[('0', 'Lundi'), ('1', 'Mardi'), ('2', 'Mercredi'), ('3', 'Jeudi'), ('4', 'Vendredi'), ('5', 'Samedi'), ('6', 'Dimande')], compute="_compute_dates", store=True)
 
     lot = fields.Char(string="Lot", related="tag_id.lot", store=True)
-    bloc = fields.Char(string="Bloc", related="tag_id.bloc", store=True)
+    pont = fields.Char(string="Pont", related="tag_id.pont", store=True)
     couple = fields.Char(string="Couple", related="tag_id.couple", store=True)
-    charge_security_id = fields.Many2one(string="Chargé de sécurité", related="tag_id.charge_security_id", store=True)
+    respo_zone_id = fields.Many2one(string="Responsable zone", related="tag_id.respo_zone_id", store=True)
 
     red_color_criticite = fields.Boolean(compute="_compute_criticite_colors", default=False)
     orange_color_criticite = fields.Boolean(compute="_compute_criticite_colors", default=False)
@@ -300,6 +311,17 @@ class TagsTaskAnomalie(models.Model):
             else:
                 rec.document_id = False
                 rec.create_share_id = False
+
+    def open_tournee(self):
+        return {
+            'name': 'Mes tourné',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'project.task',
+            'target': 'self',
+            'view_type': 'form',
+            'res_id': self.task_id.id
+        }
 
     # def compute_attachement(self):
     # 	for rec in self:

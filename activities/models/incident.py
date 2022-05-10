@@ -52,7 +52,7 @@ class Incident(models.Model):
 
     name = fields.Char('ID', default='/', readonly=True, tracking=True)
     incident = fields.Boolean(tracking=True)
-    date_start = fields.Datetime('Heure début', tracking=True)
+    date_start = fields.Datetime('Heure début', required=True, tracking=True)
     date_end = fields.Datetime('Heure fin', tracking=True)
     description = fields.Text("Description", tracking=True)
     action = fields.Text("Actions", tracking=True)

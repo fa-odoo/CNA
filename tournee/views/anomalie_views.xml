@@ -60,7 +60,7 @@
                     <field name="date"/>
                     <field name="hour" widget="float_time"/>
                     <field name="tag_id"/>
-                    <field name="charge_security_id"/>
+                    <field name="respo_zone_id"/>
 
 
                     <field name="task_id" invisible="1"/>
@@ -106,6 +106,11 @@
 
                     </header>
                     <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <button name="open_tournee" type="object" class="oe_stat_button" icon="fa-file-text">
+                                    <span class="o_stat_text">Tournée</span>
+                            </button>
+                        </div>
                         <group>
                             <field name="line_id" invisible="1"/>
                             <field name="task_id"/>
@@ -114,7 +119,7 @@
                             <field name="hour" widget="float_time" invisible="1"/>
                             <field name="tag_id"/>
 
-                            <field name="charge_security_id"/>
+                            <field name="respo_zone_id"/>
                             <field name="anomalie_id"/>
                             <field name="anomalie_commentaire_id" options="{'no_create':1, 'no_edit':1}"
                                    domain="[('anomalie_id', '=', anomalie_id)]"/>
@@ -199,9 +204,9 @@
                     <field name="day"/>
                     <field name="date_anomalie"/>
                     <field name="lot"/>
-                    <field name="bloc"/>
+                    <field name="pont"/>
                     <field name="couple"/>
-                    <field name="charge_security_id"/>
+                    <field name="respo_zone_id"/>
                     <field name="anomalie_id"/>
                     <field name="anomalie_commentaire_id"/>
                     <field name="depuis_le"/>
@@ -237,6 +242,14 @@
         <menuitem id="menu_analyse_anomalie_tournee" sequence="2" name='Analyse des anomalies des tournées'
                   parent="industry_fsm.fsm_menu_reporting" action="action_analyse_anomalie_tournee"/>
 
+
+        <record id="industry_fsm.fsm_tasks_menu" model="ir.ui.menu">
+            <field name="name">Mes Tournées</field>
+        </record>
+
+        <record id="industry_fsm.fsm_menu_tasks_kanban" model="ir.ui.menu" >
+            <field name="name">Tournée</field>
+        </record>
 
     </data>
 </odoo>
