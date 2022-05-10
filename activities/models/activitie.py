@@ -6,7 +6,7 @@ class Activitie(models.Model):
     _name = 'cna.activitie'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string="", required=True, tracking=True)
+    name = fields.Char(related='type_activitie_id.name', required=False, tracking=True)
     type_activitie_id = fields.Many2one(comodel_name="cna.type.activitie", string="Type d'activité", required=True, tracking=True)
     type_activitie_short_desc_id = fields.Many2one(comodel_name="cna.type.activitie.short.desc",
                                                    string="Courte description", required=False, tracking=True)
