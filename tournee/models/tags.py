@@ -16,8 +16,8 @@ class Tags(models.Model):
 	numero = fields.Char(required=True, default='/')
 	designation = fields.Char()
 	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False)
-	tag_file = fields.Boolean(string="Fichier de tag")
 	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
+	tag_file = fields.Binary(string="Fichier de tag")
 
 	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple' )
 	def compute_tags_name(self):
