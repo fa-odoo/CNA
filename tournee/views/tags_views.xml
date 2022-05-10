@@ -108,13 +108,13 @@
                     <field name="respo_zone_id"/>
 
                     <filter string="Non scané plus 4H" name="last_date_scan"
-                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                            domain="[('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 
                     <filter string="Non scané plus 6H" name="last_date_scan"
-                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=6)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                            domain="[('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=6)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 
                     <filter string="Non scané plus 12H" name="last_date_scan"
-                            domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                            domain="[('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 
                 </search>
             </field>
