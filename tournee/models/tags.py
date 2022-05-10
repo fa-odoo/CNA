@@ -16,7 +16,7 @@ class Tags(models.Model):
 	numero = fields.Char(required=True, default='/')
 	position = fields.Char()
 	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False)
-	tag_file = fields.Boolean(string="Fichier de tag")
+	tag_file = fields.Binary(string="Fichier de tag")
 
 	@api.depends('navire_id', 'bloc', 'position', 'numero', 'lot', 'couple' )
 	def compute_tags_name(self):
