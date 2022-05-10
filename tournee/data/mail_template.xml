@@ -12,7 +12,7 @@
 				<p>Tournée: ${object.task_id.name}</p>
 				<p>Date anomalie: ${object.date_anomalie}</p>
 				<p>Lieu: ${object.tag_id.name}</p>
-				<p>Chargé de sécurité: ${object.charge_security_id.display_name}</p>
+				<p>Chargé de sécurité: ${object.respo_zone_id.display_name}</p>
 				<p>Anomalie: ${object.anomalie_id.display_name or ""}</p>
 				<p>Commentaire: ${object.anomalie_commentaire_id.display_name or ""}</p>
 				<p>Criticité: ${object.criticite or ""}</p>

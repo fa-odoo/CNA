@@ -64,10 +64,11 @@
                             <field name="site_id"/>
                             <field name="navire_id" domain="[('site_id', '=', site_id)]"/>
                             <field name="lot"/>
-                            <field name="position"/>
-                            <field name="bloc"/>
+                            <field name="designation"/>
+                            <field name="pont"/>
                             <field name="couple"/>
-                            <field name="charge_security_id"/>
+                            <field name="bd_td_axe"/>
+                            <field name="respo_zone_id"/>
                             <field name="last_date_scan"/>
                             <field name="tag_file" widget="pdf_viewer"/>
                         </group>
@@ -88,10 +89,10 @@
                     <field name="navire_id" domain="[('site_id', '=', site_id)]"
                            options="{'no_create':1, 'no_edit':1}"/>
                     <field name="lot"/>
-                    <field name="position"/>
-                    <field name="bloc"/>
+                    <field name="designation"/>
+                    <field name="pont"/>
                     <field name="couple"/>
-                    <field name="charge_security_id"/>
+                    <field name="respo_zone_id"/>
                 </tree>
             </field>
         </record>
@@ -104,7 +105,7 @@
                     <field name="name"/>
                     <field name="site_id"/>
                     <field name="navire_id"/>
-                    <field name="charge_security_id"/>
+                    <field name="respo_zone_id"/>
 
                     <filter string="Non scané plus 4H" name="last_date_scan"
                             domain="[('last_date_scan', '&gt;', (datetime.datetime.now() + relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
@@ -135,5 +136,9 @@
 
         <menuitem id="menu_ronde" sequence="5" name='Ronde'
                   parent="industry_fsm.fsm_menu_settings" action="action_ronde"/>
+
+
+        <menuitem id="menu_analyse_tags" sequence="4" name='Analyse des tags'
+                  parent="industry_fsm.fsm_menu_reporting" action="action_tags"/>
     </data>
 </odoo>
