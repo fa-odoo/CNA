@@ -144,6 +144,8 @@ class TaskTagsLine(models.Model):
         action['domain'] = [('line_id', '=', self.id)]
         action['context'] = {'default_line_id': self.id,
                              'default_tag_id': self.tag_id.id}
+        if not self.anomalie_ids:
+            action['view_mode'] = 'form,tree,pivot,graph'
         return action
 
     @api.onchange('scan_date')
