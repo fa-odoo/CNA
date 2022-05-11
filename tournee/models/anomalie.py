@@ -116,6 +116,14 @@ class ProjectTask(models.Model):
             wizard_object.save_timesheet()
         else:
             return False
+    def open_all_anomalies(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Anomalies',
+            'res_model': 'tags.task.anomalie',
+            'view_mode': 'tree',
+            'domain': [('task_id', '=', self.id)]
+        }
 
 
 class TaskTagsLine(models.Model):
@@ -218,7 +226,7 @@ class TagsTaskAnomalie(models.Model):
                                          store=True)
     depuis_le = fields.Date('Depuis le')
     state = fields.Selection([('draft', 'Prise en compte'), ('resolu', 'Résolu')], string='Etat')
-    comment = fields.Char("Commentaire")
+    comment = fields.Char("Notes")
     document_id = fields.Many2one('documents.document', compute="compute_attachement")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     url = fields.Char(related='create_share_id.full_url', string="Lien photo")

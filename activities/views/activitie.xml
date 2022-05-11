@@ -15,7 +15,6 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
                                 <field name="type_activitie_id"/>
                                 <field name="type_activitie_short_desc_id" domain="[('type_activitie_id','=',type_activitie_id)]"/>
                                 <field name="site"/>

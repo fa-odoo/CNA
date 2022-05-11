@@ -37,7 +37,7 @@
                                         <span t-field="o.id"/>
                                         <br/>
                                         Agent :
-                                        <span t-field="o.user_id"/>
+                                        <span t-field="o.user_ids"/>
                                         <br/>
                                         <br/>
                                         Nombre de Points de Controle :
