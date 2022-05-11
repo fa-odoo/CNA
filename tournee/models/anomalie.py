@@ -16,16 +16,6 @@ class ProjectTask(models.Model):
     score = fields.Float(string="Score", compute='_compute_score', store=True)
     comments = fields.Text(string="commentaires", required=False)
 
-    # is_opened_from_button = fields.Boolean(compute="_compute_is_opened_from_button", default=False)
-    #
-    # def _compute_is_opened_from_button(self):
-    #     if self.env.context.get('default_is_opened_from_button', False) and self._context['default_is_opened_from_button']==True:
-    #         self.is_opened_from_button = True
-    #     else:
-    #         self.is_opened_from_button = False
-
-
-
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.state')
     def _compute_score(self):
         for rec in self:
