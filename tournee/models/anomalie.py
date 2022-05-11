@@ -147,7 +147,9 @@ class TaskTagsLine(models.Model):
 
     def open_tags_anomalie(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window']._for_xml_id('tournee.action_tags_anomalie_tournee_form_view')
+        action = self.env['ir.actions.act_window']._for_xml_id('tournee.action_tags_anomalie_tournee')
+        action['view_mode'] = 'form'
+        action['views'] = [(False, 'form')]
         action['domain'] = [('line_id', '=', self.id)]
         action['context'] = {'default_line_id': self.id,
                              'default_tag_id': self.tag_id.id}

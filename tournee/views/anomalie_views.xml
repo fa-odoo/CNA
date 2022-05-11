@@ -206,12 +206,6 @@
             <field name="view_mode">tree,form,pivot,graph</field>
         </record>
 
-        <record id="action_tags_anomalie_tournee_form_view" model="ir.actions.act_window">
-            <field name="name">Anomalies des tournées</field>
-            <field name="res_model">tags.task.anomalie</field>
-            <field name="view_mode">form,tree,pivot,graph</field>
-        </record>
-
         <menuitem id="menu_tags_anomalie" sequence="5" name='Anomalie'
                   parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie"/>
         <menuitem id="menu_tags_anomalie_tournee" sequence="5" name='Anomalie des tournées'
