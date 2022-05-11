@@ -32,8 +32,7 @@
 
 
                 <xpath expr="//notebook/page[@name='description_page']" position="before">
-                    <page string="Tags" attrs="{'invisible':[('is_opened_from_button','=',False)]}">
-                        <field name="is_opened_from_button" invisible="1"/>
+                    <page string="Tags" >
                         <field name="tag_anomalie_ids" attrs="{'readonly':[('fsm_done', '=', True)]}">
                             <tree editable="bottom">
                                 <field name="tag_id"/>
