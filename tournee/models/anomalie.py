@@ -336,6 +336,13 @@ class TagsTaskAnomalie(models.Model):
             'view_type': 'form',
             'res_id': self.task_id.id
         }
+                       @ api.depends('date_anomalie')
+
+    def split_date_anomalie(self):
+        for rec in self:
+            rec.date = rec.date_anomalie.date()
+            time = fields.Datetime.context_timestamp(self, rec.date_anomalie)
+            rec.hour = time.hour + time.minute / 60.0
 
     # def compute_attachement(self):
     # 	for rec in self:
@@ -387,12 +394,6 @@ class TagsTaskAnomalie(models.Model):
     # 		else:
     # 			rec.document_id =False
 
-    @api.depends('date_anomalie')
-    def split_date_anomalie(self):
-        for rec in self:
-            rec.date = rec.date_anomalie.date()
-            time = fields.Datetime.context_timestamp(self, rec.date_anomalie)
-            rec.hour = time.hour + time.minute / 60.0
 
 
 class TagsAnomalie(models.Model):
