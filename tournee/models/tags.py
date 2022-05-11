@@ -9,29 +9,30 @@ class Tags(models.Model):
 	name = fields.Char('Nom', compute="compute_tags_name", store=True)
 	site_id = fields.Many2one('site.site', 'Site', required=True)
 	navire_id = fields.Many2one('navire.navire', 'Navire', required=True)
-	charge_security_id = fields.Many2one('res.users', 'Chargé de sécurité')
-	bloc = fields.Char()
+	respo_zone_id = fields.Many2one('res.users', 'Responsable zone')
+	pont = fields.Char()
 	couple = fields.Char()
 	lot = fields.Char()
 	numero = fields.Char(required=True, default='/')
-	position = fields.Char()
+	designation = fields.Char()
 	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False)
+	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
 	tag_file = fields.Binary(string="Fichier de tag")
 
-	@api.depends('navire_id', 'bloc', 'position', 'numero', 'lot', 'couple' )
+	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple' )
 	def compute_tags_name(self):
 		for rec in self:
 			name = rec.numero or ''
-			if rec.position:
-				name += ' '+ rec.position
+			if rec.designation:
+				name += ' ' + rec.designation
 			if rec.navire_id:
 				name += ' - '+rec.navire_id.name
 			if rec.lot:
 				name += ' Lot '+rec.lot
 			if rec.couple:
 				name +=  ' - '+rec.couple
-			if rec.bloc:
-				name += ' '+ rec.bloc
+			if rec.pont:
+				name += ' '+ rec.pont
 			rec.name = name.strip()
 
 
