@@ -321,13 +321,12 @@ class TagsTaskAnomalie(models.Model):
             'target': 'self',
 
             'context': {'fsm_mode': True,
-                        'show_address': True,
+                        'show_address': True,},
 
             'view_type': 'form',
             'res_id': self.task_id.id
         }
-                       @ api.depends('date_anomalie')
-
+    @api.depends('date_anomalie')
     def split_date_anomalie(self):
         for rec in self:
             rec.date = rec.date_anomalie.date()
