@@ -162,7 +162,7 @@ class TaskTagsLine(models.Model):
             'domain': [('line_id', '=', self.id)],
             'view_mode': 'tree,form,pivot,graph',
             'view_type': 'form',
-            'target': 'new'}
+            'target': 'current'}
 
     @api.onchange('scan_date')
     def _onchange_scan_date(self):
