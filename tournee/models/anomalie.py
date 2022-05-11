@@ -145,7 +145,7 @@ class TaskTagsLine(models.Model):
         action['context'] = {'default_line_id': self.id,
                              'default_tag_id': self.tag_id.id}
         if not self.anomalie_ids:
-            action['view_mode'] = 'form,tree,pivot,graph'
+            action['view_mode'] = 'form'
         return action
 
     @api.onchange('scan_date')
