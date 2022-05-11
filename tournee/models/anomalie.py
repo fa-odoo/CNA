@@ -15,13 +15,6 @@ class ProjectTask(models.Model):
     ronde_id = fields.Many2one('ronde.ronde', 'Ronde')
     score = fields.Float(string="Score", compute='_compute_score', store=True)
     comments = fields.Text(string="commentaires", required=False)
-    is_opened_from_button = fields.Boolean(compute="_compute_is_opened_from_button", default=False)
-
-    def _compute_is_opened_from_button(self):
-        if self.env.context.get('default_is_opened_from_button', False) and self._context['default_is_opened_from_button']==True:
-            self.is_opened_from_button = True
-        else:
-            self.is_opened_from_button = False
 
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.state')
     def _compute_score(self):
@@ -326,10 +319,19 @@ class TagsTaskAnomalie(models.Model):
             'view_mode': 'form',
             'res_model': 'project.task',
             'target': 'self',
-            'context': {'default_is_opened_from_button': True},
+
+            'context': {'fsm_mode': True,
+                        'show_address': True,},
+
             'view_type': 'form',
             'res_id': self.task_id.id
         }
+    @api.depends('date_anomalie')
+    def split_date_anomalie(self):
+        for rec in self:
+            rec.date = rec.date_anomalie.date()
+            time = fields.Datetime.context_timestamp(self, rec.date_anomalie)
+            rec.hour = time.hour + time.minute / 60.0
 
     # def compute_attachement(self):
     # 	for rec in self:
@@ -381,12 +383,6 @@ class TagsTaskAnomalie(models.Model):
     # 		else:
     # 			rec.document_id =False
 
-    @api.depends('date_anomalie')
-    def split_date_anomalie(self):
-        for rec in self:
-            rec.date = rec.date_anomalie.date()
-            time = fields.Datetime.context_timestamp(self, rec.date_anomalie)
-            rec.hour = time.hour + time.minute / 60.0
 
 
 class TagsAnomalie(models.Model):

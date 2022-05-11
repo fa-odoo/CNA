@@ -29,30 +29,10 @@
                     <field name="score"/>
                     <field name="comments"/>
                 </field>
-                <notebook position="inside">
-                    <page string="Tags" attrs="{'invisible':[('is_opened_from_button','=',True)]}">
-                        <field name="is_opened_from_button" invisible="1"/>
-                        <field name="tag_anomalie_ids" attrs="{'readonly':[('fsm_done', '=', True)]}">
-                            <tree editable="bottom">
-                                <field name="tag_id"/>
-                                <field name="hors_parcours"/>
-                                <field name="create_date" string="Créé le"/>
-                                <field name="create_uid" string="Créé par"/>
-                                <field name="scan_date"/>
-                                <field name="state"/>
-                                <field name="is_required"/>
 
-                                <button name="open_tags_anomalie" string="Anomalies" type="object"
-                                        attrs="{'invisible':[('state','!=','done')]}"/>
-                            </tree>
-                        </field>
-
-                    </page>
-                </notebook>
 
                 <xpath expr="//notebook/page[@name='description_page']" position="before">
-                    <page string="Tags" attrs="{'invisible':[('is_opened_from_button','=',False)]}">
-                        <field name="is_opened_from_button" invisible="1"/>
+                    <page string="Tags" >
                         <field name="tag_anomalie_ids" attrs="{'readonly':[('fsm_done', '=', True)]}">
                             <tree editable="bottom">
                                 <field name="tag_id"/>
@@ -69,6 +49,7 @@
                         </field>
 
                     </page>
+
                 </xpath>
 
 
