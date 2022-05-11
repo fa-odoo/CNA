@@ -145,8 +145,24 @@ class TaskTagsLine(models.Model):
         action['context'] = {'default_line_id': self.id,
                              'default_tag_id': self.tag_id.id}
         if not self.anomalie_ids:
-            action['view_mode'] = 'form'
-        return action
+            return {'res_model': 'tags.task.anomalie',
+             'type'     : 'ir.actions.act_window',
+             'context'  : {'default_line_id': self.id,
+                             'default_tag_id': self.tag_id.id},
+             'view_mode': 'form',
+             'view_type': 'form',
+             'view_id'  : self.env.ref("tournee.task_tags_anomalie_form_view").id,
+             'target'   : 'new'}
+        else:
+            return {'res_model': 'tags.task.anomalie',
+            'type': 'ir.actions.act_window',
+            'context': {'default_line_id': self.id,
+                             'default_tag_id': self.tag_id.id},
+
+            'domain': [('line_id', '=', self.id)],
+            'view_mode': 'tree,form,pivot,graph',
+            'view_type': 'form',
+            'target': 'new'}
 
     @api.onchange('scan_date')
     def _onchange_scan_date(self):
