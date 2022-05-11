@@ -69,8 +69,8 @@
                             <field name="couple"/>
                             <field name="charge_security_id"/>
                             <field name="last_date_scan"/>
-                            <field name="tag_file" widget="pdf_viewer"/>
                         </group>
+                        <field name="tag_file" widget="pdf_viewer"/>
                     </sheet>
                 </form>
             </field>
