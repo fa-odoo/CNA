@@ -50,11 +50,14 @@
 
                     <group>
                         <group>
+                            <field name="report_type" invisible="0" />
                             <field name="priority" widget="priority"/>
-                            <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}" required="1"/>
-                            <field name="short_description_id" domain="[('incident_type_id', '=', incident_type_id)]"
+                            <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}" attrs="{'required':[('report_type', '=', 'incident')], 'invisible':[('report_type', '!=', 'incident')]}"/>
+                            <field name="short_description_id" domain="[('incident_type_id', '=', incident_type_id)]" attrs="{'required':[('report_type', '=', 'incident')], 'invisible':[('report_type', '!=', 'incident')]}"
                                    options="{'no_create':1, 'no_edit':1}"/>
-                               <field name="object"/>
+                             <field name="type_activitie_id"  attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
+                                <field name="type_activitie_short_desc_id" domain="[('type_activitie_id','=',type_activitie_id)]"  attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
+                               <field name="object"  attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
                             <field name="site" options="{'no_create':1, 'no_edit':1}"/>
 
                             <field name="access_point"/>
@@ -76,7 +79,7 @@
 
                     <group>
                         <group>
-                            <field name="incident"/>
+                            <field name="incident"  attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
                             <field name="company_id" invisible="0"/>
@@ -87,7 +90,7 @@
                     </group>
 
                     <notebook>
-                        <page string="Informations">
+                        <page string="Informations"  attrs="{'invisible':[('report_type', '!=', 'incident')]}">
                             <group>
                                 <group>
                                     <field name="auteur"/>
@@ -120,7 +123,7 @@
                             </group>
                         </page>
 
-                        <page string="Description Evènement">
+                        <page string="Description Evènement"  attrs="{'invisible':[('report_type', '!=', 'incident')]}">
                             <field name="description"/>
                         </page>
                         <page string="Actions">
@@ -146,7 +149,7 @@
         <field name="arch" type="xml">
             <tree>
                 <header>
-                    <button name="action_valide_mass_incident" class="oe_highlight" type="object" string="Cloturé"/>
+                    <button name="action_done" class="oe_highlight" type="object" string="Cloturé"/>
                 </header>
                 <field name="name"/>
                 <field name="date_start"/>
@@ -214,11 +217,18 @@
             </form>
         </field>
     </record>
-    <record id="action_rapport_incident" model="ir.actions.act_window">
-<!--        <field name="name">INTERVENTION FEU</field>-->
+    <record id="action_rapport_main_courante" model="ir.actions.act_window">
         <field name="name">Main courante</field>
         <field name="res_model">cna.incident</field>
         <field name="view_mode">tree,form,pivot,graph</field>
+
+    </record>
+    <record id="action_rapport_incident" model="ir.actions.act_window">
+        <field name="name">Incident</field>
+        <field name="res_model">cna.incident</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="domain">[('report_type', '=', 'incident')]</field>
+        <field name="context">{'default_report_type':'incident'}</field>
     </record>
 
 
@@ -267,7 +277,8 @@
     <menuitem id="menu_model_importance" sequence="5" name='Mesure prise'
               parent="industry_fsm.fsm_menu_settings" action="action_model_mesure_prise"/>
 
-    <menuitem id="menu_rapport_incident" parent="menu_activities_root" action="action_rapport_incident"/>
+    <menuitem id="menu_rapport_main_courante" sequence="9" parent="menu_activities_root" action="action_rapport_main_courante"/>
+    <menuitem id="menu_rapport_incident" sequence="5"  parent="menu_activities_root" action="action_rapport_incident"/>
 
 
 </odoo>

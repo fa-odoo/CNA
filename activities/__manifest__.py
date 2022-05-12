@@ -33,7 +33,6 @@
         'report/activity_template.xml',
         # 'report/activitie_report.xml',
         'report/report_views.xml',
-        'report/activitie_report.xml',
         'report/anomalies_ronde.xml',
 
         # data
