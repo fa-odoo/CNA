@@ -41,11 +41,32 @@
                                 <field name="create_uid" string="Créé par"/>
                                 <field name="scan_date"/>
                                 <field name="state"/>
+                                <field name="temps_passage" widget="timesheet_uom"/>
                                 <field name="is_required"/>
 
                                 <button name="open_tags_anomalie" string="Anomalies" type="object"
                                         attrs="{'invisible':[('state','!=','done')]}"/>
                             </tree>
+                            <form>
+                                <group>
+
+
+                                <field name="tag_id"/>
+                                <field name="hors_parcours"/>
+                                <field name="create_date" string="Créé le"/>
+                                <field name="create_uid" string="Créé par"/>
+                                <field name="scan_date"/>
+                                <field name="state"/>
+                                <field name="temps_passage"/>
+                                <field name="is_required"/>
+                                </group>
+                                <notebook>
+                                    <page string="Anomalies">
+                                        <field name="anomalie_ids" readonly="1" force_save="1" />
+                                    </page>
+                                </notebook>
+
+                            </form>
                         </field>
 
                     </page>

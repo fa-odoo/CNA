@@ -16,6 +16,10 @@ class ProjectTask(models.Model):
     score = fields.Float(string="Score", compute='_compute_score', store=True)
     comments = fields.Text(string="commentaires", required=False)
 
+    @api.depends('stage_id')
+    def _compute_fsm_done(self):
+        super()._compute_fsm_done()
+
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.state')
     def _compute_score(self):
         for rec in self:
@@ -130,6 +134,26 @@ class TaskTagsLine(models.Model):
     scan_date = fields.Datetime('Moment du scan')
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
+    temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
+
+    def check_scan_date(self, date):
+        date_scan_ok = False
+        if 0<=date.weekday() <=4 and  6<=date.hour<=22:
+            date_scan_ok = True
+        elif date.weekday() ==5 and 6<=date.hour<=14:
+            date_scan_ok = True
+        return  date_scan_ok
+
+    @api.depends('task_id', 'task_id.tag_anomalie_ids','task_id.tag_anomalie_ids.scan_date', 'scan_date')
+    def compute_temps_passage(self):
+        for rec in self:
+            temps_passage =0
+            if rec.scan_date and self.check_scan_date(rec.scan_date):
+                previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
+                if previous_scans  and  self.check_scan_date(previous_scans[0].scan_date):
+                    temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
+            rec.temps_passage = temps_passage
+
 
     @api.depends('tag_id')
     def _compute_hors_parcours(self):
