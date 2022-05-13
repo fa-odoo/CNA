@@ -254,6 +254,16 @@
         <field name="res_model">mesure.prise</field>
         <field name="view_mode">tree,form</field>
     </record>
+        <record id="action_cna_activitie_view" model="ir.actions.act_window">
+            <field name="name">Acitivés</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cna.incident</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="domain">[('report_type', '=', 'activity')]</field>
+            <field name="context">{'default_report_type':'activity'}</field>
+        </record>
+
+        <menuitem id="menu_cna_activitie_categ" name="Acitivés"  action="action_cna_activitie_view" parent="activities.menu_activities_root" sequence="2"/>
 
 
     <record id="action_navire" model="ir.actions.act_window">

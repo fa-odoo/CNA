@@ -25,13 +25,11 @@
         'views/incident.xml',
         'views/incident_type.xml',
         'views/lieu.xml',
-        'views/activitie.xml',
         'views/activitie_type.xml',
 
         # report
         'report/layout.xml',
         'report/activity_template.xml',
-        # 'report/activitie_report.xml',
         'report/report_views.xml',
         'report/anomalies_ronde.xml',
 
