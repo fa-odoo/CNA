@@ -22,7 +22,8 @@
 <!--								<tbody>-->
 									<tr style="background-color:#aeacac;height: 60px;">
 										<td colspan="2" class="text-center" style="valign:center;">
-											Evènement: <span t-field="doc.incident_type_id"/>
+											Evènement: <t t-if="doc.report_type=='incident'"><span t-field="doc.incident_type_id"/></t>
+											 <t t-if="doc.report_type=='activity'"><span t-field="doc.type_activitie_id"/></t>
 										</td>
 									</tr>
 							</table>
@@ -52,7 +53,8 @@
 											</strong>
 										</td>
 										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Description courte:
-											 <t t-if="doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
+											 <t t-if="doc.report_type == 'incident' and doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
+											 <t t-elif="doc.report_type == 'activity' and doc.type_activitie_short_desc_id"><span t-field="doc.type_activitie_short_desc_id"/> </t>
 											<t t-else=""> N/C</t>
 										</td>
 									</tr>
@@ -121,6 +123,18 @@
 </tbody>
 							</table>
 						</div>
+						<t t-if="doc.report_type=='incident'">
+						<div class="row">
+							<h5 style="text-decoration: underline;">Objet:<br/>
+							</h5>
+						</div>
+						<div class="row">
+
+							<p><span t-field="doc.object"/></p>
+
+						</div>
+						</t>
+					<t t-if="doc.report_type=='incident'">
 						<div class="row">
 							<h5 style="text-decoration: underline;">Description Evènement:<br/>
 							</h5>
@@ -131,15 +145,8 @@
 							<p><span t-field="doc.description"/></p>
 
 						</div>
-						<div class="row">
-							<h5 style="text-decoration: underline;">Objet:<br/>
-							</h5>
-						</div>
-						<div class="row">
+					</t>
 
-							<p><span t-field="doc.object"/></p>
-
-						</div>
 						<div class="row">
 							<h5 style="text-decoration: underline;">Actions<br/>
 							</h5>
@@ -154,6 +161,7 @@
 
 <!--						</table>-->
 <!--					</div>-->
+						<t t-if="doc.report_type=='incident'">
 						<div class="row mt32">
 
 						<table class="table table-bordered">
@@ -184,6 +192,7 @@
 						</table>
 
 					</div>
+						</t >
 						<div class="row">
 							<p class="text-center" >
 								<span style="font-weight: bold !important;text-decoration: underline;"><strong>Pièces jointes:</strong></span><br/></p>

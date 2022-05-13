@@ -62,7 +62,7 @@ class Incident(models.Model):
     auteur_badge = fields.Char("Badge", tracking=True)
     victime = fields.Char("Victime", tracking=True)
     victime_badge = fields.Char("Badge", tracking=True)
-    company_id = fields.Many2one('res.company', default=lambda s: s.env.company, tracking=True)
+    company_id = fields.Many2one('res.company', default=lambda s: s.env.company, tracking=True, string='Société')
     priority = fields.Selection([
         ('0', 'Normal'),
         ('1', 'Low'),
@@ -80,7 +80,7 @@ class Incident(models.Model):
 
     attachemnt_ids = fields.Many2many('ir.attachment', compute='get_record_attachment', tracking=True)
 
-    incident_type_id = fields.Many2one(comodel_name="incident.type", string="Type d'incident", required=False, tracking=True)
+    incident_type_id = fields.Many2one(comodel_name="incident.type", string="Type d'incident", tracking=True)
     short_description_id = fields.Many2one(comodel_name="incident.type.short.description", string="Courte description",
                                            required=False, tracking=True)
     object = fields.Text(string="Objet", required=False, tracking=True)
@@ -88,7 +88,11 @@ class Incident(models.Model):
                                     required=False, tracking=True)
     navire_id = fields.Many2one(comodel_name="navire.navire", string="Navire", required=False, tracking=True)
     tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag", required=False, tracking=True)
-
+    report_type = fields.Selection([('activity', 'Activité'), ('incident', 'Incident')], default='incident', string='Type de rapport', required=True)
+    type_activitie_id = fields.Many2one(comodel_name = "cna.type.activitie", string = "Type d'activité",
+                                         tracking = True)
+    type_activitie_short_desc_id = fields.Many2one(comodel_name = "cna.type.activitie.short.desc",
+                                                   string = "Courte description",  tracking = True)
     def get_record_attachment(self):
         for rec in self:
             attachement = self.env['ir.attachment'].search([('res_id', '=', rec.id),
@@ -154,16 +158,20 @@ class Incident(models.Model):
         self.navire_id = False
         self.lieu = False
 
-    def action_valide_mass_incident(self):
-        for incident in self.env['cna.incident'].browse(self.env.context.get('active_ids')):
-            incident.action_done()
-
     def unlink(self):
         for rec in self:
             if rec.state == 'done':
                 raise UserError('Vous ne pouvez pas supprimer une incident cloturé !')
         return super(Incident, self).unlink()
 
+    #
+    # def get_attachment_ids(self):
+    #     for rec in self:
+    #         attachment_ids = self.env['ir.attachment'].search([('res_id', '=', rec.id),
+    #                                                            ('res_model', '=', 'cna.activitie')])
+    #         return attachment_ids or False
+    #
+    #
 
 class PersonneAvise(models.Model):
     _name = 'incident.personne.avise'

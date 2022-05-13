@@ -195,7 +195,7 @@
 
         <record id="industry_fsm.fsm_menu_root" model="ir.ui.menu">
             <field name="name">Main Courante</field>
-            <field name="action" ref="activities.action_rapport_incident"/>
+            <field name="action" ref="activities.action_rapport_main_courante"/>
         </record>
 
         <record id="view_tags_task_anomalie_analyse_tree" model="ir.ui.view">
