@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="navire_id"/>
+                    <field name="user_ids" widget="many2many_tags"/>
                     <field name="score"/>
                     <button name="open_all_anomalies" class="oe_highlight" type="object" string="Anomalies"/>
                 </tree>
@@ -15,7 +17,7 @@
         </record>
 
         <record id="action_tourne_historique_view" model="ir.actions.act_window">
-            <field name="name">Tournée Historique</field>
+            <field name="name">Historique des tournées </field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">tree,pivot,form</field>

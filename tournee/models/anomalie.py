@@ -318,11 +318,27 @@ class TagsTaskAnomalie(models.Model):
                 if share:
                     rec.create_share_id = share[0].id
                 else:
-                    document[0].create_share()
-                    share = self.env['documents.share'].search([('document_ids', 'in', document[0].id)])
+                    vals = {
+                        'type'        : 'ids',
+                        'document_ids': [(6, 0, document[0].ids)],
+                        'folder_id'   : document[0].folder_id.id,
+                    }
+                    new_context = dict(self.env.context)
+                    new_context.update({
+                        'default_owner_id'    : self.env.uid,
+                        'default_folder_id'   : vals.get('folder_id'),
+                        'default_tag_ids'     : vals.get('tag_ids'),
+                        'default_type'        : vals.get('type', 'domain'),
+                        'default_domain'      : vals.get('domain') if vals.get('type', 'domain') == 'domain' else False,
+                        'default_document_ids': vals.get('document_ids', False),
+                    })
+                    share = self.with_context(new_context).env['documents.share'].create(vals)
+                    share.action_generate_url()
+                    # document[0].create_share()
+                    # share = self.env['documents.share'].search([('document_ids', 'in', document[0].id)])
                     if share:
 
-                        rec.create_share_id = share[0].id
+                        rec.create_share_id = share.id
                     else:
                         rec.create_share_id = False
 
