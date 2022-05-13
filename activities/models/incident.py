@@ -59,8 +59,11 @@ class Incident(models.Model):
     site = fields.Many2one('site.site', string="Site", tracking=True, default=get_default_site)
     lieu = fields.Many2one('site.lieu', "Lieu", tracking=True)
     auteur = fields.Char("Auteur", tracking=True)
+    auteur_company = fields.Char("Société d'auteur", tracking=True)
     auteur_badge = fields.Char("Badge", tracking=True)
     victime = fields.Char("Victime", tracking=True)
+    victime_company = fields.Char("Société victime", tracking=True)
+
     victime_badge = fields.Char("Badge", tracking=True)
     company_id = fields.Many2one('res.company', default=lambda s: s.env.company, tracking=True, string='Société')
     priority = fields.Selection([
@@ -83,7 +86,8 @@ class Incident(models.Model):
     incident_type_id = fields.Many2one(comodel_name="incident.type", string="Type d'incident", tracking=True)
     short_description_id = fields.Many2one(comodel_name="incident.type.short.description", string="Courte description",
                                            required=False, tracking=True)
-    object = fields.Text(string="Objet", required=False, tracking=True)
+    object = fields.Text(string="Objet", required=False, tracking=True, compute='compute_incident_objet', store=True)
+    object_complementaire = fields.Text("Objet complémentaire")
     access_point = fields.Selection(string="Point d'Accès", selection=[('navire', 'Navire'), ('sol', 'Sol')],
                                     required=False, tracking=True)
     navire_id = fields.Many2one(comodel_name="navire.navire", string="Navire", required=False, tracking=True)
@@ -93,6 +97,37 @@ class Incident(models.Model):
                                          tracking = True)
     type_activitie_short_desc_id = fields.Many2one(comodel_name = "cna.type.activitie.short.desc",
                                                    string = "Courte description",  tracking = True)
+    @api.depends('date_start', 'report_type', 'short_description_id', 'type_activitie_short_desc_id', 'lieu', 'auteur', 'auteur_company', 'auteur_badge',
+                 'victime', 'victime_company', 'victime_badge',)
+    def compute_incident_objet(self):
+        for rec in self:
+            object = ""
+            if rec.date_start:
+                object += str(rec.date_start)+' '
+            if rec.report_type == 'incident' and rec.short_description_id:
+                object += rec.short_description_id.name+' '
+            if rec.report_type == 'activity' and rec.type_activitie_short_desc_id:
+                object += rec.type_activitie_short_desc_id.name+' '
+            if rec.lieu:
+                object += rec.lieu.name+' '
+            if rec.auteur:
+                object += rec.auteur+' '
+            if rec.auteur_company:
+                object += rec.auteur_company+' '
+            if rec.auteur_badge:
+                object += rec.auteur_badge+' '
+            if rec.victime:
+                object += rec.victime+' '
+            if rec.victime_company:
+                object += rec.victime_company+' '
+
+            if rec.victime_badge:
+                object += rec.victime_badge+' '
+            rec.object = object
+
+
+
+
     def get_record_attachment(self):
         for rec in self:
             attachement = self.env['ir.attachment'].search([('res_id', '=', rec.id),
@@ -123,9 +158,14 @@ class Incident(models.Model):
 
         if res.auteur:
             res.auteur = res.auteur.upper()
+        if res.auteur_company:
+            res.auteur_company = res.auteur_company.upper()
 
         if res.victime:
             res.victime = res.victime.upper()
+        if res.victime_company:
+            res.victime_company = res.victime_company.upper()
+
 
         return res
 
@@ -140,6 +180,11 @@ class Incident(models.Model):
 
         if values.get('victime'):
             values['victime'] = values['victime'].upper()
+
+        if values.get('auteur_company'):
+            values['auteur_company'] = values['auteur_company'].upper()
+        if values.get('victime_company'):
+            values['victime_company'] = values['victime_company'].upper()
 
         res = super(Incident, self).write(values)
 

@@ -58,6 +58,7 @@
                              <field name="type_activitie_id"  attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
                                 <field name="type_activitie_short_desc_id" domain="[('type_activitie_id','=',type_activitie_id)]"  attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
                                <field name="object"  attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
+                               <field name="object_complementaire"  attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
                             <field name="site" options="{'no_create':1, 'no_edit':1}"/>
 
                             <field name="access_point"/>
@@ -94,10 +95,12 @@
                             <group>
                                 <group>
                                     <field name="auteur"/>
+                                    <field name="auteur_company"/>
                                     <field name="auteur_badge"/>
                                 </group>
                                 <group>
                                     <field name="victime"/>
+                                    <field name="victime_company"/>
                                     <field name="victime_badge"/>
                                 </group>
                             </group>
