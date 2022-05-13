@@ -135,22 +135,26 @@ class TaskTagsLine(models.Model):
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
+    date_scan_ok = fields.Boolean(compute='check_scan_date', store=True)
 
-    def check_scan_date(self, date):
-        date_scan_ok = False
-        if 0<=date.weekday() <=4 and  6<=date.hour<=22:
-            date_scan_ok = True
-        elif date.weekday() ==5 and 6<=date.hour<=14:
-            date_scan_ok = True
-        return  date_scan_ok
+    @api.depends('scan_date')
+    def check_scan_date(self):
+        for rec in self:
+            date_scan_ok = False
+            if rec.scan_date:
+                if 0<= rec.scan_date.weekday() <=4 and  6<=rec.scan_date.hour<=22:
+                    date_scan_ok = True
+                elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.hour<=14:
+                    date_scan_ok = True
+            rec.date_scan_ok = date_scan_ok
 
     @api.depends('task_id', 'task_id.tag_anomalie_ids','task_id.tag_anomalie_ids.scan_date', 'scan_date')
     def compute_temps_passage(self):
         for rec in self:
             temps_passage =0
-            if rec.scan_date and self.check_scan_date(rec.scan_date):
+            if rec.scan_date and rec.date_scan_ok:
                 previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
-                if previous_scans  and  self.check_scan_date(previous_scans[0].scan_date):
+                if previous_scans  and  previous_scans[0].date_scan_ok:
                     temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
             rec.temps_passage = temps_passage
 
