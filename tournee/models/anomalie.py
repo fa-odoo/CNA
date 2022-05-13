@@ -235,7 +235,7 @@ class TagsTaskAnomalie(models.Model):
     hour = fields.Float(compute='split_date_anomalie', store=True, string='Heure')
     respo_zone_id = fields.Many2one('res.users', 'Responsable zone', related="tag_id.respo_zone_id",
                                          store=True)
-    depuis_le = fields.Date('Depuis le')
+    depuis_le = fields.Datetime('Depuis le', default=fields.Datetime.now)
     state = fields.Selection([('draft', 'Prise en compte'), ('resolu', 'Résolu')], string='Etat')
     comment = fields.Char("Notes")
     document_id = fields.Many2one('documents.document', compute="compute_attachement")

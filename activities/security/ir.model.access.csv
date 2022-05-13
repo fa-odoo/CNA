@@ -11,7 +11,6 @@
 "access_navire_user","Navire user","model_navire_navire","base.group_user",1,0,0,0
 
 "access_mesure_prise_user","Mesure prise user","model_mesure_prise","base.group_user",1,1,1,1
-"access_activitie_user","Activitie user","model_cna_activitie","base.group_user",1,1,1,1
 "access_cna_type_activitie_user","Type activitie user","model_cna_type_activitie","base.group_user",1,1,1,1
 "access_cna_type_activitie_short_desc_user","Type activitie short desc user","model_cna_type_activitie_short_desc","base.group_user",1,1,1,1
 "access_cna_incident_personne_avise_user","incident_personne_avise user","model_incident_personne_avise","base.group_user",1,1,1,1
