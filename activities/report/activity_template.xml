@@ -130,7 +130,7 @@
 						</div>
 						<div class="row">
 
-							<p><span t-field="doc.object"/></p>
+							<p><span t-field="doc.object"/> <br/><span t-field="doc.object_complementaire"/> </p>
 
 						</div>
 						</t>
