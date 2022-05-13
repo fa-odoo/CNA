@@ -182,7 +182,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         <record id="action_tags_anomalie_tournee" model="ir.actions.act_window">
-            <field name="name">Anomalies des tournées</field>
+            <field name="name">Anomalies des rondes</field>
             <field name="res_model">tags.task.anomalie</field>
             <field name="view_mode">tree,form,pivot,graph</field>
         </record>
@@ -236,7 +236,7 @@
 
 
         <record id="action_analyse_anomalie_tournee" model="ir.actions.act_window">
-            <field name="name">Analyse des anomalies des tournées</field>
+            <field name="name">Analyse des anomalies des rondes</field>
             <field name="res_model">tags.task.anomalie</field>
             <field name="view_mode">tree,pivot,graph</field>
             <field name="context" eval="{
@@ -244,7 +244,7 @@
         </record>
 
 
-        <menuitem id="menu_analyse_anomalie_tournee" sequence="2" name='Analyse des anomalies des tournées'
+        <menuitem id="menu_analyse_anomalie_tournee" sequence="2" name='Analyse des anomalies des rondes'
                   parent="industry_fsm.fsm_menu_reporting" action="action_analyse_anomalie_tournee"/>
 
 
