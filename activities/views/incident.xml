@@ -152,6 +152,9 @@
                     <button name="action_done" class="oe_highlight" type="object" string="Cloturé"/>
                 </header>
                 <field name="name"/>
+                <field name="report_type"/>
+                <field name="access_point"/>
+                <field name="lieu"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'"
@@ -177,8 +180,15 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
+                <field name="report_type"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
+                <filter name="incident" string="Incident" domain="[('report_type','=','incident')]"/>
+                <filter name="activity" string="Activité" domain="[('report_type','=','activity')]"/>
+                <group expand="0" string="Group By" colspan="4">
+                    <filter string="Type de rapport" name="group_by_report_type" context="{'group_by': 'report_type'}"/>
+                </group>
+
             </search>
         </field>
     </record>
