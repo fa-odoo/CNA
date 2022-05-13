@@ -231,6 +231,7 @@
         <field name="name">Main courante</field>
         <field name="res_model">cna.incident</field>
         <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_group_by_report_type':1}</field>
 
     </record>
     <record id="action_rapport_incident" model="ir.actions.act_window">
