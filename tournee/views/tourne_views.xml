@@ -17,7 +17,7 @@
         </record>
 
         <record id="action_tourne_historique_view" model="ir.actions.act_window">
-            <field name="name">Historique des tournées </field>
+            <field name="name">Historique des rondes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">tree,pivot,form</field>
@@ -25,7 +25,7 @@
                 'tree_view_ref': 'tournee.view_tourne_analyse_tree'}"/>
         </record>
 
-        <menuitem id="menu_tourne_historique_view" name="Analyse / historique des tournées"
+        <menuitem id="menu_tourne_historique_view" name="Historique des rondes"
                   parent="industry_fsm.fsm_menu_reporting" action="action_tourne_historique_view" sequence="3"/>
 
     </data>
