@@ -26,6 +26,8 @@
                 <field name="partner_id" position="before">
                     <field name="navire_id"/>
                     <field name="ronde_id" domain="[('navire_id', '=', navire_id)]"/>
+                    <field name="tourne_duration" widget="timesheet_uom"/>
+                    <field name="temps_passage_avg" widget="timesheet_uom"/>
                     <field name="score"/>
                     <field name="comments"/>
                 </field>

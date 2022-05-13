@@ -15,6 +15,27 @@ class ProjectTask(models.Model):
     ronde_id = fields.Many2one('ronde.ronde', 'Ronde')
     score = fields.Float(string="Score", compute='_compute_score', store=True)
     comments = fields.Text(string="commentaires", required=False)
+    tourne_duration = fields.Float('Temps total passé à bord (min)', compute='compute_temps_total', store=True)
+    temps_passage_avg = fields.Float('Temps passage moyen', compute='compute_temps_passage_avg', store=True)
+
+    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
+    def compute_temps_passage_avg(self):
+        for rec in self:
+            temps_passage_avg =0
+            if rec.tag_anomalie_ids:
+                tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.date_scan_ok)
+                if tag_anomalie_ids:
+                    temps_passage_avg = sum(t.temps_passage for t in tag_anomalie_ids)/(len(tag_anomalie_ids)-1)
+            rec.temps_passage_avg =temps_passage_avg
+
+    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.scan_date')
+    def compute_temps_total(self):
+        for rec in self:
+            tourne_duration =0
+            tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.scan_date).sorted('scan_date')
+            if tag_anomalie_ids and len(tag_anomalie_ids)>1:
+                tourne_duration = (tag_anomalie_ids[-1].scan_date - tag_anomalie_ids[0].scan_date).total_seconds()/60
+            rec.tourne_duration = tourne_duration
 
     @api.depends('stage_id')
     def _compute_fsm_done(self):

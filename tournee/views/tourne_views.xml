@@ -10,6 +10,8 @@
                     <field name="name"/>
                     <field name="navire_id"/>
                     <field name="user_ids" widget="many2many_tags"/>
+                    <field name="tourne_duration"  widget="timesheet_uom"/>
+                    <field name="temps_passage_avg"  widget="timesheet_uom"/>
                     <field name="score"/>
                     <button name="open_all_anomalies" class="oe_highlight" type="object" string="Anomalies"/>
                 </tree>
