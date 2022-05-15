@@ -265,6 +265,28 @@ class TagsTaskAnomalie(models.Model):
     green_color_state = fields.Boolean(compute="_compute_state_colors", default=False)
     blue_color_state = fields.Boolean(compute="_compute_state_colors", default=False)
 
+    already_reported = fields.Boolean(compute='compute_already_reported', default=False, store=True)
+
+
+    @api.depends('tag_id', 'anomalie_id', 'anomalie_commentaire_id', 'date_anomalie')
+    def compute_already_reported(self):
+        for record in self:
+            same_tags_task_anomalies = record.env['tags.task.anomalie'].sudo().search(
+                [('tag_id', '=', record.tag_id.id), ('date_anomalie', '<', record.date_anomalie)])
+            if same_tags_task_anomalies:
+                same_tags_task_anomalies_dates = same_tags_task_anomalies.mapped('date')
+                max_date = max(same_tags_task_anomalies_dates)
+                last_tags_task_anomalie = same_tags_task_anomalies.filtered(lambda x: x.date == max_date)
+                if last_tags_task_anomalie:
+                    if last_tags_task_anomalie.anomalie_id == record.anomalie_id and last_tags_task_anomalie.anomalie_commentaire_id == record.anomalie_commentaire_id:
+                        record.already_reported = True
+                    else:
+                        record.already_reported = False
+                else:
+                    record.already_reported = False
+            else:
+                record.already_reported = False
+
     @api.depends('date_anomalie')
     def _compute_dates(self):
         for anomalie in self:
