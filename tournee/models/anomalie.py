@@ -265,7 +265,7 @@ class TagsTaskAnomalie(models.Model):
     green_color_state = fields.Boolean(compute="_compute_state_colors", default=False)
     blue_color_state = fields.Boolean(compute="_compute_state_colors", default=False)
 
-    already_reported = fields.Boolean(compute='compute_already_reported', default=False, store=True)
+    already_reported = fields.Boolean(compute='compute_already_reported', default=False)
 
 
     @api.depends('tag_id', 'anomalie_id', 'anomalie_commentaire_id', 'date_anomalie')
