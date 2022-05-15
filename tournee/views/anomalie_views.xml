@@ -209,7 +209,7 @@
                     <field name="day"/>
                     <field name="date_anomalie"/>
                     <field name="lot"/>
-                    <field name="pont"/>
+                    <field name="bd_td_axe"/>
                     <field name="couple"/>
                     <field name="respo_zone_id"/>
                     <field name="anomalie_id"/>
