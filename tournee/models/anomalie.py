@@ -26,7 +26,7 @@ class ProjectTask(models.Model):
             temps_passage_avg =0
             if rec.tag_anomalie_ids:
                 tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.date_scan_ok)
-                if tag_anomalie_ids:
+                if tag_anomalie_ids and len(tag_anomalie_ids)>1:
                     temps_passage_avg = sum(t.temps_passage for t in tag_anomalie_ids)/(len(tag_anomalie_ids)-1)
             rec.temps_passage_avg =temps_passage_avg
 
