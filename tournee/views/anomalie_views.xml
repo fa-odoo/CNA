@@ -28,6 +28,8 @@
                     <field name="ronde_id" domain="[('navire_id', '=', navire_id)]"/>
                     <field name="tourne_duration" widget="timesheet_uom"/>
                     <field name="temps_passage_avg" widget="timesheet_uom"/>
+                    <field name="first_scan" />
+                    <field name="last_scan" />
                     <field name="score"/>
                     <field name="comments"/>
                 </field>

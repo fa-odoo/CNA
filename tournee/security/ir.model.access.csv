@@ -10,5 +10,6 @@
 "access_ronde_ronde_user","ronde.ronde USER","model_ronde_ronde","industry_fsm.group_fsm_user",1,0,0,0
 "access_ronde_ronde_manager","ronde.ronde manager","model_ronde_ronde","tournee.tags_manager",1,1,1,1
 "access_ronde_tags_user","ronde.tags USER","model_ronde_tags","industry_fsm.group_fsm_user",1,0,0,0
+"access_navire_time_report_wizard_user","navire_time_report_wizard USER","model_navire_time_report_wizard","industry_fsm.group_fsm_user",1,1,1,1
 "access_ronde_tags_manager","ronde.tags manager","model_ronde_tags","tournee.tags_manager",1,1,1,1
 "access_navire_manager","Navire manager","activities.model_navire_navire","tournee.tags_manager",1,1,1,1

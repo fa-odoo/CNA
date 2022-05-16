@@ -17,6 +17,8 @@ class ProjectTask(models.Model):
     comments = fields.Text(string="commentaires", required=False)
     tourne_duration = fields.Float('Temps total passé à bord (min)', compute='compute_temps_total', store=True)
     temps_passage_avg = fields.Float('Temps passage moyen', compute='compute_temps_passage_avg', store=True)
+    first_scan = fields.Datetime(string='Premier scan', compute='compute_temps_total', store=True)
+    last_scan = fields.Datetime(string='Dernier scan', compute='compute_temps_total', store=True)
 
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
     def compute_temps_passage_avg(self):
@@ -35,6 +37,12 @@ class ProjectTask(models.Model):
             tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.scan_date).sorted('scan_date')
             if tag_anomalie_ids and len(tag_anomalie_ids)>1:
                 tourne_duration = (tag_anomalie_ids[-1].scan_date - tag_anomalie_ids[0].scan_date).total_seconds()/60
+            if tag_anomalie_ids:
+                rec.first_scan = tag_anomalie_ids[0].scan_date
+                rec.last_scan = tag_anomalie_ids[-1].scan_date
+            else:
+                rec.first_scan = False
+                rec.last_scan = False
             rec.tourne_duration = tourne_duration
 
     @api.depends('stage_id')
