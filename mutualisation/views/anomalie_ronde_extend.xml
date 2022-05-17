@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_inherit_anomalie_ronde_log_form" model="ir.ui.view">
+            <field name="name">view.inherit.anomalie.ronde.log.form</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="inherit_id" ref="tournee.task_tags_anomalie_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='url']" position="after">
+                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+
+        <record id="view_anomalie_ronde_log_inherit_tree" model="ir.ui.view">
+            <field name="name">view.anomalie.ronde.log.inherit.tree</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="inherit_id" ref="tournee.tags_anomalie_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='url']" position="after">
+                    <field name="create_emp_id"/>
+                    <field name="write_emp_id"/>
+                </xpath>
+
+            </field>
+        </record>
+        
+    
+    </data>
+</odoo>

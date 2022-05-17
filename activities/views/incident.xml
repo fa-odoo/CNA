@@ -79,9 +79,7 @@
                         <group>
                             <field name="name"/>
                             <field name="create_date" string="Crée le"/>
-                            <field name="create_uid" string="Par"/>
                             <field name="write_date" string="Modifié le"/>
-                            <field name="write_uid" string="Par"/>
                         </group>
                     </group>
 

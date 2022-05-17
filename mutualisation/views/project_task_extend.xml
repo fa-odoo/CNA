@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_inherit_task_emp_log_form" model="ir.ui.view">
+            <field name="name">view.inherit.task.emp.log.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group/group/field[@name='user_ids']" position="after">
+                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                </xpath>
+
+                <xpath expr="//page[@name='tags']/field[@name='tag_anomalie_ids']/tree/field[@name='create_date']" position="after">
+                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_task_emp_log_inherit_tree" model="ir.ui.view">
+            <field name="name">view.task.emp.log.inherit.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='planned_date_end']" position="after">
+                    <field name="create_emp_id"/>
+                    <field name="write_emp_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
