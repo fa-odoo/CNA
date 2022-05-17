@@ -84,7 +84,8 @@
             <field name="name">tags.anomalie.tree.view</field>
             <field name="model">tags.task.anomalie</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-danger="already_reported">
+                    <field name="already_reported" invisible="1"/>
                     <field name="line_id" invisible="1"/>
                     <field name="date_anomalie" invisible="1"/>
                     <field name="date"/>
@@ -227,7 +228,8 @@
             <field name="name">view.tags.task.anomalie.analyse.tree</field>
             <field name="model">tags.task.anomalie</field>
             <field name="arch" type="xml">
-                <tree create="0" delete="0">
+                <tree create="0" delete="0" decoration-danger="already_reported">
+                    <field invisible="1" name="already_reported"/>
                     <field name="year"/>
                     <field name="month"/>
                     <field name="week" options='{"fg_color": "red"}'/>
@@ -244,6 +246,7 @@
                     <field name="red_color_criticite" invisible="1"/>
                     <field name="orange_color_criticite" invisible="1"/>
                     <field name="yellow_color_criticite" invisible="1"/>
+                    <field name="already_reported"/>
 
                     <field name="criticite"
                            options='{"bg_color": "red:red_color_criticite == True; orange:orange_color_criticite == True; yellow:yellow_color_criticite == True"}'/>
