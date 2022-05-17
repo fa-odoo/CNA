@@ -16,7 +16,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/anomalie_report_wizard.xml',
-        'report/layout.xml',
+        # 'report/layout.xml',
         'report/paper.xml',
         'report/report_config.xml',
         'report/anomalie_report.xml',
