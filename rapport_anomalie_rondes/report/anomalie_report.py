@@ -6,7 +6,7 @@ from odoo import api, models, fields
 
 
 class report_anomalies(models.AbstractModel):
-    _name = 'report.rapport_anomalie_rondes._report_anomalie_rondes'
+    _name = 'report.rapport_anomalie_rondes.report_anomalie_rondes'
 
     @api.model
     def _get_report_values(self, docids, data=None):
@@ -89,7 +89,7 @@ class report_anomalies(models.AbstractModel):
             'docs': docs,
             'data': data,
             'docids': docids,
-            'company': self.env.user.company_id.name,
+            'company_name': self.env.user.company_id.name,
             'today': fields.Date.today().strftime('%d/%m/%Y'),
 
         }
