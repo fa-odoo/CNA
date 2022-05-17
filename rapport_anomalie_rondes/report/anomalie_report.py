@@ -38,9 +38,9 @@ class report_anomalies(models.AbstractModel):
                 tag_data['url'] = tag.url
                 tag_data['state_a'] = tag.state
                 if tag.state == 'draft':
-                    tag_data['state'] = 'Prise de contact'
+                    tag_data['state'] = 'Prise en compte'
                 elif tag.state == 'resolu':
-                    tag_data['state'] = 'Resolu'
+                    tag_data['state'] = 'Résolu'
                 else:
                     tag_data['state'] = ''
 
@@ -61,7 +61,7 @@ class report_anomalies(models.AbstractModel):
                 if tag.month == '1':
                     tag_data['month'] = 'Janvier'
                 if tag.month == '2':
-                    tag_data['month'] = 'Fevrier'
+                    tag_data['month'] = 'Février'
                 if tag.month == '3':
                     tag_data['month'] = 'Mars'
                 if tag.month == '4':
@@ -73,7 +73,7 @@ class report_anomalies(models.AbstractModel):
                 if tag.month == '7':
                     tag_data['month'] = 'Juillet'
                 if tag.month == '8':
-                    tag_data['month'] = 'Aout'
+                    tag_data['month'] = 'Août'
                 if tag.month == '9':
                     tag_data['month'] = 'Septembre'
                 if tag.month == '10':
@@ -81,7 +81,7 @@ class report_anomalies(models.AbstractModel):
                 if tag.month == '11':
                     tag_data['month'] = 'Novembre'
                 if tag.month == '12':
-                    tag_data['month'] = 'Decembre'
+                    tag_data['month'] = 'Décembre'
 
                 docs.append(tag_data)
 
