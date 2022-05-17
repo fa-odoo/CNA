@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="_report_anomalie_rondes">
+        <t t-set="data_report_landscape" t-value="True"/>
+        <t t-set="data_report_landscape" t-value="True"/>
+        <t t-set="full_width" t-value="True"/>
+        <t t-call="web.html_container">
+            <div class="page">
+                <div class="text-center" style="margin-left: 35%; ">
+                    <p style="font-size: 35px; font-weight: bold;">Rapport Anomalies Rondes</p>
+                </div>
+                <div class="row" style="font-family:Trebuchet MS">
+                    <div class="row col-12">
+                        <div class="col-9" style="font-size: 20px; font-weight: bold;">
+                            <span t-esc="company" style="font-size: 20px;"/>
+                        </div>
+                        <div style="width: 10%"/>
+                        <div class="row col-3 text-right">
+                            <span style="font-size:14pt;">Le
+                                <span t-esc="today"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                <p>Année</p>
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Mois
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Semaine
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Jour
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Date Anomalie
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Lot
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Bd/Td/Axe
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-left">
+                                Couple
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Responsable zone
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Anomalie
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Commentaire
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Depuis le
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Criticite
+                            </th>
+                            <th style="border: 1px solid #210600;"
+                                class="text-center">
+                                Etat
+                            </th>
+                            <th style="border: 1px solid #210600; border-left: 1px solid #210600; border-right: 1px solid #210600;"
+                                class="text-center">
+                                Notes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                            <tr t-att-class="'font-weight-bold'">
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['year']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['month']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['week']" style="color: red;"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['day']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['date_anomalie']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['lot']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['bd_td_axe']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['couple']"/>
+                                </td>
+                                <td class="text-left"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['respo_zone_id']"/>
+                                </td>
+                                <td class="text-left"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['anomalie_id']"/>
+                                </td>
+                                <td class="text-left"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['anomalie_commentaire_id']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-left: 1px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['depuis_le']"/>
+                                </td>
+                                <t t-if="doc['criticite']">
+                                    <t t-if="doc['red_color_criticite'] == True">
+                                        <td class="text-center"
+                                            style="background-color: red; border-left: 1px solid black; border-top: 1px solid black;">
+                                            <span t-esc="doc['criticite']"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="doc['yellow_color_criticite'] == True">
+                                        <td class="text-center"
+                                            style="background-color: #FDFF6B; border-left: 1px solid black; border-top: 1px solid black;">
+                                            <span t-esc="doc['criticite']"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="doc['orange_color_criticite'] == True">
+                                        <td class="text-center"
+                                            style="background-color: #FFAB41; border-left: 1px solid black; border-top: 1px solid black;">
+                                            <span t-esc="doc['criticite']"/>
+                                        </td>
+                                    </t>
+
+                                </t>
+                                <t t-else="">
+                                    <td class="text-center"
+                                        style="border-left: 1px solid black; border-top: 1px solid black;">
+                                        <span t-esc="doc['criticite']"/>
+                                    </td>
+                                </t>
+
+                                <t t-if="doc['state_a']">
+                                    <t t-if="doc['state_a'] == 'draft'">
+                                        <td class="text-center"
+                                            style="background-color: #4CBBFF; border-left: 1px solid black; border-top: 1px solid black;">
+                                            <span t-esc="doc['state']"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="doc['state_a'] == 'resolu'">
+                                        <td class="text-center"
+                                            style="background-color: #58A869; border-left: 1px solid black; border-top: 1px solid black;">
+                                            <span t-esc="doc['state']"/>
+                                        </td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <td class="text-center"
+                                        style="border-left: 1px solid black; border-top: 1px solid black;">
+                                        <span t-esc="doc['state']"/>
+                                    </td>
+                                </t>
+
+                                <td class="text-left"
+                                    style="border-left: 1px solid black; border-top: 1px solid black; border-right: 1px solid black;">
+                                    <span t-esc="doc['comment']"/>
+                                </td>
+<!--                                <td class="text-left"-->
+<!--                                    style="border-left: 2px solid black; border-top: 1px solid black;">-->
+<!--                                    <span t-esc="doc['url']"/>-->
+<!--                                </td>-->
+                            </tr>
+
+                        </t>
+                        <tr t-att-class="'font-weight-bold'">
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                            <td style="border: 1px solid black;"/>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
