@@ -271,21 +271,14 @@ class TagsTaskAnomalie(models.Model):
     @api.depends('tag_id', 'anomalie_id', 'anomalie_commentaire_id', 'date_anomalie')
     def compute_already_reported(self):
         for record in self:
+            already_reported = False
             same_tags_task_anomalies = record.env['tags.task.anomalie'].sudo().search(
-                [('tag_id', '=', record.tag_id.id), ('date_anomalie', '<', record.date_anomalie)])
+                [('tag_id', '=', record.tag_id.id), ('date_anomalie', '<=', record.date_anomalie), ('date_anomalie', '!=', False), ('id', '!=', record.id)]).sorted('date_anomalie')
             if same_tags_task_anomalies:
-                same_tags_task_anomalies_dates = same_tags_task_anomalies.mapped('date')
-                max_date = max(same_tags_task_anomalies_dates)
-                last_tags_task_anomalie = same_tags_task_anomalies.filtered(lambda x: x.date == max_date)
-                if last_tags_task_anomalie:
-                    if last_tags_task_anomalie.anomalie_id == record.anomalie_id and last_tags_task_anomalie.anomalie_commentaire_id == record.anomalie_commentaire_id:
-                        record.already_reported = True
-                    else:
-                        record.already_reported = False
-                else:
-                    record.already_reported = False
-            else:
-                record.already_reported = False
+
+                if same_tags_task_anomalies[-1].anomalie_id == record.anomalie_id and same_tags_task_anomalies[-1].anomalie_commentaire_id == record.anomalie_commentaire_id:
+                    already_reported = True
+            record.already_reported = already_reported
 
     @api.depends('date_anomalie')
     def _compute_dates(self):
