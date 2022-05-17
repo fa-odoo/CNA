@@ -9,7 +9,7 @@
              <t t-call="web.html_container">
             <div class="page">
                 <div class="text-center" style="margin-left: 35%; ">
-                    <p style="font-size: 35px; font-weight: bold;">Rapport é Anomalies Rondes</p>
+                    <p style="font-size: 35px; font-weight: bold;">Rapport Anomalies Rondes</p>
                 </div>
 
 
