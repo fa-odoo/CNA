@@ -1,0 +1,14 @@
+<odoo>
+    <record id="report_anomalies_rondes" model="ir.actions.report">
+        <field name="name">Rapport Anomalies rondes</field>
+        <field name="model">tags.task.anomalie</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rapport_anomalie_rondes._report_anomalie_rondes</field>
+        <field name="report_file">rapport_anomalie_rondes._report_anomalie_rondes</field>
+        <field name="paperformat_id" ref="rapport_anomalie_rondes.report_anomalie_rondes_format"/>
+        <field name="print_report_name">'Rapport Anomalies rondes</field>
+        <field name="binding_model_id"
+               ref="tournee.model_tags_task_anomalie"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

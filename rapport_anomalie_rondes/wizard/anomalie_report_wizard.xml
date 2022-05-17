@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="anomalie_report_assistant_action" model="ir.actions.act_window">
+            <field name="name">Rapport Anomalie Rondes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">anomalie.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="tournee.model_tags_task_anomalie"/>
+            <field name="binding_type">report</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="anomalie_report_wizard_form" model="ir.ui.view">
+            <field name="name">anomalie.report.wizard.form</field>
+            <field name="model">anomalie.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <footer>
+                        <button string="IMPRIMER" name="print_report" type="object" class="oe_highlight"/>
+                        <button string="ANNULER" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="anomalie_report_assistant_menu" name='Rapport des anomalies des rondes' sequence="1"
+                  parent="industry_fsm.fsm_menu_reporting" action="anomalie_report_assistant_action"/>
+
+    </data>
+</odoo>

@@ -312,6 +312,8 @@ class TagsTaskAnomalie(models.Model):
 
     lot = fields.Char(string="Lot", related="tag_id.lot", store=True)
     pont = fields.Char(string="Pont", related="tag_id.pont", store=True)
+    bd_td_axe = fields.Selection(string="Bd/Td/Axe", related="tag_id.bd_td_axe", store=True)
+
     couple = fields.Char(string="Couple", related="tag_id.couple", store=True)
     respo_zone_id = fields.Many2one(string="Responsable zone", related="tag_id.respo_zone_id", store=True)
 
