@@ -10,6 +10,8 @@ class AnomalieReportWizard(models.TransientModel):
 
 
     def print_report(self):
+        # active_ids = self.env.context.get('active_ids')
+
         data = {
             'ids': self.ids,
             'model': self._name,

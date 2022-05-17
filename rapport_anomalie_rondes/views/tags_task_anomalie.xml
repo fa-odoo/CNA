@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_tags_task_anoMalie_tree" model="ir.ui.view">
+            <field name="name">tags.task.anomalie.tree.inherit</field>
+            <field name="model">tags.task.anomalie</field>
+            <field name="inherit_id" ref="tournee.view_tags_task_anomalie_analyse_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <header>
+                        <button name="action_open_anomalie_report" class="oe_highlight" type="object" string="IMPRIMER LE RAPPORT ANOMALIES RONDES"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
