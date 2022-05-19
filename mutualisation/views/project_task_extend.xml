@@ -9,12 +9,16 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//group/group/field[@name='user_ids']" position="after">
-                    <field name="create_emp_id" readonly="1" force_save="1"/>
-                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                    <field name="create_date" string="Crée le"/>
+                    <field name="create_uid" string="Par l'utilisateur" optional="hide"/>
+                    <field name="create_emp_id" string="Par l'employé" readonly="1" force_save="1"/>
+                    <field name="write_date" string="Modifié le"/>
+                    <field name="write_uid" string="Par l'utilisateur" optional="hide"/>
+                    <field name="write_emp_id" string="Par l'employé" readonly="1" force_save="1"/>
                 </xpath>
 
-                <xpath expr="//page[@name='tags']/field[@name='tag_anomalie_ids']/tree/field[@name='create_date']" position="after">
-                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                <xpath expr="//page[@name='tags']/field[@name='tag_anomalie_ids']/tree/field[@name='create_uid']" position="after">
+                    <field name="create_emp_id" string="Par l'employé" readonly="1" force_save="1"/>
                     <field name="write_emp_id" readonly="1" force_save="1"/>
                 </xpath>
 
@@ -28,7 +32,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='planned_date_end']" position="after">
-                    <field name="create_emp_id"/>
+                    <field name="create_emp_id" string="Créé par"/>
                     <field name="write_emp_id"/>
                 </xpath>
 

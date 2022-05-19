@@ -8,12 +8,12 @@
             <field name="inherit_id" ref="activities.rapport_incident_form_view"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='create_date']" position="after">
-                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                <xpath expr="//field[@name='create_uid']" position="after">
+                    <field name="create_emp_id" string="Par l'employé" readonly="1" force_save="1"/>
                 </xpath>
 
-                <xpath expr="//field[@name='write_date']" position="after">
-                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                <xpath expr="//field[@name='write_uid']" position="after">
+                    <field name="write_emp_id" string="Par l'employé" readonly="1" force_save="1"/>
                 </xpath>
                 
             </field>
@@ -26,8 +26,12 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='date_end']" position="after">
-                    <field name="create_emp_id"/>
-                    <field name="write_emp_id"/>
+                    <field name="create_date" string="Crée le"/>
+                    <field name="create_uid" string="Par l'utilisateur" optional="hide"/>
+                    <field name="create_emp_id" string="Par l'employé" />
+                    <field name="write_date" string="Modifié le"/>
+                    <field name="write_uid" string="Par l'utilisateur" optional="hide"/>
+                    <field name="write_emp_id" string="Par l'employé" />
                 </xpath>
 
             </field>
