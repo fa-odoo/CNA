@@ -29,6 +29,7 @@ class report_anomalies(models.AbstractModel):
                 tag_data['criticite'] = tag.criticite
                 tag_data['green_color_state'] = tag.green_color_state
                 tag_data['blue_color_state'] = tag.blue_color_state
+                tag_data['already_reported'] = tag.already_reported
 
                 tag_data['red_color_criticite'] = tag.red_color_criticite
                 tag_data['orange_color_criticite'] = tag.orange_color_criticite
