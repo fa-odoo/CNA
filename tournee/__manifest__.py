@@ -27,8 +27,10 @@
 
 
         # wizard
+        'wizard/navire_time_report_wizard.xml',
         'wizard/add_tags_wizard.xml',
         'wizard/add_comment_task.xml',
+        'report/navire_time_template.xml',
 
         # views
         'views/anomalie_views.xml',

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="navire_time_report_document">
+             <t t-call="web.html_container">
+            <div class="page">
+                <h4 class="text-center">Rapport des temps de passage du <span t-esc="date_start"/> au <span t-esc="date_end"/></h4>
+                <div class="row mt16">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>Navire</th>
+                            <th>Temps moyen de passage(min)</th>
+                            <th>Temps moyen à bord(min)</th>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="report_data" t-as="navire">
+                                <td><span t-esc="navire.name"/></td>
+                                <td><span t-esc="report_data[navire]['temps_passage_avg']"  t-options='{"widget": "float_time"}' /></td>
+                                <td><span t-esc="report_data[navire]['tourne_duration']"  t-options='{"widget": "float_time"}' /></td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+             </t>
+        </template>
+        <template id="navire_time_report">
+
+
+                    <t t-call="web.internal_layout">
+                        <t t-call="tournee.navire_time_report_document" />
+                    </t>
+
+
+        </template>
+    </data>
+</odoo>

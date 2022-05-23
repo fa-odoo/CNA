@@ -21,5 +21,14 @@
             <field name="binding_model_id" ref="tournee.model_tags_tags"/>
             <field name="binding_type">report</field>
         </record>
+        <record id="action_report_navire_time" model="ir.actions.report">
+            <field name="name">Temps de passage</field>
+            <field name="model">navire.time.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">tournee.navire_time_report</field>
+            <field name="report_file">tournee.navire_time_report</field>
+            <field name="binding_model_id" ref="tournee.model_navire_time_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>

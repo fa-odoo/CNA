@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_inherit_create_emp_form" model="ir.ui.view">
+            <field name="name">view.inherit.create.emp.form</field>
+            <field name="model">cna.incident</field>
+            <field name="inherit_id" ref="activities.rapport_incident_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='create_date']" position="after">
+                    <field name="create_emp_id" readonly="1" force_save="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='write_date']" position="after">
+                    <field name="write_emp_id" readonly="1" force_save="1"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+        <record id="view_create_emp_inherit_tree" model="ir.ui.view">
+            <field name="name">view.create.emp.inherit.tree</field>
+            <field name="model">cna.incident</field>
+            <field name="inherit_id" ref="activities.rapport_incident_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='date_end']" position="after">
+                    <field name="create_emp_id"/>
+                    <field name="write_emp_id"/>
+                </xpath>
+
+            </field>
+        </record>
+    
+    </data>
+</odoo>
