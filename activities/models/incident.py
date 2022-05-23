@@ -151,8 +151,8 @@ class Incident(models.Model):
 
         # add followers
         if res.incident_type_id:
-            res.message_follower_ids.unlink()
-            res.message_follower_ids = [
+            res.sudo().message_follower_ids.unlink()
+            res.sudo().message_follower_ids = [
                 (0, 0, {'res_model': 'cna.incident', 'res_id': res.id, 'partner_id': follower.id}) for follower in
                 res.incident_type_id.follower_ids]
 
@@ -191,8 +191,8 @@ class Incident(models.Model):
         # change followers if incident type changed
         if values.get('incident_type_id'):
             for rec in self:
-                rec.message_follower_ids.unlink()
-                rec.message_follower_ids = [
+                rec.sudo().message_follower_ids.unlink()
+                rec.sudo().message_follower_ids = [
                     (0, 0, {'res_model': 'cna.incident', 'res_id': rec.id, 'partner_id': follower.id}) for follower in
                     rec.incident_type_id.follower_ids]
 
