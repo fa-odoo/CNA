@@ -28,7 +28,7 @@ class Tags(models.Model):
 				tag_line_ids = rec.tag_line_ids.filtered(lambda r: r.scan_date)
 				if tag_line_ids:
 					last_date_scan = tag_line_ids.sorted('scan_date')[-1]
-			rec.last_date_scan = last_date_scan
+			rec.last_date_scan = last_date_scan.scan_date
 
 	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple' )
 	def compute_tags_name(self):
