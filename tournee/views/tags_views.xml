@@ -37,7 +37,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <header>
-                        <button name="start_ronde" type="object" string="Démarré une ronde"/>
+                        <button name="start_ronde" type="object" string="Démarrer une ronde"/>
                     </header>
                     <field name="name"/>
                 </tree>
