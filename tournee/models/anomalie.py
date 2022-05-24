@@ -132,6 +132,7 @@ class ProjectTask(models.Model):
             'anomalie_commentaire_id.name') or False
 
     def action_timer_stop(self):
+
         if self.user_timer_id.timer_start and self.display_timesheet_timer:
             rounded_hours = self._get_rounded_hours(self.user_timer_id._get_minutes_spent())
             wizard_object = self.env['project.task.create.timesheet'].create({
