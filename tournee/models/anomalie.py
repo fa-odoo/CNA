@@ -221,12 +221,7 @@ class TaskTagsLine(models.Model):
             'view_type': 'form',
             'target': 'current'}
 
-    @api.onchange('scan_date')
-    def _onchange_scan_date(self):
-        if self.scan_date:
-            tag = self.env['tags.tags'].search([('id', '=', self.tag_id.id)])
-            if (not tag.last_date_scan) or (tag.last_date_scan and tag.last_date_scan > self.scan_date):
-                tag.last_date_scan = self.scan_date
+
 
     def get_anomalies(self):
         return self.env['tags.task.anomalie'].search([('line_id', '=', self.id)]) or False
