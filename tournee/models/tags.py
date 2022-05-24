@@ -15,9 +15,20 @@ class Tags(models.Model):
 	lot = fields.Char()
 	numero = fields.Char(required=True, default='/')
 	designation = fields.Char()
-	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False)
+	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False, compute="compute_last_scan", store=True)
 	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
 	tag_file = fields.Binary(string="Fichier de tag")
+	tag_line_ids = fields.One2many('task.tags.line', 'tag_id', 'Scan')
+
+	@api.depends('tag_line_ids', 'tag_line_ids.scan_date')
+	def compute_last_scan(self):
+		for rec in self:
+			last_date_scan = False
+			if rec.tag_line_ids:
+				tag_line_ids = rec.tag_line_ids.filtered(lambda r: r.scan_date)
+				if tag_line_ids:
+					last_date_scan = tag_line_ids.sorted('scan_date')[-1]
+			rec.last_date_scan = last_date_scan
 
 	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple' )
 	def compute_tags_name(self):
