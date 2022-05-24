@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class Tags(models.Model):
@@ -70,6 +71,29 @@ class Ronde(models.Model):
 	name = fields.Char('Ronde')
 	tag_ids = fields.One2many('ronde.tags', 'ronde_id', 'Tags')
 	navire_id = fields.Many2one('navire.navire', 'Navire')
+
+	def start_ronde(self):
+		if len(self._context.get('active_ids')) > 1:
+			raise UserError(_("Vous pouvez démarré plusieurs ronde."))
+
+		ctx = {
+			'default_project_id': self.env.ref('industry_fsm.fsm_project').id or False,
+			'default_partner_id': self.env.ref('base.user_admin').partner_id.id or False,
+		}
+		ronde = self.env['ronde.ronde'].search([('id', '=', self._context.get('active_ids')[0])])
+		if ronde:
+			ctx['default_name'] = ronde.name
+			ctx['default_navire_id'] = ronde.navire_id.id
+			ctx['default_ronde_id'] = ronde.id
+
+		return {
+			'name': _('Ronde'),
+			'type': 'ir.actions.act_window',
+			'view_mode': 'form',
+			'res_model': 'project.task',
+			'target': 'self',
+			'context': ctx
+		}
 
 
 class RondeTags(models.Model):
