@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class Tags(models.Model):
@@ -19,6 +20,14 @@ class Tags(models.Model):
 	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
 	tag_file = fields.Binary(string="Fichier de tag")
 	tag_line_ids = fields.One2many('task.tags.line', 'tag_id', 'Scan')
+	is_start_scan = fields.Boolean(string="Tag de démarrage", )
+	is_end_scan = fields.Boolean(string="Tag d'arrêt", )
+
+	@api.constrains('internal_type', 'reconcile')
+	def _check_start_end_tag(self):
+		for tag in self:
+			if tag.is_start_scan and tag.is_end_scan:
+				raise UserError("Vous pouvez pas avoir un tag de démarrage et d'arrêt en même temps")
 
 	@api.depends('tag_line_ids', 'tag_line_ids.scan_date')
 	def compute_last_scan(self):

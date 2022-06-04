@@ -96,29 +96,28 @@ class ProjectTask(models.Model):
 
     def on_barcode_scanned(self, barcode):
 
-        if barcode == self.company_id.start_code:
-            self.action_timer_start()
-        elif barcode == self.company_id.end_code:
-            self.action_timer_stop()
+        tag = self.env['tags.tags'].search([('name', '=', barcode)], limit=1)
+
+        if not tag:
+            raise UserError('Aucun tag trouvé pour avec le nom %s' % barcode)
         else:
-            print('dddddddddddd', self._origin, barcode, self.display_timer_start_primary,
-                  self.display_timer_start_secondary)
-            tag = self.env['tags.tags'].search([('name', '=', barcode)], limit=1)
+            if tag.is_start_scan and tag.is_end_scan:
+                raise UserError("Ce tag est un tag de démarrage et d'arrêt en même temps")
+            elif tag.is_start_scan:
+                self.action_timer_start()
+            elif tag.is_end_scan:
+                self.action_timer_stop()
 
-            if not tag:
-                raise UserError('Aucun tag trouvé pour avec le nom %s' % barcode)
+            if tag in self.tag_anomalie_ids.mapped('tag_id'):
+                self.tag_anomalie_ids.filtered(lambda r: r.tag_id == tag).write({'state': 'done',
+                                                                                 'scan_date': fields.Datetime.now(
+                                                                                     self)})
             else:
-                if tag in self.tag_anomalie_ids.mapped('tag_id'):
-                    self.tag_anomalie_ids.filtered(lambda r: r.tag_id == tag).write({'state': 'done',
-                                                                                     'scan_date': fields.Datetime.now(
-                                                                                         self)})
-                else:
-                    tag_add = self.tag_anomalie_ids.new({
-                        'tag_id': tag.id,
+                tag_add = self.tag_anomalie_ids.new({
+                    'tag_id': tag.id,
 
-                    })
-                    self.tag_anomalie_ids += tag_add
-
+                })
+                self.tag_anomalie_ids += tag_add
 
         if self._origin and self.display_timer_start_primary or self.display_timer_start_secondary:
             self._origin.action_timer_start()
