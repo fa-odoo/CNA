@@ -23,7 +23,7 @@ class Tags(models.Model):
 	is_start_scan = fields.Boolean(string="Tag de démarrage", )
 	is_end_scan = fields.Boolean(string="Tag d'arrêt", )
 
-	@api.constrains('internal_type', 'reconcile')
+	@api.constrains('is_start_scan', 'is_end_scan')
 	def _check_start_end_tag(self):
 		for tag in self:
 			if tag.is_start_scan and tag.is_end_scan:
