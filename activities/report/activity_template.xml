@@ -28,6 +28,18 @@
 									</tr>
 							</table>
 						</div>
+
+						<h5 style="text-align:center;" t-if="doc.report_type == 'incident' and doc.short_description_id">
+							Description courte: <span t-field="doc.short_description_id"/>
+						</h5>
+						<h5 style="text-align:center;" t-elif="doc.report_type == 'activity' and doc.type_activitie_short_desc_id">
+							Description courte: <span t-field="doc.type_activitie_short_desc_id"/>
+						</h5>
+						<h5 style="text-align:center;" t-else="">
+							N/C
+						</h5>
+
+
 						<div class="row mt16">
 
 							<table class="table table-bordered">
@@ -52,10 +64,7 @@
 												<t t-if="not doc.incident">Non</t>
 											</strong>
 										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Description courte:
-											 <t t-if="doc.report_type == 'incident' and doc.short_description_id"><span t-field="doc.short_description_id"/> </t>
-											 <t t-elif="doc.report_type == 'activity' and doc.type_activitie_short_desc_id"><span t-field="doc.type_activitie_short_desc_id"/> </t>
-											<t t-else=""> N/C</t>
+										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
 										</td>
 									</tr>
 									<tr>
