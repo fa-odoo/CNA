@@ -37,7 +37,12 @@
             <field name="model">task.tags.line</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="task_id"/>
+                    <field name="is_required"/>
+                    <field name="hors_parcours"/>
+                    <field name="temps_passage" invisible="1"/>
                     <field name="scan_date"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -70,6 +75,8 @@
                             <field name="bd_td_axe"/>
                             <field name="respo_zone_id"/>
                             <field name="last_date_scan"/>
+                            <field name="is_start_scan"/>
+                            <field name="is_end_scan"/>
                         </group>
                         <field name="tag_file" widget="pdf_viewer"/>
                     </sheet>
