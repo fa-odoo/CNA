@@ -17,7 +17,7 @@ class Users(models.Model):
                 user = self.search([('id', '=', user_id)], limit=1)
                 if user.is_multi_connexion:
                     if 'emp' in request.params and request.params['emp'] != '' and 'pin' in request.params and request.params['pin'] != '':
-                        emp = request.env['hr.employee'].search(
+                        emp = request.env['hr.employee'].with_user(SUPERUSER_ID).search(
                             [('name', '=', request.params['emp']), ('pin', '=', request.params['pin'])], limit=1)
                         if emp:
                             request.session['emp_id'] = emp.id
