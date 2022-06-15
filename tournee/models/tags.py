@@ -94,6 +94,9 @@ class Ronde(models.Model):
 			ctx['default_navire_id'] = ronde.navire_id.id
 			ctx['default_ronde_id'] = ronde.id
 
+
+
+
 		return {
 			'name': _('Ronde'),
 			'type': 'ir.actions.act_window',
