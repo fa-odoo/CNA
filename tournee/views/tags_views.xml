@@ -43,6 +43,30 @@
                 </tree>
             </field>
         </record>
+         <record id="ir_actions_server_start_ronde" model="ir.actions.server">
+            <field name="name">Démarrer une ronde</field>
+            <field name="model_id" ref="tournee.model_ronde_ronde"/>
+            <field name="binding_model_id" ref="tournee.model_ronde_ronde"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+res = record.start_ronde()
+action = {
+			'name'     : 'Ronde',
+			'type'     : 'ir.actions.act_window',
+			'view_mode': 'form',
+			'res_model': 'project.task',
+			'target'   : 'current',
+			'context'  :{
+			'default_project_id': env.ref('industry_fsm.fsm_project').id or False,
+			'default_partner_id': env.user.company_id.partner_id.id or False,
+                'default_name':record.name,
+                'default_navire_id': record.navire_id.id,
+                'default_ronde_id': record.id
+		}
+		}
+            </field>
+        </record>
 
 
         <record id="view_task_tags_line_tree" model="ir.ui.view">
