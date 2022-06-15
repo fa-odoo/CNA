@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_anomalie_report_wizard,access.anomalie.report.wizard,rapport_anomalie_rondes.model_anomalie_report_wizard,base.group_user,1,1,1,1
+access_anomalie_report_wizard,access.anomalie.report.wizard,rapport_anomalie_rondes.model_anomalie_report_wizard,industry_fsm.group_fsm_manager,1,1,1,1
