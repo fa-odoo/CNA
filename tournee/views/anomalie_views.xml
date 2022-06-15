@@ -214,7 +214,7 @@
 
         <menuitem id="menu_tags_anomalie" sequence="5" name='Anomalie'
                   parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie"/>
-        <menuitem id="menu_tags_anomalie_tournee" sequence="5" name='Anomalie des tournées'
+        <menuitem id="menu_tags_anomalie_tournee" sequence="5" name='Anomalie des tournées' groups="industry_fsm.group_fsm_manager"
                   parent="industry_fsm.fsm_tasks_menu" action="action_tags_anomalie_tournee"/>
 
 
