@@ -40,7 +40,20 @@
                         <button name="start_ronde" type="object" string="Démarrer une ronde"/>
                     </header>
                     <field name="name"/>
+                    <field name="navire_id"/>
                 </tree>
+            </field>
+        </record>
+        <record id="view_ronde_search" model="ir.ui.view">
+            <field name="name">view.ronde.search</field>
+            <field name="model">ronde.ronde</field>
+            <field name="arch" type="xml">
+                <search>
+
+                    <field name="name"/>
+                    <field name="navire_id"/>
+                    <filter name="groupby_navire" string="Navire" domain="[]" context="{'group_by': 'navire_id'}"/>
+                </search>
             </field>
         </record>
          <record id="ir_actions_server_start_ronde" model="ir.actions.server">
@@ -174,6 +187,7 @@ action = {
             <field name="name">Ronde</field>
             <field name="res_model">ronde.ronde</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_groupby_navire':1}</field>
         </record>
         <menuitem id="menu_tags" sequence="5" name='Tags'
                   parent="industry_fsm.fsm_menu_settings" action="action_tags"/>
