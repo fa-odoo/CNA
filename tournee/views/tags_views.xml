@@ -157,7 +157,7 @@
         <menuitem id="menu_ronde" sequence="5" name='Ronde' groups="industry_fsm.group_fsm_manager"
                   parent="industry_fsm.fsm_menu_settings" action="action_ronde"/>
 
-        <menuitem id="menu_rondes" sequence="11" name='Configuration des rondes' groups="industry_fsm.group_fsm_manager"
+        <menuitem id="menu_rondes" sequence="11" name='Configuration des rondes' groups="industry_fsm.group_fsm_user"
                   parent="industry_fsm.fsm_tasks_menu" action="action_ronde"/>
 
 
