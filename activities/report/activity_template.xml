@@ -46,9 +46,9 @@
 <tbody>
 									<tr>
 										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											<p><strong>Status:
+											<strong>Status:
 												<span t-field="doc.state"/>
-											</strong></p>
+											</strong>
 										</td>
 										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
 											<strong>ID:
@@ -56,17 +56,17 @@
 											</strong>
 										</td>
 									</tr>
-									<tr>
+<!--									<tr>-->
 
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											<strong>Incident:
-												<t t-if="doc.incident">Oui</t>
-												<t t-if="not doc.incident">Non</t>
-											</strong>
-										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-										</td>
-									</tr>
+<!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
+<!--											<strong>Incident:-->
+<!--												<t t-if="doc.incident">Oui</t>-->
+<!--												<t t-if="not doc.incident">Non</t>-->
+<!--											</strong>-->
+<!--										</td>-->
+<!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
+<!--										</td>-->
+<!--									</tr>-->
 									<tr>
 										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
 											<strong>Importance:
