@@ -7,7 +7,6 @@ class NavireTimeReport(models.AbstractModel):
 	@api.model
 	def _get_report_values(self, docids, data = None):
 		docs = self.env['navire.navire'].browse(data['form']['navire_ids']).sudo()
-		print('cccccccccccccccccccc', data)
 		start_date = fields.Date.from_string(data['form']['date_start'])
 		date_end = fields.Date.from_string(data['form']['date_end'])
 
