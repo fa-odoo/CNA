@@ -76,7 +76,7 @@ class Ronde(models.Model):
 	_name = 'ronde.ronde'
 
 
-	name = fields.Char('Ronde')
+	name = fields.Char('Ronde', required=True)
 	tag_ids = fields.One2many('ronde.tags', 'ronde_id', 'Tags')
 	navire_id = fields.Many2one('navire.navire', 'Navire')
 
