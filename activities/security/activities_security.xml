@@ -15,9 +15,15 @@
             <field name="category_id" ref="module_activities"/>
             <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
+<record id="activities_cloture" model="res.groups">
+            <field name="name">Clôturer</field>
+            <field name="implied_ids" eval="[(4, ref('activities.activities_manager'))]"/>
+            <field name="category_id" ref="module_activities"/>
+        </record>
 
         <record id="group_change_incident_done" model="res.groups">
             <field name="name">Modifier une incident/activité cloturé</field>
         </record>
+
     </data>
 </odoo>
