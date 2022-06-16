@@ -39,8 +39,10 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_done" type="object" states="draft" class="btn-primary" string="Clôturer"/>
-                    <button name="action_to_draft" type="object" states="done" class="btn-primary" string="Nouveau"/>
+                    <button name="action_done" type="object" states="draft" groups="activities.activities_cloture"
+                            class="btn-primary" string="Clôturer"/>
+                    <button name="action_to_draft" type="object" states="done"  groups="activities.activities_cloture"
+                            class="btn-primary" string="Nouveau"/>
                     <button name="action_rapport_incident_send" string="Envoyer par mail" type="object"
                             states="draft, done"
                             class="btn-primary"/>
@@ -52,15 +54,15 @@
                     <group>
                         <group>
                             <field name="report_type" invisible="0"/>
-                            <field name="priority" widget="priority"/>
+                            <field name="priority" widget="priority"   attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
                             <field name="incident_type_id" options="{'no_create':1, 'no_edit':1}"
                                    attrs="{'required':[('report_type', '=', 'incident')], 'invisible':[('report_type', '!=', 'incident')]}"/>
                             <field name="short_description_id" domain="[('incident_type_id', '=', incident_type_id)]"
                                    attrs="{'required':[('report_type', '=', 'incident')], 'invisible':[('report_type', '!=', 'incident')]}"
                                    options="{'no_create':1, 'no_edit':1}"/>
-                            <field name="type_activitie_id"
+                            <field name="type_activitie_id"  options="{'no_create':1, 'no_edit':1}"
                                    attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
-                            <field name="type_activitie_short_desc_id"
+                            <field name="type_activitie_short_desc_id"  options="{'no_create':1, 'no_edit':1}"
                                    domain="[('type_activitie_id','=',type_activitie_id)]"
                                    attrs="{'required':[('report_type', '=', 'activity')], 'invisible':[('report_type', '!=', 'activity')]}"/>
                             <field name="object" attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
@@ -70,7 +72,7 @@
 
                             <field name="access_point"/>
 
-                            <field name="navire_id" attrs="{'invisible':[('access_point','!=','navire')]}"/>
+                            <field name="navire_id" attrs="{'invisible':[('access_point','!=','navire')]}"  options="{'no_create':1, 'no_edit':1}"/>
                             <field name="lieu" domain="[('navire_id', '=', navire_id)]"
                                    options="{'no_create':1, 'no_edit':1}"/>
 
@@ -87,7 +89,7 @@
                         <group>
                             <field name="date_start"/>
                             <field name="date_end"/>
-                            <field name="company_id" invisible="0"/>
+                            <field name="company_id" invisible="0"  options="{'no_create':1, 'no_edit':1}"/>
                         </group>
                         <group>
 
@@ -122,10 +124,10 @@
                             </group>
                             <group>
                                 <group>
-                                    <field name="secour" widget="many2many_tags"/>
+                                    <field name="secour" widget="many2many_tags"  options="{'no_create':1, 'no_edit':1}"/>
                                 </group>
                                 <group>
-                                    <field name="mesure" widget="many2many_tags"/>
+                                    <field name="mesure" widget="many2many_tags"  options="{'no_create':1, 'no_edit':1}"/>
                                 </group>
                             </group>
                         </page>
@@ -151,6 +153,7 @@
         </field>
     </record>
 
+
     <record id="rapport_incident_tree_view" model="ir.ui.view">
         <field name="name">cna.incident.tree</field>
         <field name="model">cna.incident</field>
@@ -161,6 +164,10 @@
                 </header>
                 <field name="name"/>
                 <field name="report_type"/>
+                <field name="incident_type_id" optional="show"/>
+                <field name="short_description_id"  optional="show"/>
+                 <field name="type_activitie_id" optional="show"/>
+                <field name="type_activitie_short_desc_id" optional="show"/>
                 <field name="access_point"/>
                 <field name="lieu"/>
                 <field name="date_start"/>
@@ -168,6 +175,34 @@
                 <field name="state" widget="badge" decoration-info="state == 'draft'"
                        decoration-success="state == 'done'"/>
             </tree>
+        </field>
+    </record>
+    <record id="rapport_incident_tree_view_activitie" model="ir.ui.view">
+        <field name="name">cna.incident.tree</field>
+        <field name="model">cna.incident</field>
+        <field name="inherit_id" ref="rapport_incident_tree_view"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="incident_type_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="short_description_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+     <record id="rapport_incident_tree_view_incident" model="ir.ui.view">
+        <field name="name">cna.incident.tree</field>
+        <field name="model">cna.incident</field>
+        <field name="inherit_id" ref="rapport_incident_tree_view"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="type_activitie_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="type_activitie_short_desc_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 
@@ -242,6 +277,7 @@
         <field name="res_model">cna.incident</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="context">{'search_default_group_by_report_type':1}</field>
+        <field name="view_id" ref="rapport_incident_tree_view"/>
     </record>
 
     <record id="action_rapport_incident" model="ir.actions.act_window">
@@ -250,6 +286,8 @@
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="domain">[('report_type', '=', 'incident')]</field>
         <field name="context">{'default_report_type':'incident'}</field>
+        <field name="view_id" ref="rapport_incident_tree_view_incident"/>
+
     </record>
 
     <record id="action_site_site" model="ir.actions.act_window">
@@ -282,6 +320,7 @@
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="domain">[('report_type', '=', 'activity')]</field>
         <field name="context">{'default_report_type':'activity'}</field>
+        <field name="view_id" ref="rapport_incident_tree_view_activitie"/>
     </record>
 
     <menuitem id="menu_activities_root" sequence="5" name='Evènements'
