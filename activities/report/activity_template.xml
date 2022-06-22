@@ -1,251 +1,367 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<template id="report_rapport_incident">
-		<t t-call="web.html_container">
-			<t t-foreach="docs" t-as="doc">
-				<t t-call="activities.layout">
+    <template id="report_rapport_incident">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="activities.layout">
 
-					<div class="oe_structure"/>
-					<div class="page">
-						<div class="row">
-							<div class="col-7 offset-2 text-center">
-<!--								<div class="oe_title">-->
-									<h5>ISP | Security Solutions for CDA</h5>
-									<h5>Rapport d'Evènement</h5>
-									<br/>
-<!--								</div>-->
-							</div>
-						</div>
-						<div class="row mt16">
-<!--							<br/>-->
-							<table class="table table-bordered">
-<!--								<tbody>-->
-									<tr style="background-color:#aeacac;height: 60px;">
-										<td colspan="2" class="text-center" style="valign:center;">
-											Evènement: <t t-if="doc.report_type=='incident'"><span t-field="doc.incident_type_id"/></t>
-											 <t t-if="doc.report_type=='activity'"><span t-field="doc.type_activitie_id"/></t>
-										</td>
-									</tr>
-							</table>
-						</div>
+                    <div class="oe_structure"/>
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-7 offset-2 text-center">
+                                <!--								<div class="oe_title">-->
+                                <h5>ISP | Security Solutions for CDA</h5>
+                                <h5>Rapport d'Evènement</h5>
+                                <br/>
+                                <!--								</div>-->
+                            </div>
+                        </div>
+                        <div class="row mt16">
+                            <!--							<br/>-->
+                            <table class="table table-bordered">
+                                <!--								<tbody>-->
+                                <tr style="background-color:#aeacac;height: 60px;">
+                                    <td colspan="2" class="text-center" style="valign:center;">
+                                        Evènement:
+                                        <t t-if="doc.report_type=='incident'">
+                                            <span t-field="doc.incident_type_id"/>
+                                        </t>
+                                        <t t-if="doc.report_type=='activity'">
+                                            <span t-field="doc.type_activitie_id"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
 
-						<h5 style="text-align:center;" t-if="doc.report_type == 'incident' and doc.short_description_id">
-							Description courte: <span t-field="doc.short_description_id"/>
-						</h5>
-						<h5 style="text-align:center;" t-elif="doc.report_type == 'activity' and doc.type_activitie_short_desc_id">
-							Description courte: <span t-field="doc.type_activitie_short_desc_id"/>
-						</h5>
-						<h5 style="text-align:center;" t-else="">
-							N/C
-						</h5>
-
-
-						<div class="row mt16">
-
-							<table class="table table-bordered">
-<tbody>
-									<tr>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											<strong>Status:
-												<span t-field="doc.state"/>
-											</strong>
-										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											<strong>ID:
-												<span t-field="doc.name"/>
-											</strong>
-										</td>
-									</tr>
-<!--									<tr>-->
-
-<!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
-<!--											<strong>Incident:-->
-<!--												<t t-if="doc.incident">Oui</t>-->
-<!--												<t t-if="not doc.incident">Non</t>-->
-<!--											</strong>-->
-<!--										</td>-->
-<!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
-<!--										</td>-->
-<!--									</tr>-->
-									<tr>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											<strong>Importance:
-												<t t-if="doc.priority=='0'">Faible</t>
-												<t t-elif="not doc.priority=='1'">Normal</t>
-												<t t-elif="not doc.priority=='2'">Haute</t>
-												<t t-else="not doc.priority=='3'">Critique</t>
-											</strong>
-										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"></td>
-									</tr>
-									<tr>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Date
-											début:
-											<span t-field="doc.date_start"/>
-										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Crée le:
-											<span t-field="doc.create_date"/>
-											<br/>
-
-										</td>
-									</tr>
-									<tr>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											Date fin:
-											<span t-field="doc.date_end"/>
-										</td>
-										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
-											Par:
-											<span t-field="doc.create_uid"/>
-											<br/>
-										</td>
-<!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
-<!--											Modifié le :-->
-<!--											<span t-field="doc.write_date"/>-->
-<!--											<br/>-->
-<!--											Par :-->
-<!--											<span t-field="doc.write_uid"/>-->
-<!--											<br/>-->
-<!--										</td>-->
-									</tr>
-									<tr style="page-break-inside: avoid !important;">
-										<td colspan="2"
-										    style="padding:6px 2px 2px 8px;page-break-inside: avoid !important;">
-											<p>
-												Site:
-												<span t-field="doc.site"/>
-												<br/>
-												Point d'Accès:
-												<span t-field="doc.access_point"/>
-												<br/>
-												Lieu:
-												<span t-field="doc.lieu"/>
-												<t t-if="doc.tag_id">
-													<br/>
-												Tag:
-												<span t-field="doc.tag_id"/>
-												</t>
-
-											</p>
-										</td>
-									</tr>
-</tbody>
-							</table>
-						</div>
-						<t t-if="doc.report_type=='incident'">
-						<div class="row">
-							<h5 style="text-decoration: underline;">Objet:<br/>
-							</h5>
-						</div>
-						<div class="row">
-
-							<p><span t-field="doc.object"/> <br/><span t-field="doc.object_complementaire"/> </p>
-
-						</div>
-						</t>
-					<t t-if="doc.report_type=='incident'">
-						<div class="row">
-							<h5 style="text-decoration: underline;">Description Evènement:<br/>
-							</h5>
-						</div>
-
-						<div class="row">
-
-							<p><span t-field="doc.description"/></p>
-
-						</div>
-					</t>
-
-						<div class="row">
-							<h5 style="text-decoration: underline;">Actions<br/>
-							</h5>
-						</div>
-						<div class="row">
-
-							<p><span t-field="doc.action"/></p>
-
-						</div>
-<!--					<div class="row mt2">-->
-<!--						<table class="table table-bordered">-->
-
-<!--						</table>-->
-<!--					</div>-->
-						<t t-if="doc.report_type=='incident'">
-						<div class="row mt32">
-
-						<table class="table table-bordered">
-							<tr>
-								<td colspan="2" style="border-right:None;" >
-									<span style="font-weight: bold !important;text-decoration: underline;">Auteur</span>: <span t-field="doc.auteur"/></td>
-								<td colspan="2" style="border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Badge</span>: <span t-field="doc.auteur_badge"/></td>
-							</tr>
-							<tr>
-								<td colspan="2" style="border-right:None;"><span style="font-weight: bold !important;text-decoration: underline;">Victime</span>: <span t-field="doc.victime"/> </td>
-								<td colspan="2" style="border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Badge</span>: <span t-field="doc.victime_badge"/></td>
-							</tr>
-							<tr>
-								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée</span>: <span t-field="doc.person_av"/> </td>
-								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant</span>: <span t-field="doc.agent_int"/></td>
-							</tr>
+                        <h5 style="text-align:center;"
+                            t-if="doc.report_type == 'incident' and doc.short_description_id">
+                            Description courte:
+                            <span t-field="doc.short_description_id"/>
+                        </h5>
+                        <h5 style="text-align:center;"
+                            t-elif="doc.report_type == 'activity' and doc.type_activitie_short_desc_id">
+                            Description courte:
+                            <span t-field="doc.type_activitie_short_desc_id"/>
+                        </h5>
+                        <h5 style="text-align:center;" t-else="">
+                            N/C
+                        </h5>
 
 
-							<tr>
-								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Secours demandés </span>:
-									<span t-field="doc.secour"/> </td>
-								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Mesure prise </span>:
-									<span t-field="doc.mesure"/></td>
-							</tr>
+                        <div class="row mt16">
 
-						</table>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                            <t t-if="doc.state">
+                                                <strong>Status:
+                                                    <span t-field="doc.state"/>
+                                                </strong>
+                                            </t>
+                                        </td>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                            <t t-if="doc.name">
+                                                <strong>ID:
+                                                    <span t-field="doc.name"/>
+                                                </strong>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <!--									<tr>-->
 
-					</div>
-						</t >
-						<div class="row">
-							<p class="text-center" >
-								<span style="font-weight: bold !important;text-decoration: underline;"><strong>Pièces jointes:</strong></span><br/></p>
-						</div>
-							<t t-foreach="doc.attachemnt_ids" t-as="attach">
+                                    <!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
+                                    <!--											<strong>Incident:-->
+                                    <!--												<t t-if="doc.incident">Oui</t>-->
+                                    <!--												<t t-if="not doc.incident">Non</t>-->
+                                    <!--											</strong>-->
+                                    <!--										</td>-->
+                                    <!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
+                                    <!--										</td>-->
+                                    <!--									</tr>-->
+                                    <tr>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                            <strong>Importance:
+                                                <t t-if="doc.priority=='0'">Faible</t>
+                                                <t t-elif="not doc.priority=='1'">Normal</t>
+                                                <t t-elif="not doc.priority=='2'">Haute</t>
+                                                <t t-else="not doc.priority=='3'">Critique</t>
+                                            </strong>
+                                        </td>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Date
+                                            début:
+                                            <span t-field="doc.date_start"/>
+                                        </td>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">Crée le:
+                                            <span t-field="doc.create_date"/>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                            <t t-if="doc.date_end">
+                                                Date fin:
+                                                <span t-field="doc.date_end"/>
+                                            </t>
+                                        </td>
+                                        <td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                            Par:
+                                            <span t-field="doc.create_uid"/>
+                                            <br/>
+                                        </td>
+                                        <!--										<td style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">-->
+                                        <!--											Modifié le :-->
+                                        <!--											<span t-field="doc.write_date"/>-->
+                                        <!--											<br/>-->
+                                        <!--											Par :-->
+                                        <!--											<span t-field="doc.write_uid"/>-->
+                                        <!--											<br/>-->
+                                        <!--										</td>-->
+                                    </tr>
+                                    <tr style="page-break-inside: avoid !important;">
+                                        <td colspan="2"
+                                            style="padding:6px 2px 2px 8px;page-break-inside: avoid !important;">
+                                            <p>
+                                                <t t-if="doc.site">
+                                                    Site:
+                                                    <span t-field="doc.site"/>
+                                                    <br/>
+                                                </t>
 
-								<t t-if="attach.image_src">
-									<p>
-										<span t-field="attach.name"/>
-										<br/>
-									</p>
-									<p>
-										<img t-att-src="attach.image_src" width="600" height="400"/>
-										<br/>
-									</p>
-								</t>
-							</t>
-<!--						</div>-->
+                                                <t t-if="doc.access_point">
+                                                    Point d'Accès:
+                                                    <span t-field="doc.access_point"/>
+                                                    <br/>
+                                                </t>
+
+                                                <t t-if="doc.lieu">
+                                                    Lieu:
+                                                    <span t-field="doc.lieu"/>
+                                                    <br/>
+                                                </t>
+
+                                                <t t-if="doc.tag_id">
+                                                    Tag:
+                                                    <span t-field="doc.tag_id"/>
+                                                </t>
+
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <t t-if="doc.report_type=='incident'">
+                            <t t-if="doc.object_complementaire or doc.object">
+                                <div class="row">
+                                    <h5 style="text-decoration: underline;">Objet:
+                                        <br/>
+                                    </h5>
+                                </div>
+                                <div class="row">
+                                    <p>
+                                        <span t-field="doc.object"/>
+                                        <br/>
+                                        <span t-field="doc.object_complementaire"/>
+                                    </p>
+                                </div>
+                            </t>
+                        </t>
+
+                        <t t-if="doc.report_type=='incident'">
+                            <t t-if="doc.description">
+                                <div class="row">
+                                    <h5 style="text-decoration: underline;">Description Evènement:
+                                        <br/>
+                                    </h5>
+                                </div>
+
+                                <div class="row">
+                                    <p>
+                                        <span t-field="doc.description"/>
+                                    </p>
+                                </div>
+                            </t>
+                        </t>
+
+                        <t t-if="doc.action">
+                            <div class="row">
+                                <h5 style="text-decoration: underline;">Actions
+                                    <br/>
+                                </h5>
+                            </div>
+                            <div class="row">
+                                <p>
+                                    <span t-field="doc.action"/>
+                                </p>
+                            </div>
+                        </t>
+                        <!--					<div class="row mt2">-->
+                        <!--						<table class="table table-bordered">-->
+
+                        <!--						</table>-->
+                        <!--					</div>-->
+                        <t t-if="doc.report_type=='incident'">
+                            <div class="row mt32">
+                                <table class="table table-bordered">
+                                    <t t-if="doc.auteur or doc.auteur_badge">
+                                        <tr>
+                                            <t t-if="doc.auteur">
+                                                <td colspan="2" style="border-right:None;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Auteur</span>:
+                                                    <span t-field="doc.auteur"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+
+                                            <t t-if="doc.auteur_badge">
+                                                <td colspan="2" style="border-left:None;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Badge</span>:
+                                                    <span t-field="doc.auteur_badge"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="doc.victime or doc.victime_badge">
+                                        <tr>
+                                            <t t-if="doc.victime">
+                                                <td colspan="2" style="border-right:None;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Victime</span>:
+                                                    <span t-field="doc.victime"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+
+                                            <t t-if="doc.victime_badge">
+                                                <td colspan="2" style="border-left:None;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Badge</span>:
+                                                    <span t-field="doc.victime_badge"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="doc.person_av or doc.agent_int">
+                                        <tr>
+                                            <t t-if="doc.person_av">
+                                                <td colspan="3"
+                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Personne avisée</span>:
+                                                    <span t-field="doc.person_av"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+
+                                            <t t-if="doc.agent_int">
+                                                <td colspan="3"
+                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Agent intervenant</span>:
+                                                    <span t-field="doc.agent_int"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="doc.secour or doc.mesure">
+                                        <tr>
+                                            <t t-if="doc.secour">
+                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Secours demandés</span>:
+                                                    <span t-field="doc.secour"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+
+                                            <t t-if="doc.mesure">
+                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;width:50%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Mesure prise</span>:
+                                                    <span t-field="doc.mesure"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </t>
+
+                        <t t-if="doc.attachemnt_ids">
+                            <div class="row">
+                                <p class="text-center">
+                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                        <strong>Pièces jointes:</strong>
+                                    </span>
+                                    <br/>
+                                </p>
+                            </div>
+                            <t t-foreach="doc.attachemnt_ids" t-as="attach">
+                                <t t-if="attach.image_src">
+                                    <p>
+                                        <span t-field="attach.name"/>
+                                        <br/>
+                                    </p>
+                                    <p>
+                                        <img t-att-src="attach.image_src" width="600" height="400"/>
+                                        <br/>
+                                    </p>
+                                </t>
+                            </t>
+                        </t>
+                        <!--						</div>-->
 
 
+                        <!--						<div class="row">-->
+                        <!--							<div class="col-5 offset-7">-->
+                        <!--								<p class="text-right">Date et Heure Impression:-->
+                        <!--								<strong><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %m %Y %H:%M:%S')"/></strong>-->
+                        <!--									<br/>-->
+                        <!--								</p>-->
+                        <!--								<p class="text-right">Par:-->
+                        <!--								<strong>	<t t-esc="doc.env.user.name"/></strong>-->
+                        <!--								</p>-->
+                        <!--							</div>-->
 
+                        <!--						</div>-->
 
+                    </div>
 
-<!--						<div class="row">-->
-<!--							<div class="col-5 offset-7">-->
-<!--								<p class="text-right">Date et Heure Impression:-->
-<!--								<strong><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %m %Y %H:%M:%S')"/></strong>-->
-<!--									<br/>-->
-<!--								</p>-->
-<!--								<p class="text-right">Par:-->
-<!--								<strong>	<t t-esc="doc.env.user.name"/></strong>-->
-<!--								</p>-->
-<!--							</div>-->
-
-<!--						</div>-->
-
-					</div>
-
-				</t>
-			</t>
-		</t>
-	</template>
-
-
+                </t>
+            </t>
+        </t>
+    </template>
 
 
 </odoo>
