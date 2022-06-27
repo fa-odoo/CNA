@@ -61,6 +61,8 @@
                     <field name="name"/>
                     <field name="navire_id"/>
                     <filter name="groupby_navire" string="Navire" domain="[]" context="{'group_by': 'navire_id'}"/>
+                    <filter name="groupby_lieu" string="Lieu" domain="[]" context="{'group_by': 'lieu'}"/>
+                    <filter name="groupby_access_point" string="Point d'accès" domain="[]" context="{'group_by': 'access_point'}"/>
                 </search>
             </field>
         </record>
@@ -207,7 +209,7 @@ action = {
             <field name="name">Ronde</field>
             <field name="res_model">ronde.ronde</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_groupby_navire':1}</field>
+            <field name="context">{ 'search_default_groupby_access_point':1,'search_default_groupby_navire':1,'search_default_groupby_lieu':1}</field>
         </record>
         <menuitem id="menu_tags" sequence="5" name='Tags'
                   parent="industry_fsm.fsm_menu_settings" action="action_tags"/>
