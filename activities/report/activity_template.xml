@@ -287,7 +287,7 @@
                                                 <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
                                                 <span style="font-weight: bold !important;text-decoration: underline;">
                                                     <t t-if="len(doc.secour) &gt; 1">Secours demandés</t><t t-else="">Secour demandé</t>
-                                                <span t-field="doc.secour"/></span>:
+                                                </span>:<span t-field="doc.secour"/>
                                                 </td>
                                             </t>
                                             <t t-else="">
