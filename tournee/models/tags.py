@@ -9,7 +9,7 @@ class Tags(models.Model):
 
 	name = fields.Char('Nom', compute="compute_tags_name", store=True)
 	site_id = fields.Many2one('site.site', 'Site', required=True)
-	navire_id = fields.Many2one('navire.navire', 'Navire', required=True)
+	navire_id = fields.Many2one('navire.navire', 'Navire', required=False)
 	respo_zone_id = fields.Many2one('res.users', 'Responsable zone')
 	pont = fields.Char()
 	couple = fields.Char()
@@ -22,6 +22,16 @@ class Tags(models.Model):
 	tag_line_ids = fields.One2many('task.tags.line', 'tag_id', 'Scan')
 	is_start_scan = fields.Boolean(string="Tag de démarrage", )
 	is_end_scan = fields.Boolean(string="Tag d'arrêt", )
+	access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
+									required = True, tracking = True, default='navire')
+	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
+
+	@api.onchange('access_point')
+	def onchange_access_point(self):
+		if self.access_point == 'navire':
+			self.lieu = False
+		elif self.access_point == 'sol':
+			self.navire_id = False
 
 	@api.constrains('is_start_scan', 'is_end_scan')
 	def _check_start_end_tag(self):
@@ -39,7 +49,7 @@ class Tags(models.Model):
 					last_date_scan = tag_line_ids.sorted('scan_date')[-1].scan_date
 			rec.last_date_scan = last_date_scan
 
-	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple' )
+	@api.depends('navire_id', 'pont', 'designation', 'numero', 'lot', 'couple', 'lieu' )
 	def compute_tags_name(self):
 		for rec in self:
 			name = rec.numero or ''
@@ -47,6 +57,8 @@ class Tags(models.Model):
 				name += ' ' + rec.designation
 			if rec.navire_id:
 				name += ' - '+rec.navire_id.name
+			elif rec.lieu:
+				name += ' - '+ rec.lieu.name
 			if rec.lot:
 				name += ' Lot '+rec.lot
 			if rec.couple:
@@ -78,7 +90,17 @@ class Ronde(models.Model):
 
 	name = fields.Char('Ronde', required=True)
 	tag_ids = fields.One2many('ronde.tags', 'ronde_id', 'Tags')
+	access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
+									required = True, tracking = True, default = 'navire')
 	navire_id = fields.Many2one('navire.navire', 'Navire')
+	lieu = fields.Many2one('site.lieu', 'Lieu')
+
+	@api.onchange('access_point')
+	def onchange_access_point(self):
+		if self.access_point == 'navire':
+			self.lieu = False
+		elif self.access_point == 'sol':
+			self.navire_id = False
 
 	def start_ronde(self):
 		if len(self._context.get('active_ids')) > 1:
@@ -91,8 +113,10 @@ class Ronde(models.Model):
 		ronde = self.env['ronde.ronde'].search([('id', '=', self._context.get('active_ids')[0])])
 		if ronde:
 			ctx['default_name'] = ronde.name
-			ctx['default_navire_id'] = ronde.navire_id.id
+			ctx['default_navire_id'] = ronde.navire_id and ronde.navire_id.id or False
+			ctx['default_lieu'] = ronde.lieu and ronde.lieu.id or False
 			ctx['default_ronde_id'] = ronde.id
+			ctx['default_access_point'] = ronde.access_point
 
 
 
