@@ -284,16 +284,18 @@
                                     <t t-if="doc.secour or doc.mesure">
                                         <tr>
                                             <t t-if="doc.secour">
-                                               									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.secour) &gt; 1">Secours demandés</t><t t-else="">Secour demandé</t> </span>:
-
+                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
+                                                <span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.secour) &gt; 1">Secours demandés</t><t t-else="">Secour demandé</t> </span>:
+                                                </td>
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
                                             </t>
 
                                             <t t-if="doc.mesure">
-                                               									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.mesure) &gt; 1">Mesures prises</t><t t-else="">Mesure prise</t> </span>:
-
+                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
+                                                 <span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.mesure) &gt; 1">Mesures prises</t><t t-else="">Mesure prise</t> </span>:
+                                                </td>
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
