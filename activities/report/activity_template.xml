@@ -264,24 +264,16 @@
                                     <t t-if="doc.person_av or doc.agent_int">
                                         <tr>
                                             <t t-if="doc.person_av">
-                                                <td colspan="3"
-                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;width:50%">
-                                                    <span style="font-weight: bold !important;text-decoration: underline;">
-                                                        Personne avisée</span>:
-                                                    <span t-field="doc.person_av"/>
-                                                </td>
+                                                								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.person_av) &gt; 1">Personnes Avisées</t><t t-else="">Personne avisée</t></span>: <span t-field="doc.person_av"/> </td>
+
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
                                             </t>
 
                                             <t t-if="doc.agent_int">
-                                                <td colspan="3"
-                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;width:50%">
-                                                    <span style="font-weight: bold !important;text-decoration: underline;">
-                                                        Agent intervenant</span>:
-                                                    <span t-field="doc.agent_int"/>
-                                                </td>
+                                                								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.agent_int) &gt; 1">Agents intervenants</t><t t-else="">Agent intervenant</t></span>: <span t-field="doc.agent_int"/></td>
+
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
@@ -292,22 +284,16 @@
                                     <t t-if="doc.secour or doc.mesure">
                                         <tr>
                                             <t t-if="doc.secour">
-                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;width:50%">
-                                                    <span style="font-weight: bold !important;text-decoration: underline;">
-                                                        Secours demandés</span>:
-                                                    <span t-field="doc.secour"/>
-                                                </td>
+                                               									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.secour) &gt; 1">Secours demandés</t><t t-else="">Secour demandé</t> </span>:
+
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
                                             </t>
 
                                             <t t-if="doc.mesure">
-                                                <td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;width:50%">
-                                                    <span style="font-weight: bold !important;text-decoration: underline;">
-                                                        Mesure prise</span>:
-                                                    <span t-field="doc.mesure"/>
-                                                </td>
+                                               									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.mesure) &gt; 1">Mesures prises</t><t t-else="">Mesure prise</t> </span>:
+
                                             </t>
                                             <t t-else="">
                                                 <td colspan="2" style="border-right:None;width:50%"></td>
