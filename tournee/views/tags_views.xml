@@ -127,9 +127,10 @@ action = {
                         <group col="4">
                             <field name="name"/>
                             <field name="numero"/>
-                            <field name="site_id"/>
+
                             <field name="is_start_scan"/>
                             <field name="is_end_scan"/>
+                              <field name="site_id"/>
                             <field name="access_point"/>
                             <field name="navire_id" domain="[('site_id', '=', site_id)]"
                                    attrs="{'invisible':[('access_point','!=','navire')], 'required':[('access_point','=','navire')]}"  options="{'no_create':1, 'no_edit':1}"/>
