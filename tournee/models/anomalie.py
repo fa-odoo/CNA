@@ -19,6 +19,9 @@ class ProjectTask(models.Model):
     temps_passage_avg = fields.Float('Temps passage moyen', compute='compute_temps_passage_avg', store=True)
     first_scan = fields.Datetime(string='Premier scan', compute='compute_temps_total', store=True)
     last_scan = fields.Datetime(string='Dernier scan', compute='compute_temps_total', store=True)
+    access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
+                                    required = True, tracking = True, default = 'navire')
+    lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
 
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
     def compute_temps_passage_avg(self):
