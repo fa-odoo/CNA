@@ -185,14 +185,11 @@ action = {
                     <filter string="Point d'accès" name="point_acces_group" context="{'group_by': 'access_point'}"/>
 
 
-                    <filter string="Non scané plus 4H" name="last_date_scan"
+                    <filter string="Non scanné plus 4H" name="last_date_scan"
                             domain="['|', ('last_date_scan','=', False), ('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 
-                    <filter string="Non scané plus 6H" name="last_date_scan"
-                            domain="['|', ('last_date_scan','=', False), ('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=6)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
-
-                    <filter string="Non scané plus 12H" name="last_date_scan"
-                            domain="['|', ('last_date_scan','=', False), ('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                    <filter string="Non scanné plus 7H" name="last_date_scan"
+                            domain="['|', ('last_date_scan','=', False), ('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=7)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 
                 </search>
             </field>
