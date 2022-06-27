@@ -118,6 +118,8 @@ action = {
                             <field name="numero"/>
                             <field name="site_id"/>
                             <field name="navire_id" domain="[('site_id', '=', site_id)]"/>
+                            <field name="is_start_scan"/>
+                            <field name="is_end_scan"/>
                             <field name="lot"/>
                             <field name="designation"/>
                             <field name="pont"/>
@@ -125,8 +127,6 @@ action = {
                             <field name="bd_td_axe"/>
                             <field name="respo_zone_id"/>
                             <field name="last_date_scan"/>
-                            <field name="is_start_scan"/>
-                            <field name="is_end_scan"/>
                         </group>
                         <field name="tag_file" widget="pdf_viewer"/>
                     </sheet>
