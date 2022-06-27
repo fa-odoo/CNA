@@ -5,7 +5,26 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">1</attribute>
 
+                </field>
+
+                <field name="tag_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="planned_date_begin" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="planned_date_end" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//i[hasclass('fa-long-arrow-right')]" position="replace"/>
+                <xpath expr="//i[hasclass('fa-long-arrow-right')]" position="replace"/>
+                <xpath expr="//label[@for='planned_date_begin']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
                 <!-- replace button to call the new method:task_done to add comments then close task -->
                 <xpath expr="//header//button[@name='action_fsm_validate'][hasclass('btn-primary')]" position="replace">
                     <button class="btn-primary" name="task_done" type="object" string="marquer comme fait"

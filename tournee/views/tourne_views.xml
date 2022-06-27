@@ -23,6 +23,9 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="planned_date_begin" position="attributes">
                     <attribute name="optional">hide</attribute>
                 </field>
