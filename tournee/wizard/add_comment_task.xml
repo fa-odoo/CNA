@@ -8,7 +8,7 @@
                 <form>
                     <group>
                         <field name="is_required" invisible="1"/>
-                        <field name="comments" attrs="{'required': [('is_required', '=', True)]}"/>
+                        <field name="comments"/>
                     </group>
 
                     <footer>
