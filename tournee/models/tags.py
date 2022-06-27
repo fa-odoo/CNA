@@ -113,9 +113,10 @@ class Ronde(models.Model):
 		ronde = self.env['ronde.ronde'].search([('id', '=', self._context.get('active_ids')[0])])
 		if ronde:
 			ctx['default_name'] = ronde.name
-			ctx['default_navire_id'] = ronde.navire_id and ronde.navire_id.id
-			ctx['default_lieu'] = ronde.lieu and ronde.lieu.id
+			ctx['default_navire_id'] = ronde.navire_id and ronde.navire_id.id or False
+			ctx['default_lieu'] = ronde.lieu and ronde.lieu.id or False
 			ctx['default_ronde_id'] = ronde.id
+			ctx['default_access_point'] = ronde.access_point
 
 
 

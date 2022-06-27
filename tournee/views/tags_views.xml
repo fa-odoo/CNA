@@ -82,7 +82,8 @@ action = {
 			'default_project_id': env.ref('industry_fsm.fsm_project').id or False,
 			'default_partner_id': env.user.company_id.partner_id.id or False,
                 'default_name':record.name,
-                'default_navire_id': record.navire_id.id,
+                'default_navire_id': record.navire_id and record.navire_id.id  or False,
+                'default_lieu': record.lieu and record.lieu.id  or False,
                 'default_ronde_id': record.id
 		}
 		}
