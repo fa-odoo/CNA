@@ -183,7 +183,7 @@
 
 
         <record id="action_report_anomalies_ronde" model="ir.actions.report">
-            <field name="name">Anomalies ronde</field>
+            <field name="name">Rapport de ronde</field>
             <field name="model">project.task</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">activities.anomalies_ronde_report_template</field>
