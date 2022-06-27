@@ -184,17 +184,17 @@
 								<td colspan="2" style="border-left:None;"><span style="font-weight: bold !important;text-decoration: underline;">Badge</span>: <span t-field="doc.victime_badge"/></td>
 							</tr>
 							<tr>
-								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Personne avisée</span>: <span t-field="doc.person_av"/> </td>
-								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;">Agent intervenant</span>: <span t-field="doc.agent_int"/></td>
+								<td colspan="3"  style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.person_av) &gt; 1">Personnes Avisées</t><t t-else="">Personne avisée</t></span>: <span t-field="doc.person_av"/> </td>
+								<td colspan="3" style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;"><span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.agent_int) &gt; 1">Agents intervenants</t><t t-else="">Agent intervenant</t></span>: <span t-field="doc.agent_int"/></td>
 							</tr>
 
 
 							<tr>
 								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Secours demandés </span>:
+									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.secour) &gt; 1">Secours demandés</t><t t-else="">Secour demandé</t> </span>:
 									<span t-field="doc.secour"/> </td>
 								<td colspan="3" style="border-bottom:None;padding:6px 2px 2px 8px;">
-									<span style="font-weight: bold !important;text-decoration: underline;">Mesure prise </span>:
+									<span style="font-weight: bold !important;text-decoration: underline;"><t t-if="len(doc.mesure) &gt; 1">Mesures prises</t><t t-else="">Mesure prise</t> </span>:
 									<span t-field="doc.mesure"/></td>
 							</tr>
 
@@ -209,6 +209,7 @@
 							<t t-foreach="doc.attachemnt_ids" t-as="attach">
 
 								<t t-if="attach.image_src">
+									<div class="text-center">
 									<p>
 										<span t-field="attach.name"/>
 										<br/>
@@ -217,6 +218,7 @@
 										<img t-att-src="attach.image_src" width="600" height="400"/>
 										<br/>
 									</p>
+									</div>
 								</t>
 							</t>
 <!--						</div>-->
