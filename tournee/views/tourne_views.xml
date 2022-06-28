@@ -51,7 +51,8 @@
                     <field name="tourne_duration"  widget="timesheet_uom"/>
                     <field name="temps_passage_avg"  widget="timesheet_uom"/>
                     <field name="score"/>
-                    <button name="open_all_anomalies" class="oe_highlight" type="object" string="Anomalies"/>
+                    <field name="has_anomalies" invisible="1"/>
+                    <button name="open_all_anomalies" attrs="{'invisible':[('has_anomalies', '=',False)]}" class="oe_highlight" type="object" string="Anomalies"/>
                 </tree>
             </field>
         </record>
