@@ -11,6 +11,8 @@ class ProjectTask(models.Model):
     _inherit = ['project.task', 'barcodes.barcode_events_mixin', "timer.mixin"]
 
     tag_anomalie_ids = fields.One2many('task.tags.line', 'task_id', 'Tags')
+    anomalie_ids = fields.One2many('tags.task.anomalie', 'task_id', 'Anomalie')
+    has_anomalies = fields.Boolean(compute='compute_has_anomalies', store=True)
     navire_id = fields.Many2one('navire.navire', 'Navire')
     ronde_id = fields.Many2one('ronde.ronde', 'Ronde')
     score = fields.Float(string="Score", compute='_compute_score', store=True)
@@ -22,6 +24,11 @@ class ProjectTask(models.Model):
     access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
                                     required = True, tracking = True, default = 'navire')
     lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
+
+    @api.depends('anomalie_ids')
+    def compute_has_anomalies(self):
+        for rec in self:
+            rec.has_anomalies = True if rec.anomalie_ids else False
 
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
     def compute_temps_passage_avg(self):
