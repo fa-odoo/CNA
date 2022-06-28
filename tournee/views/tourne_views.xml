@@ -86,6 +86,28 @@
                 </field>
             </field>
          </record>
+         <record id="view_site_lieu_form" model="ir.ui.view">
+            <field name="name">view.lieu.form</field>
+            <field name="model">site.lieu</field>
+            <field name="inherit_id" ref="activities.view_site_lieu_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="temps_passage_avg" widget="timesheet_uom"/>
+                    <field name="tourne_duration" widget="timesheet_uom"/>
+                </field>
+            </field>
+         </record>
+ <record id="view_site_lieu_tree" model="ir.ui.view">
+            <field name="name">view.lieu.tree</field>
+            <field name="model">site.lieu</field>
+            <field name="inherit_id" ref="activities.view_site_lieu_tree"/>
+            <field name="arch" type="xml">
+                <field name="navire_id" position="after">
+                    <field name="temps_passage_avg" widget="timesheet_uom"/>
+                    <field name="tourne_duration" widget="timesheet_uom"/>
+                </field>
+            </field>
+         </record>
 
         <menuitem id="menu_tourne_historique_view" name="Historique des rondes"
                   parent="industry_fsm.fsm_menu_reporting" action="action_tourne_historique_view" sequence="3"/>
