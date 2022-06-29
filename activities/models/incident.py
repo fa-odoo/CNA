@@ -76,10 +76,10 @@ class Incident(models.Model):
         ('done', 'Clôturé')
     ], 'Status', default='draft', index=True, required=True, readonly=True, copy=False, tracking=True)
 
-    person_av = fields.Many2many(comodel_name="incident.personne.avise", relation="incident_person_av_rel", string="Personnes avisées", tracking=True)
-    agent_int = fields.Many2many(comodel_name="agent.intervenant", relation="incident_agent_int_rel", string="Agents intervenants", tracking=True)
-    secour = fields.Many2many(comodel_name="secours.secours", string="Secours demandés", tracking=True)
-    mesure = fields.Many2many(comodel_name="mesure.prise", string="Mesure prise", tracking=True)
+    person_av = fields.Many2many(comodel_name="incident.personne.avise", relation="incident_person_av_rel", string="Personne(s) avisée(s)", tracking=True)
+    agent_int = fields.Many2many(comodel_name="agent.intervenant", relation="incident_agent_int_rel", string="Agent(s) intervenant(s)", tracking=True)
+    secour = fields.Many2many(comodel_name="secours.secours", string="Secours demandé(s)", tracking=True)
+    mesure = fields.Many2many(comodel_name="mesure.prise", string="Mesure(s) prise(s)", tracking=True)
 
     attachemnt_ids = fields.Many2many('ir.attachment', compute='get_record_attachment', tracking=True)
 
