@@ -103,7 +103,7 @@ class Incident(models.Model):
         for rec in self:
             object = ""
             if rec.date_start:
-                object += str(rec.date_start)+' '
+                object += str(rec.date_start.strftime("%d/%m/%y %H:%M"))+' '
             if rec.report_type == 'incident' and rec.short_description_id:
                 object += rec.short_description_id.name+' '
             if rec.report_type == 'activity' and rec.type_activitie_short_desc_id:
@@ -111,13 +111,13 @@ class Incident(models.Model):
             if rec.lieu:
                 object += rec.lieu.name+' '
             if rec.auteur:
-                object += rec.auteur+' '
+                object += 'Auteur ' + rec.auteur+' '
             if rec.auteur_company:
                 object += rec.auteur_company+' '
             if rec.auteur_badge:
                 object += rec.auteur_badge+' '
             if rec.victime:
-                object += rec.victime+' '
+                object += '/ Victime ' + rec.victime+' '
             if rec.victime_company:
                 object += rec.victime_company+' '
 
