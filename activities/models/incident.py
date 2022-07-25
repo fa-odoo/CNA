@@ -111,13 +111,13 @@ class Incident(models.Model):
             if rec.lieu:
                 object += rec.lieu.name+' '
             if rec.auteur:
-                object += 'auteur ' + rec.auteur+' '
+                object += 'Auteur: ' + rec.auteur+' '
             if rec.auteur_company:
                 object += rec.auteur_company+' '
             if rec.auteur_badge:
                 object += rec.auteur_badge+' '
             if rec.victime:
-                object += 'victime ' + rec.victime+' '
+                object += 'Victime ' + rec.victime+' '
             if rec.victime_company:
                 object += rec.victime_company+' '
 
