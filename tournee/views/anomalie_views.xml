@@ -66,7 +66,7 @@
                 <xpath expr="//notebook/page[@name='description_page']" position="before">
                     <page string="Tags" name="tags">
                         <field name="tag_anomalie_ids" attrs="{'readonly':[('fsm_done', '=', True)]}">
-                            <tree editable="bottom">
+                            <tree editable="bottom" default_order="state">
                                 <field name="tag_id"/>
                                 <field name="hors_parcours"/>
                                 <field name="create_date" string="Créé le"/>
