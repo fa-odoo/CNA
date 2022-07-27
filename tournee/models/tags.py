@@ -2,7 +2,8 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-
+import unicodedata
+import regex
 
 class Tags(models.Model):
 	_name = 'tags.tags'
@@ -65,7 +66,7 @@ class Tags(models.Model):
 				name +=  ' - '+rec.couple
 			if rec.pont:
 				name += ' '+ rec.pont
-			rec.name = name.strip()
+			rec.name = regex.sub(r"\p{Mn}", "", unicodedata.normalize("NFKD", name.strip()))
 
 
 	@api.model
