@@ -15,7 +15,7 @@ class Tags(models.Model):
 	pont = fields.Char()
 	couple = fields.Char()
 	lot = fields.Char()
-	numero = fields.Char(required=True, default='/')
+	numero = fields.Char(required=True, default='/', copy=False)
 	designation = fields.Char()
 	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False, compute="compute_last_scan", store=True)
 	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
