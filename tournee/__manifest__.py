@@ -28,6 +28,7 @@
 
         # wizard
         'wizard/navire_time_report_wizard.xml',
+        'wizard/navire_duration_wizard_view.xml',
         'wizard/add_tags_wizard.xml',
         'wizard/add_comment_task.xml',
         'report/navire_time_template.xml',
@@ -43,6 +44,7 @@
 
         # report
         'report/tags_template.xml',
+        'report/navire_duration_report_view.xml',
         'report/report_views.xml',
     ],
     'assets': {
