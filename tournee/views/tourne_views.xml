@@ -91,12 +91,13 @@
                                 </group>
                             </group>
                          </form>
-                        <tree>
+                        <tree editable="bottom">
                             <field name="org"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
                             <field name="theoretical_duration" widget="timesheet_uom"/>
                             <field name="real_duration" widget="timesheet_uom"/>
+                            <field name="percent_duration"/>
                         </tree>
                     </field>
                         </page>

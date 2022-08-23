@@ -43,9 +43,10 @@
 
 
         # report
+        'report/report_views.xml',
+
         'report/tags_template.xml',
         'report/navire_duration_report_view.xml',
-        'report/report_views.xml',
     ],
     'assets': {
             'web.assets_qweb': ["tournee/static/src/xml/paperclip_attachment.xml"],
