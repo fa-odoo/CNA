@@ -2,6 +2,7 @@
 
 from odoo import fields, api, models, _
 import random
+from dateutil.rrule import rrule, MONTHLY
 
 
 class ReportNavireDuration(models.AbstractModel):
@@ -11,14 +12,16 @@ class ReportNavireDuration(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         print("_get_report_values_get_report_values")
         months_in_year = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
-        colors = ['#0000ff', '#008000', '#ff0000', '#00bfbf', '#bf00bf', '#bfbf00', '#1f77b4', '#ff7f0e', '#2ca02c',
-                  '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+        # colors = ['#0000ff', '#008000', '#ff0000', '#00bfbf', '#bf00bf', '#bfbf00', '#1f77b4', '#ff7f0e', '#2ca02c',
+        #           '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
         docs = self.env['navire.navire'].browse(data['form']['navire_ids']).sudo()
+        colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+                 for i in range(len(docs))]
+
         start_date = fields.Date.from_string(data['form']['start_date'])
         end_date = fields.Date.from_string(data['form']['end_date'])
         years = list(range(start_date.year, end_date.year + 1))
 
-        from dateutil.rrule import rrule, MONTHLY
 
         months = [dt.strftime("%m")
                   for dt in rrule(MONTHLY, dtstart=start_date,
@@ -32,8 +35,10 @@ class ReportNavireDuration(models.AbstractModel):
             else:
                 months_data[year] = [months_in_year[int(m) - 1] for m in months]
                 break
+        color_index = 0
         for navire in docs:
-            duration_data[navire] = {'theoretical_duration': [], 'percent_duration': [], 'org': [], 'color': random.choice(colors)}
+            duration_data[navire] = {'theoretical_duration': [], 'percent_duration': [], 'org': [], 'color':  colors[color_index]}
+            color_index+=1
             duration_ids = navire.duration_ids.filtered(lambda r: r.start_date and r.end_date and
                                                                   r.start_date >= start_date and
                                                                   r.end_date <= end_date)
