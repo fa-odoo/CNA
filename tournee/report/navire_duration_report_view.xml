@@ -40,7 +40,7 @@
                                 </t>
                             </tr>
                             <tr t-att-style="'background-color: %s;' % duration_data[duration]['color']">
-                                <td/>
+                                <td>Théorique</td>
                                 <t t-foreach="duration_data[duration]['theoretical_duration']" t-as="theoretical_duration">
                                     <td style="text-align:center;">
                                         <span t-esc="theoretical_duration" t-options='{"widget": "float_time"}'/>
@@ -48,7 +48,15 @@
                                 </t>
                             </tr>
                             <tr t-att-style="'background-color: %s;' % duration_data[duration]['color']">
-                                <td/>
+                                <td>Réelle</td>
+                                <t t-foreach="duration_data[duration]['real_duration']" t-as="real_duration">
+                                    <td style="text-align:center;">
+                                        <span t-esc="real_duration" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr t-att-style="'background-color: %s;' % duration_data[duration]['color']">
+                                <td>%</td>
                                 <t t-foreach="duration_data[duration]['percent_duration']" t-as="percent_duration">
                                     <td style="text-align:center;">
                                         <span t-esc="percent_duration" t-options='{"widget": "float", "precision": 2}'/>

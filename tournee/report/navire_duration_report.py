@@ -37,7 +37,7 @@ class ReportNavireDuration(models.AbstractModel):
                 break
         color_index = 0
         for navire in docs:
-            duration_data[navire] = {'theoretical_duration': [], 'percent_duration': [], 'org': [], 'color':  colors[color_index]}
+            duration_data[navire] = {'theoretical_duration': [], 'percent_duration': [],'real_duration': [], 'org': [], 'color':  colors[color_index]}
             color_index+=1
             duration_ids = navire.duration_ids.filtered(lambda r: r.start_date and r.end_date and
                                                                   r.start_date >= start_date and
@@ -48,10 +48,12 @@ class ReportNavireDuration(models.AbstractModel):
                     if duration_id:
                         duration_data[navire]['org'].append(duration_id.org)
                         duration_data[navire]['theoretical_duration'].append(duration_id.theoretical_duration)
+                        duration_data[navire]['real_duration'].append(duration_id.real_duration)
                         duration_data[navire]['percent_duration'].append(duration_id.percent_duration)
                     else:
                         duration_data[navire]['org'].append("")
                         duration_data[navire]['theoretical_duration'].append(0.0)
+                        duration_data[navire]['real_duration'].append(0.0)
                         duration_data[navire]['percent_duration'].append(0.00)
 
         print('report_months_data', months_data)
