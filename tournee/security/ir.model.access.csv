@@ -13,3 +13,5 @@
 "access_navire_time_report_wizard_user","navire_time_report_wizard USER","model_navire_time_report_wizard","industry_fsm.group_fsm_user",1,1,1,1
 "access_ronde_tags_manager","ronde.tags manager","model_ronde_tags","tournee.tags_manager",1,1,1,1
 "access_navire_manager","Navire manager","activities.model_navire_navire","tournee.tags_manager",1,1,1,1
+"access_navire_duration_manager","Navire Duration manager","tournee.model_navire_duration","tournee.tags_manager",1,1,1,1
+"access_navire_duration_wizard_manager","Navire Duration wizard manager","tournee.model_navire_duration_wizard","tournee.tags_manager",1,1,1,1
