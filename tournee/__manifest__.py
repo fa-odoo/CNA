@@ -11,7 +11,7 @@
     'version': '0.1',
     
     'depends': [
-        'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents', 'project', 'web_tree_dynamic_colored_field','web','documents_project'],
+        'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents', 'project', 'web_tree_dynamic_colored_field','web','documents_project', 'report_xlsx'],
     'data': [
 
         # Security
@@ -46,7 +46,6 @@
         'report/report_views.xml',
 
         'report/tags_template.xml',
-        'report/navire_duration_report_view.xml',
     ],
     'assets': {
             'web.assets_qweb': ["tournee/static/src/xml/paperclip_attachment.xml"],

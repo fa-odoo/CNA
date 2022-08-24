@@ -18,12 +18,7 @@ class NavireDurationWizard(models.TransientModel):
         return res
 
     def generate_report(self):
-        data = {
-            'ids': self.ids,
-            'model': self._name,
-            'form': {
-                'start_date': self.start_date,
-                'end_date': self.end_date,
-                'navire_ids': self.navire_ids.ids,
-            }}
-        return self.env.ref('tournee.action_report_navire_duration').report_action(self, data=data)
+        self.ensure_one()
+        return self.env.ref('tournee.navire_duration_report_xlsx_id').report_action(self, data={'start_date': self.start_date,
+                                                                                                    'end_date': self.end_date,
+                                                                                                    'navire_ids': self.navire_ids.ids})

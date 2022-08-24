@@ -30,20 +30,12 @@
             <field name="binding_model_id" ref="tournee.model_navire_time_report_wizard"/>
             <field name="binding_type">report</field>
         </record>
-        <record id="navire_duration_paperformat" model="report.paperformat">
-            <field name="name">Durée Navire Paper</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">25</field>
-            <field name="margin_bottom">25</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">20</field>
-            <field name="dpi">90</field>
+        <record id="navire_duration_report_xlsx_id" model="ir.actions.report">
+            <field name="name">Durée Navire</field>
+            <field name="model">product.product</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">tournee.navire_duration_report_xlsx</field>
+            <field name="report_file">tournee.navire_duration_report_xlsx</field>
         </record>
     </data>
 </odoo>
