@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <record id="paperformat_tags_tags" model="report.paperformat">
+            <field name="name">Rapport Tags FORMAT</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">60</field>
+            <field name="page_width">60</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="disable_shrinking" eval="True"/>
+            <field name="dpi">96</field>
+        </record>
         <record id="action_tags_barcode" model="ir.actions.report">
             <field name="name">Tags code à barre</field>
             <field name="model">tags.tags</field>
@@ -20,6 +34,7 @@
             <field name="print_report_name">('Tags - %s' % (object.name))</field>
             <field name="binding_model_id" ref="tournee.model_tags_tags"/>
             <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_tags_tags"/>
         </record>
         <record id="action_report_navire_time" model="ir.actions.report">
             <field name="name">Temps de passage</field>

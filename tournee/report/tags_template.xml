@@ -44,29 +44,29 @@
 			</t>
 		</t>
 	</template><template id="report_tags_qr_document">
-		<t t-call="web.internal_layout">
+		<t t-call="web.basic_layout">
 			<div class="page">
 				<div class="oe_structure"/>
-				<div class="row">
-					<div class="col-8">
-                            <table class="table table-bordered" style="border-bottom: 0px solid white !important;width: 3in;">
-                                <tr>
-                                  <th style="text-align: left;">
-                                    <span t-field="o.name"/>
-                                  </th>
-                                </tr>
-
-                                <tr>
-                                    <td style="text-align: center; vertical-align: middle;" class="col-5">
-	                                    <img t-if="o.name"
-	                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.name, 300, 300)" style="width:50%;height:50%;"/>
-  </td>
-                                </tr>
-                            </table>
-                        </div>
+				<div>
+					<div>
+						<table width="100%" class="table table-bordered" style="padding: 0px!important; margin: 0px!important; border-bottom: 0px solid white !important; height:6cm!important;" align="center">
+							<tr>
+							  <th style="text-align: left;">
+								<span t-field="o.name"/>
+							  </th>
+							</tr>
+							<tr>
+								<td>
+									<div style="padding:0; margin:0px;text-align:center;">
+									<img t-if="o.name"
+										 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.name, 100, 100)"/>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
-
 		</t>
 	</template>
 
