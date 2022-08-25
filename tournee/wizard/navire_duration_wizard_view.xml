@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_navire_duration_wizard_form" model="ir.ui.view">
+        <field name="name">navire.duration.wizard.form</field>
+        <field name="model">navire.duration.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="navire_ids" widget="many2many_tags" options="{&quot;no_create&quot;: True, &quot;no_search&quot;: True, &quot;no_open&quot;: True}"/>
+                        </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <button class="oe_highlight" string="Génerer" name="generate_report" type="object" />
+                        <button string="Annuler" class="btn btn-default" special="cancel"/>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_navire_duration" model="ir.actions.act_window">
+        <field name="name">Durée Navire</field>
+        <field name="res_model">navire.duration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_navire_duration_wizard_form" />
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_monthly_attendances" name="Durée Navire"
+        parent="industry_fsm.fsm_menu_reporting" action="report_navire_duration"
+        sequence="51" />
+</odoo>

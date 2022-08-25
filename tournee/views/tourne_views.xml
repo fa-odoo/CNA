@@ -74,6 +74,35 @@
                     <field name="temps_passage_avg" widget="timesheet_uom"/>
                     <field name="tourne_duration" widget="timesheet_uom"/>
                 </field>
+                <xpath expr="//sheet" position="inside">
+                     <notebook>
+                        <page string="Durée">
+                            <field name="duration_ids">
+                         <form>
+                            <group>
+                                <field name="org" placeholder="ORG"/>
+                                <group>
+                                    <field name="start_date"/>
+                                    <field name="theoretical_duration" widget="timesheet_uom"/>
+                                </group>
+                                <group>
+                                    <field name="end_date"/>
+                                    <field name="real_duration" widget="timesheet_uom"/>
+                                </group>
+                            </group>
+                         </form>
+                        <tree editable="bottom">
+                            <field name="org"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="theoretical_duration" widget="timesheet_uom"/>
+                            <field name="real_duration" widget="timesheet_uom"/>
+                            <field name="percent_duration"/>
+                        </tree>
+                    </field>
+                        </page>
+                    </notebook>
+                </xpath>
             </field>
          </record>
  <record id="view_navire_tree" model="ir.ui.view">
