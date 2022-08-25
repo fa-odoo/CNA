@@ -11,10 +11,17 @@ class NavireDurationReportXlsx(models.AbstractModel):
 
     def generate_xlsx_report(self, workbook, data, obj):
 
-        months_in_year = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
+        months_in_year = [['J', 1], ['F', 2], ['M', 3], ['A', 4], ['M', 5], ['J', 6], ['J', 7], ['A', 8], ['S', 9],
+                          ['O', 10], ['N', 11], ['D', 12]]
+        colors = ['#FFFFF0', '#E3E4FA', '#F8F6F0', '#E1D9D1', '#FF4500', '#D291BC', '#FCDFFF', '#F9B7FF', '#57FEFF',
+                  '#E0B0FF', '#DCD0FF', '#F67280', '#77DD77', '#FF8C00', '#3EB489',
+                  '#6960EC', '#7575CF', '#663399', '#86608E', '#9D00FF', '#9E7BFF', '#CCCCFF',
+                  '#3BB9FF', '#E38AAE', '#FF69B4', '#DA70D6', '#9AFEFF', '#915F6D',
+                  '#C24641', '#B38481', '#E8ADAA', '#6698FF', '#FFDFDD',
+                  '#D4AF37', '#FF7F50', '#E78A61', '#F0E2B6', '#E55451', '#728FCE',
+                  '#98FF98', '#C3FDB8', '#FFDAB9', '#EEE8AA', '#EDC9AF', '#FAF884', '#FFDB58',
+                  '#4C787E', '#54C571', '#B0BF1A', '#36F57F', '#B1FB17']
         docs = self.env['navire.navire'].browse(data['navire_ids']).sudo()
-        colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
-                  for i in range(len(docs))]
 
         start_date = fields.Date.from_string(data['start_date'])
         end_date = fields.Date.from_string(data['end_date'])
@@ -32,17 +39,16 @@ class NavireDurationReportXlsx(models.AbstractModel):
             else:
                 months_data[year] = [months_in_year[int(m) - 1] for m in months]
                 break
-        color_index = 0
         for navire in docs:
             duration_data[navire] = {'theoretical_duration': [], 'percent_duration': [], 'real_duration': [], 'org': [],
-                                     'color': colors[color_index]}
-            color_index += 1
+                                     'color': random.choice(colors)}
             duration_ids = navire.duration_ids.filtered(lambda r: r.start_date and r.end_date and
                                                                   r.start_date >= start_date and
                                                                   r.end_date <= end_date)
             for year in months_data:
-                for i in range(len(months_data[year])):
-                    duration_id = duration_ids.filtered(lambda d: d.end_date.year == year and d.end_date.month == i + 1)
+                for month in months_data[year]:
+                    duration_id = duration_ids.filtered(
+                        lambda d: d.end_date.year == year and d.end_date.month == month[1])
                     if duration_id:
                         duration_data[navire]['org'].append(duration_id.org)
                         duration_data[navire]['theoretical_duration'].append(
@@ -83,11 +89,11 @@ class NavireDurationReportXlsx(models.AbstractModel):
             year_col += len(months_data[year])
             for month in months_data[year]:
                 if month_col == 2:
-                    sheet.write(2, month_col, month, left_bold_format)
+                    sheet.write(2, month_col, month[0], left_bold_format)
                 elif month_col == len(months_data[year]) + 1 + last_months:
-                    sheet.write(2, month_col, month, right_bold_format)
+                    sheet.write(2, month_col, month[0], right_bold_format)
                 else:
-                    sheet.write(2, month_col, month, slim_bold_border_format)
+                    sheet.write(2, month_col, month[0], slim_bold_border_format)
                 month_col += 1
             last_months += len(months_data[year])
 
