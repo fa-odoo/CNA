@@ -38,6 +38,10 @@
                                     </th>
                                     <th style="border: 1px solid #210600;"
                                         class="text-center">
+                                        Désignation
+                                    </th>
+                                    <th style="border: 1px solid #210600;"
+                                        class="text-center">
                                         Bd/Td/Axe
                                     </th>
                                     <th style="border: 1px solid #210600;"
@@ -105,6 +109,10 @@
                                             <td class="text-center"
                                                 style="border-left: 1px solid black; border-top: 1px solid black;">
                                                 <span t-esc="doc['lot']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-left: 1px solid black; border-top: 1px solid black;">
+                                                <span t-esc="doc['designation']"/>
                                             </td>
                                             <td class="text-center"
                                                 style="border-left: 1px solid black; border-top: 1px solid black;">
@@ -214,6 +222,10 @@
                                             <td class="text-center"
                                                 style="border-left: 1px solid black; border-top: 1px solid black;">
                                                 <span t-esc="doc['lot']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-left: 1px solid black; border-top: 1px solid black;">
+                                                <span t-esc="doc['designation']"/>
                                             </td>
                                             <td class="text-center"
                                                 style="border-left: 1px solid black; border-top: 1px solid black;">

@@ -20,6 +20,7 @@ class report_anomalies(models.AbstractModel):
                 tag_data['week'] = tag.week
                 tag_data['date_anomalie'] = tag.date_anomalie.strftime('%d/%m/%Y')
                 tag_data['lot'] = tag.lot
+                tag_data['designation'] = tag.designation
                 tag_data['bd_td_axe'] = tag.bd_td_axe
                 tag_data['couple'] = tag.couple
                 tag_data['respo_zone_id'] = tag.respo_zone_id.name

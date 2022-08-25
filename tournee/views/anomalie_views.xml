@@ -263,6 +263,7 @@
                     <field name="day"/>
                     <field name="date_anomalie"/>
                     <field name="lot"/>
+                    <field name="designation"/>
                     <field name="bd_td_axe"/>
                     <field name="couple"/>
                     <field name="respo_zone_id"/>
