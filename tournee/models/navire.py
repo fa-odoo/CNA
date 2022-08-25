@@ -7,6 +7,7 @@ class Navire(models.Model):
 	ronde_ids = fields.One2many('project.task', 'navire_id', 'Ronde')
 	temps_passage_avg = fields.Float('Temps passage moyen', compute = 'compute_temps_passage_avg', store = True)
 	tourne_duration = fields.Float('temps moyen passé à bord', compute = 'compute_temps_total', store = True)
+	duration_ids = fields.One2many('navire.duration', 'navire_id', 'Duration')
 
 	@api.depends('ronde_ids', 'ronde_ids.tourne_duration')
 	def compute_temps_total(self):

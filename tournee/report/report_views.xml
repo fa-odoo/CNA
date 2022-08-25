@@ -30,5 +30,12 @@
             <field name="binding_model_id" ref="tournee.model_navire_time_report_wizard"/>
             <field name="binding_type">report</field>
         </record>
+        <record id="navire_duration_report_xlsx_id" model="ir.actions.report">
+            <field name="name">Durée Navire</field>
+            <field name="model">product.product</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">tournee.navire_duration_report_xlsx</field>
+            <field name="report_file">tournee.navire_duration_report_xlsx</field>
+        </record>
     </data>
 </odoo>
