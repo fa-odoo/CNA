@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<template id="report_tags_document">
-		<t t-call="web.internal_layout">
-			<div class="page">
-				<div class="oe_structure"/>
-<!--					<div class="row justify-content-end mb16">-->
-<!--                <div class="col-4" name="right_box">-->
-<!--                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
-<!--                         style="width:00px;height:50px;" alt="Barcode"/>-->
-<!--                </div>-->
-<!--            </div>-->
-								<div class="row">
+    <template id="report_tags_document">
+        <t t-call="web.internal_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <!--					<div class="row justify-content-end mb16">-->
+                <!--                <div class="col-4" name="right_box">-->
+                <!--                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
+                <!--                         style="width:00px;height:50px;" alt="Barcode"/>-->
+                <!--                </div>-->
+                <!--            </div>-->
+                <div class="row">
 
 
-                            <table class="table table-bordered" style="border-bottom: 0px solid white !important;width: 8in;">
-                                <tr>
-                                  <th style="text-align: left;">
-                                    <span t-field="o.name"/>
-                                  </th>
-                                </tr>
+                    <table class="table table-bordered" style="border-bottom: 0px solid white !important;width: 8in;">
+                        <tr>
+                            <th style="text-align: left;">
+                                <span t-field="o.name"/>
+                            </th>
+                        </tr>
 
-                                <tr>
-                                    <td style="text-align: center; vertical-align: middle;" class="col-5">
-                                        <img t-if="o.name"
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=0&amp;quiet=0' % ('Code128', o.name, 900, 250)"
-                                             style="width:100%;height:32%;"  alt="Barcode"/>
-                                    </td>
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle;" class="col-5">
+                                <img t-if="o.name"
+                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=0&amp;quiet=0' % ('Code128', o.name, 900, 250)"
+                                     style="width:100%;height:32%;" alt="Barcode"/>
+                            </td>
 
 
-                                </tr>
-                            </table>
-<!--                        </div>-->
-				</div>
-			</div>
+                        </tr>
+                    </table>
+                    <!--                        </div>-->
+                </div>
+            </div>
 
-		</t>
-	</template>
+        </t>
+    </template>
 
-	<template id="report_tags">
-		<t t-call="web.html_container">
-			<t t-foreach="docs" t-as="o">
-				<t t-call="tournee.report_tags_document"/>
-			</t>
-		</t>
-	</template><template id="report_tags_qr_document">
-		<t t-call="web.basic_layout">
-			<div class="page">
-				<div class="oe_structure"/>
-				<div>
-					<div>
-						<table width="100%" class="table table-bordered" style="padding: 0px!important; margin: 0px!important; border-bottom: 0px solid white !important; height:6cm!important;" align="center">
-							<tr>
-							  <th style="text-align: left;">
-								<span t-field="o.name"/>
-							  </th>
-							</tr>
-							<tr>
-								<td>
-									<div style="padding:0; margin:0px;text-align:center;">
-									<img t-if="o.name"
-										 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.name, 100, 100)"/>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</t>
-	</template>
+    <template id="report_tags">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="tournee.report_tags_document"/>
+            </t>
+        </t>
+    </template>
+    <template id="report_tags_qr_document">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div style="margin-right:-14px; margin-left:-14px;">
+                    <table width="100%" class="table table-bordered" style="padding: 0px!important; margin: 0px!important; border-bottom: 0px solid white !important; height:6cm!important;"
+                           cellspacing="0" border-spacing="0" align="center">
+                        <tr style="padding:2;">
+                            <th style=" font-family:Arial; font-weight:bold; font-size:13px; line-height: 14px;text-align: left;padding:2;">
+                                <span t-field="o.name"/>
+                            </th>
+                        </tr>
+                        <tr style="padding:2;">
+                            <td style="padding:2;">
+                                <div style="padding:0; margin:0px;text-align:center;valign:center;height:80!important;">
+                                    <img t-if="o.name"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.name, 90, 90)"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
 
-	<template id="report_tags_qr">
-		<t t-call="web.html_container">
-			<t t-foreach="docs" t-as="o">
-				<t t-call="tournee.report_tags_qr_document"/>
-			</t>
-		</t>
-	</template>
+    <template id="report_tags_qr">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="tournee.report_tags_qr_document"/>
+            </t>
+        </t>
+    </template>
 
 
 </odoo>
