@@ -253,7 +253,7 @@ class TagsTaskAnomalie(models.Model):
     def action_anomalie_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
         self.ensure_one()
-        template_id = self.env['ir.model.data'].xmlid_to_res_id('tournee.email_template_anomalie')
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('tournee.email_template_anomalie')
         template = self.env['mail.template'].browse(template_id)
 
         ctx = {

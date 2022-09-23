@@ -13,11 +13,5 @@ class ShortDescriptionTypeActivitie(models.Model):
 
     name = fields.Char(string=" ", required=True, )
     type_activitie_id = fields.Many2one(comodel_name="cna.type.activitie", required=False)
-class employee(models.Model):
-    _inherit = 'hr.employee'
-
-    personne_avise = fields.Char(string="personne_avise")
-    agent_intervenant = fields.Char(string="personne_ssavise")
-
 
 
