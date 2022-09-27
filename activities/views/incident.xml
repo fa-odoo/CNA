@@ -39,11 +39,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_done" type="object" states="draft" groups="activities.activities_cloture"
+                    <button name="action_done" type="object" states="draft" groups="activities.group_cna_cdp"
                             class="btn-primary" string="Clôturer"/>
-                    <button name="action_to_draft" type="object" states="done"  groups="activities.activities_cloture"
+                    <button name="action_to_draft" type="object" states="done" groups="activities.group_cna_cdp"
                             class="btn-primary" string="Nouveau"/>
-                    <button name="action_rapport_incident_send" string="Envoyer par mail" type="object"
+                    <button name="action_rapport_incident_send" string="Envoyer par mail" type="object" groups="activities.group_cna_cdp"
                             states="draft, done"
                             class="btn-primary"/>
 
@@ -160,7 +160,7 @@
         <field name="arch" type="xml">
             <tree>
                 <header>
-                    <button name="action_done" class="oe_highlight" type="object" string="Cloturé"/>
+                    <button name="action_done" class="oe_highlight" type="object" string="Cloturé" groups="activities.group_cna_cdp"/>
                 </header>
                 <field name="name"/>
                 <field name="report_type"/>
@@ -314,7 +314,7 @@
     </record>
 
     <record id="action_cna_activitie_view" model="ir.actions.act_window">
-        <field name="name">Acitivés</field>
+        <field name="name">Activités</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">cna.incident</field>
         <field name="view_mode">tree,form,pivot,graph</field>
@@ -324,10 +324,10 @@
     </record>
 
     <menuitem id="menu_activities_root" sequence="5" name='Evènements'
-              parent="industry_fsm.fsm_menu_root" groups="activities.activities_user"/>
+              parent="industry_fsm.fsm_menu_root" groups="activities.group_cna_ads"/>
 
-    <menuitem id="menu_cna_activitie_categ" name="Acitivés" action="action_cna_activitie_view"
-              parent="activities.menu_activities_root" sequence="2"/>
+    <menuitem id="menu_cna_activitie_categ" name="Activités" action="action_cna_activitie_view"
+              parent="activities.menu_activities_root" sequence="2" groups="activities.group_cna_ads"/>
 
     <record id="action_navire" model="ir.actions.act_window">
         <field name="name">Navire</field>
@@ -335,26 +335,26 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_navire" sequence="5" name='Navire'
-              parent="industry_fsm.fsm_menu_settings" action="action_navire"/>
+    <menuitem id="menu_navire" sequence="2" name='Navire'
+              parent="industry_fsm.fsm_menu_settings" action="action_navire" groups="activities.group_cna_admin"/>
 
 
-    <menuitem id="menu_site_site" sequence="5" name='Sites' groups="activities.activities_user"
+    <menuitem id="menu_site_site" sequence="3" name='Sites' groups="activities.group_cna_admin"
               parent="industry_fsm.fsm_menu_settings" action="action_site_site"/>
 
-    <menuitem id="menu_secours" sequence="5" name='Secours' groups="activities.activities_user"
+    <menuitem id="menu_secours" sequence="4" name='Secours' groups="activities.group_cna_admin"
               parent="industry_fsm.fsm_menu_settings" action="action_secours"/>
 
-    <menuitem id="menu_model_importance" sequence="5" name='Importance'
+    <menuitem id="menu_model_importance" sequence="5" name='Importance' groups="activities.group_cna_admin"
               parent="industry_fsm.fsm_menu_settings" action="action_model_importance"/>
 
-    <menuitem id="menu_model_importance" sequence="5" name='Mesure prise'
+    <menuitem id="menu_model_importance" sequence="6" name='Mesure prise' groups="activities.group_cna_admin"
               parent="industry_fsm.fsm_menu_settings" action="action_model_mesure_prise"/>
 
-    <menuitem id="menu_rapport_main_courante" sequence="9" parent="menu_activities_root"
+    <menuitem id="menu_rapport_main_courante" sequence="9" parent="menu_activities_root" groups="activities.group_cna_ads"
               action="action_rapport_main_courante"/>
 
-    <menuitem id="menu_rapport_incident" sequence="5" parent="menu_activities_root" action="action_rapport_incident"/>
+    <menuitem id="menu_rapport_incident" sequence="5" parent="menu_activities_root" action="action_rapport_incident" groups="activities.group_cna_ads"/>
 
 
 </odoo>

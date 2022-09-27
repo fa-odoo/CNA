@@ -97,6 +97,8 @@ class Incident(models.Model):
                                          tracking = True)
     type_activitie_short_desc_id = fields.Many2one(comodel_name = "cna.type.activitie.short.desc",
                                                    string = "Courte description",  tracking = True)
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
+
     @api.depends('date_start', 'report_type', 'short_description_id', 'type_activitie_short_desc_id', 'lieu', 'auteur', 'auteur_company', 'auteur_badge',
                  'victime', 'victime_company', 'victime_badge',)
     def compute_incident_objet(self):
@@ -172,7 +174,7 @@ class Incident(models.Model):
     def write(self, values):
 
         for incident in self:
-            if incident.state == 'done' and not self.env.user.has_group('activities.group_change_incident_done'):
+            if incident.state == 'done' and not self.env.user.has_group('activities.group_cna_cdp'):
                 raise UserError("Vous n'êtes pas autorisé de modifier une incident cloturé")
 
         if values.get('auteur'):

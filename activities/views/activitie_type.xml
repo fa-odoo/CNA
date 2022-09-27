@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        
+
         <record id="view_cna_type_activitie_form" model="ir.ui.view">
             <field name="name">view.cna.type.activitie.form</field>
             <field name="model">cna.type.activitie</field>
@@ -47,7 +47,7 @@
         </record>
 
 
-        <menuitem id="menu_cna_type_activitie_view" name="Type d'activitie" parent="industry_fsm.fsm_menu_settings" action="action_cna_type_activitie_view" sequence="5"/>
+        <menuitem id="menu_cna_type_activitie_view" name="Type d'activitie" parent="industry_fsm.fsm_menu_settings" action="action_cna_type_activitie_view" sequence="1" groups="activities.group_cna_admin"/>
     
     </data>
 </odoo>
