@@ -46,8 +46,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-
         <menuitem id="menu_cna_type_activitie_view" name="Type d'activitie" parent="industry_fsm.fsm_menu_settings" action="action_cna_type_activitie_view" sequence="1" groups="activities.group_cna_admin"/>
-    
+
     </data>
 </odoo>

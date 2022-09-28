@@ -3,26 +3,22 @@
 "access_tags_cdp","Tags CDP","model_tags_tags","activities.group_cna_cdp",1,1,1,0
 "access_tags_admin","Tags ADMIN","model_tags_tags","activities.group_cna_admin",1,1,1,0
 
-
 "access_add_tags_wizard_cdp","add.tags.wizard CDP","model_add_tags_wizard","activities.group_cna_cdp",1,1,1,0
 "access_add_tags_wizard_admin","add.tags.wizard ADMIN","model_add_tags_wizard","activities.group_cna_admin",1,1,1,1
 
 "access_add_comment_task_wizard_cdp","add.comment.task.wizard CDP","tournee.model_add_comment_task_wizard","activities.group_cna_cdp",1,1,1,0
 "access_add_comment_task_wizard_admin","add.comment.task.wizard ADMIN","tournee.model_add_comment_task_wizard","activities.group_cna_admin",1,1,1,1
 
-"access_tags_task_anomalie_cdp","tags.task.anomalie CDP","model_tags_task_anomalie","activities.group_cna_cdp",1,1,1,0
+"access_tags_task_anomalie_ads","tags.task.anomalie ADS","model_tags_task_anomalie","activities.group_cna_ads",1,1,1,0
 "access_tags_task_anomalie_admin","tags.task.anomalie ADMIN","model_tags_task_anomalie","activities.group_cna_admin",1,1,1,1
 
 "access_tags_anomalie_ads","tags.anomalie ADS","model_tags_anomalie","activities.group_cna_ads",1,0,0,0
-"access_tags_anomalie_cdp","tags.anomalie CDP","model_tags_anomalie","activities.group_cna_cdp",1,1,1,0
-"access_tags_anomalie_admin","tags.anomalie ADMIN","model_tags_anomalie","activities.group_cna_cdp",1,1,1,1
+"access_tags_anomalie_admin","tags.anomalie ADMIN","model_tags_anomalie","activities.group_cna_admin",1,1,1,1
 
-"access_tags_anomalie_commentaire_ads","tags.anomalie.commentaire ADS","model_tags_anomalie_commentaire","activities.group_cna_ads",1,0,0,0
-"access_tags_anomalie_commentaire_cdp","tags.anomalie.commentaire CDP","model_tags_anomalie_commentaire","activities.group_cna_cdp",1,1,1,0
+"access_tags_anomalie_commentaire_cdp","tags.anomalie.commentaire CDP","model_tags_anomalie_commentaire","activities.group_cna_ads",1,0,0,0
 "access_tags_anomalie_commentaire_admin","tags.anomalie.commentaire ADMIN","model_tags_anomalie_commentaire","activities.group_cna_admin",1,1,1,1
 
-"access_task_tags_line_cdp","task.tags.line ADS","model_task_tags_line","activities.group_cna_ads",1,1,1,0
-"access_task_tags_line_admin","task.tags.line ADMIN","model_task_tags_line","activities.group_cna_admin",1,1,1,1
+"access_task_tags_line_ads","task.tags.line ADS","model_task_tags_line","activities.group_cna_ads",1,1,1,1
 
 "access_ronde_ronde_ads","Ronde ronde ADS","tournee.model_ronde_ronde","activities.group_cna_ads",1,0,0,0
 "access_ronde_ronde_cdp","ronde.ronde CDP","model_ronde_ronde","activities.group_cna_cdp",1,1,1,0
@@ -35,7 +31,7 @@
 "access_navire_time_report_wizard_ads","navire_time_report_wizard ADS","model_navire_time_report_wizard","activities.group_cna_ads",1,1,1,0
 "access_navire_time_report_wizard_admin","navire_time_report_wizard ADMIN","model_navire_time_report_wizard","activities.group_cna_admin",1,1,1,1
 
-"access_navire_cdp","Navire CDP","activities.model_navire_navire","activities.group_cna_cdp",1,1,1,0
+"access_navire_cdp","Navire CDP","activities.model_navire_navire","activities.group_cna_ads",1,0,0,0
 "access_navire_admin","Navire ADMIN","activities.model_navire_navire","activities.group_cna_admin",1,1,1,1
 
 "access_navire_duration_cdp","Navire Duration CDP","tournee.model_navire_duration","activities.group_cna_cdp",1,1,1,0
@@ -43,7 +39,6 @@
 
 "access_navire_duration_wizard_cdp","Navire Duration wizard CDP","tournee.model_navire_duration_wizard","activities.group_cna_cdp",1,1,1,0
 "access_navire_duration_wizard_admin","Navire Duration wizard ADMIN","tournee.model_navire_duration_wizard","activities.group_cna_admin",1,1,1,1
-
 
 "access_cna_project_ads","Project ADS","project.model_project_project","activities.group_cna_ads",1,0,0,0
 

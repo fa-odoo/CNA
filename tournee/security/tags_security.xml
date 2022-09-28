@@ -1,14 +1,38 @@
 <odoo>
     <data>
         <record id="activities.group_cna_ads" model="res.groups">
-            <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('hr_timesheet.group_hr_timesheet_user'))]"/>
+            <field name="implied_ids"
+                   eval="[(4, ref('base.group_user')), (4, ref('hr_timesheet.group_hr_timesheet_user'))]"/>
         </record>
 
         <record id="project_task_rule_user_ads" model="ir.rule">
-            <field name="name">project.task.user.ads</field>
+            <field name="name">Only user task ADS</field>
             <field name="model_id" ref="tournee.model_project_task"/>
             <field name="domain_force">[('user_ids', 'in', user.id)]</field>
             <field name="groups" eval="[(4, ref('activities.group_cna_ads'))]"/>
         </record>
+
+        <record id="project_task_rule_user_cdp" model="ir.rule">
+            <field name="name">All tasks</field>
+            <field name="model_id" ref="tournee.model_project_task"/>
+             <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('activities.group_cna_cdp'))]"/>
+        </record>
+
+        <!-- Remove noupdate -->
+        <function model="ir.model.data" name="write">
+            <value model="ir.model.data" search="[('module', '=', 'project'), ('name', '=', 'task_visibility_rule')]"/>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="project.task_visibility_rule" model="ir.rule">
+            <field name="active" eval="False"/>
+        </record>
+
+        <!-- reset noupdate -->
+        <function model="ir.model.data" name="write">
+            <value model="ir.model.data" search="[('module', '=', 'project'), ('name', '=', 'task_visibility_rule')]"/>
+            <value eval="{'noupdate': True}"/>
+        </function>
     </data>
 </odoo>
