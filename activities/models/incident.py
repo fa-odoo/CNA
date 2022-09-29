@@ -11,7 +11,7 @@ class Incident(models.Model):
     def action_rapport_incident_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
         self.ensure_one()
-        template_id = self.env['ir.model.data'].xmlid_to_res_id('activities.email_template_rapport_incident',
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('activities.email_template_rapport_incident',
                                                                 raise_if_not_found=False)
         lang = self.env.context.get('lang')
         template = self.env['mail.template'].browse(template_id)
@@ -97,6 +97,21 @@ class Incident(models.Model):
                                          tracking = True)
     type_activitie_short_desc_id = fields.Many2one(comodel_name = "cna.type.activitie.short.desc",
                                                    string = "Courte description",  tracking = True)
+    report_file = fields.Binary(string="Document")
+    report_filename = fields.Char(string="Nom de Document")
+
+    @api.constrains('report_filename')
+    def _check_filename(self):
+        if self.report_file:
+            if not self.report_filename:
+                raise ValidationError(_("There is no file"))
+            else:
+                # Check the file's extension
+                tmp = self.report_filename.split('.')
+                ext = tmp[-1]
+                if ext != 'pdf':
+                    raise ValidationError(_("Le fichier doit être un fichier PDF"))
+
     @api.depends('date_start', 'report_type', 'short_description_id', 'type_activitie_short_desc_id', 'lieu', 'auteur', 'auteur_company', 'auteur_badge',
                  'victime', 'victime_company', 'victime_badge',)
     def compute_incident_objet(self):
