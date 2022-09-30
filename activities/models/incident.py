@@ -11,7 +11,7 @@ class Incident(models.Model):
     def action_rapport_incident_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
         self.ensure_one()
-        template_id = self.env['ir.model.data'].xmlid_to_res_id('activities.email_template_rapport_incident',
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('activities.email_template_rapport_incident',
                                                                 raise_if_not_found=False)
         lang = self.env.context.get('lang')
         template = self.env['mail.template'].browse(template_id)
