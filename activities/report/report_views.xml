@@ -11,5 +11,12 @@
             <field name="binding_model_id" ref="activities.model_cna_incident"/>
             <field name="binding_type">report</field>
         </record>
+        <record id="incident_duration_xlsx_report_action" model="ir.actions.report">
+            <field name="name">Rapport d'incidents</field>
+            <field name="model">cna.incident</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">activities.incident_duration_report_xlsx</field>
+            <field name="report_file">activities.incident_duration_report_xlsx</field>
+        </record>
     </data>
 </odoo>
