@@ -11,7 +11,9 @@
     'version': '0.1',
     
     'depends': [
-        'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents', 'project', 'web_tree_dynamic_colored_field','web','documents_project'],
+        'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents',
+        'project', 'web_tree_dynamic_colored_field','web','documents_project', 'report_xlsx', 'hr_timesheet'],
+
     'data': [
 
         # Security

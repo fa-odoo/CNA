@@ -31,14 +31,14 @@
                 <!-- replace button to call the new method:task_done to add comments then close task -->
                 <xpath expr="//header//button[@name='action_fsm_validate'][hasclass('btn-primary')]" position="replace">
                     <button class="btn-primary" name="task_done" type="object" string="marquer comme fait"
-                            attrs="{'invisible': [('display_mark_as_done_primary', '=', False)]}"/>
+                            attrs="{'invisible': [('display_mark_as_done_primary', '=', False)]}" groups="activities.group_cna_cdp"/>
                 </xpath>
 
                 <!-- replace button to call the new method:task_done to add comments then close task -->
                 <xpath expr="//header//button[@name='action_fsm_validate'][hasclass('btn-secondary')]"
                        position="replace">
                     <button class="btn-secondary" name="task_done" type="object" string="marquer comme fait"
-                            attrs="{'invisible': [('display_mark_as_done_secondary', '=', False)]}"/>
+                            attrs="{'invisible': [('display_mark_as_done_secondary', '=', False)]}" groups="activities.group_cna_cdp"/>
                 </xpath>
 
 
@@ -46,18 +46,18 @@
                     <field name="_barcode_scanned" widget="barcode_handler"/>
                 </form>
                 <field name="partner_id" position="before">
-                                                <field name="access_point"/>
+                    <field name="access_point"/>
 
                     <field name="navire_id" attrs="{'invisible':[('access_point','!=','navire')]}"
-                                   />
-                             <field name="lieu" domain="[('type', '=', 'sol')]"
-                                    attrs="{'invisible':[('access_point','=','navire')]}"
-                                   options="{'no_create':1, 'no_edit':1}"/>
+                    />
+                    <field name="lieu" domain="[('type', '=', 'sol')]"
+                           attrs="{'invisible':[('access_point','=','navire')]}"
+                           options="{'no_create':1, 'no_edit':1}"/>
                     <field name="ronde_id" domain="[('navire_id', '=', navire_id)]"/>
                     <field name="tourne_duration" widget="timesheet_uom"/>
                     <field name="temps_passage_avg" widget="timesheet_uom"/>
-                    <field name="first_scan" />
-                    <field name="last_scan" />
+                    <field name="first_scan"/>
+                    <field name="last_scan"/>
                     <field name="score"/>
                     <field name="comments"/>
                 </field>
@@ -82,18 +82,18 @@
                                 <group>
 
 
-                                <field name="tag_id"/>
-                                <field name="hors_parcours"/>
-                                <field name="create_date" string="Créé le"/>
-                                <field name="create_uid" string="Créé par"/>
-                                <field name="scan_date"/>
-                                <field name="state"/>
-                                <field name="temps_passage"/>
-                                <field name="is_required"/>
+                                    <field name="tag_id"/>
+                                    <field name="hors_parcours"/>
+                                    <field name="create_date" string="Créé le"/>
+                                    <field name="create_uid" string="Créé par"/>
+                                    <field name="scan_date"/>
+                                    <field name="state"/>
+                                    <field name="temps_passage"/>
+                                    <field name="is_required"/>
                                 </group>
                                 <notebook>
                                     <page string="Anomalies">
-                                        <field name="anomalie_ids" readonly="1" force_save="1" />
+                                        <field name="anomalie_ids" readonly="1" force_save="1"/>
                                     </page>
                                 </notebook>
 
@@ -107,6 +107,31 @@
 
             </field>
         </record>
+
+        <record id="project_task_view_form_ads" model="ir.ui.view">
+            <field name="name">project.task.view.form.fsm.inherit.ads</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_ads')])]" />
+            <field name="arch" type="xml">
+                <field name="stage_id" position="attributes">
+                   <attribute name="options">{}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="project_task_view_form_cdp" model="ir.ui.view">
+            <field name="name">project.task.view.form.fsm.inherit.cdp</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_cdp')])]" />
+            <field name="arch" type="xml">
+                <field name="stage_id" position="attributes">
+                   <attribute name="options">{'clickable': '1', 'fold_field': 'fold'}</attribute>
+                </field>
+            </field>
+        </record>
+
         <record id="tags_anomalie_tree_view" model="ir.ui.view">
             <field name="name">tags.anomalie.tree.view</field>
             <field name="model">tags.task.anomalie</field>
@@ -166,7 +191,7 @@
                     <sheet>
                         <div name="button_box" class="oe_button_box">
                             <button name="open_tournee" type="object" class="oe_stat_button" icon="fa-file-text">
-                                    <span class="o_stat_text">Tournée</span>
+                                <span class="o_stat_text">Tournée</span>
                             </button>
                         </div>
                         <group>
@@ -241,14 +266,23 @@
         </record>
 
         <menuitem id="menu_tags_anomalie" sequence="5" name='Anomalie'
-                  parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie"/>
-        <menuitem id="menu_tags_anomalie_tournee" sequence="5" name='Anomalie des tournées' groups="industry_fsm.group_fsm_manager"
+                  parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie" groups="activities.group_cna_admin"/>
+        <menuitem id="menu_tags_anomalie_tournee" sequence="11" name='Anomalie des tournées'
+                  groups="activities.group_cna_cdp"
                   parent="industry_fsm.fsm_tasks_menu" action="action_tags_anomalie_tournee"/>
-
 
         <record id="industry_fsm.fsm_menu_root" model="ir.ui.menu">
             <field name="name">Main Courante</field>
             <field name="action" ref="activities.action_rapport_main_courante"/>
+        </record>
+
+        <record id="industry_fsm.fsm_menu_root" model="ir.ui.menu">
+            <field name="name">Main Courante</field>
+            <field name="action" ref="activities.action_rapport_main_courante"/>
+            <field name="groups_id" eval="[(4, ref('activities.group_cna_ads'))]"/>
+        </record>
+        <record id="activities.menu_activities_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('activities.group_cna_ads'))]"/>
         </record>
 
         <record id="view_tags_task_anomalie_analyse_tree" model="ir.ui.view">
@@ -306,10 +340,32 @@
 
         <record id="industry_fsm.fsm_tasks_menu" model="ir.ui.menu">
             <field name="name">Mes Tournées</field>
+            <field name="groups_id" eval="[(4, ref('activities.group_cna_ads'))]"/>
         </record>
 
-        <record id="industry_fsm.fsm_menu_tasks_kanban" model="ir.ui.menu" >
+        <record id="industry_fsm.fsm_menu_tasks_kanban" model="ir.ui.menu">
             <field name="name">Tournée</field>
+            <field name="groups_id" eval="[(4, ref('activities.group_cna_ads'))]"/>
+        </record>
+
+        <record id="industry_fsm.fsm_menu_settings" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_cdp')])]"/>
+        </record>
+
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_admin')])]"/>
+        </record>
+
+        <record id="contacts.menu_contacts" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_admin')])]"/>
+        </record>
+
+        <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_admin')])]"/>
+        </record>
+
+        <record id="hr_timesheet.timesheet_menu_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('activities.group_cna_admin')])]"/>
         </record>
 
     </data>
