@@ -19,7 +19,7 @@ class TagsTaskAnomalie(models.Model):
                     res.create_emp_id = request.session['emp_id']
                     res.write_emp_id = request.session['emp_id']
                 else:
-                    raise AccessError(_('Merci de Reconenecter'))
+                    raise AccessError(_('Merci de vous reconnecter'))
             else:
                 emp_id = self.env['hr.employee'].search([('user_id', '=', request.session.get('uid'))])
                 if emp_id:
@@ -35,7 +35,7 @@ class TagsTaskAnomalie(models.Model):
                 if request.session.get('emp_id'):
                     values['write_emp_id'] = request.session['emp_id']
                 else:
-                    raise AccessError(_('Merci de Reconenecter'))
+                    raise AccessError(_('Merci de vous reconnecter'))
             else:
                 emp_id = self.env['hr.employee'].search([('user_id', '=', request.session.get('uid'))])
                 if emp_id:
