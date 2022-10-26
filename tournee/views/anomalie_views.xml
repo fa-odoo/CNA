@@ -268,7 +268,7 @@
         <menuitem id="menu_tags_anomalie" sequence="5" name='Anomalie'
                   parent="industry_fsm.fsm_menu_settings" action="action_tags_anomalie" groups="activities.group_cna_admin"/>
         <menuitem id="menu_tags_anomalie_tournee" sequence="11" name='Anomalie des tournées'
-                  groups="industry_fsm.group_fsm_manager"
+                  groups="activities.group_cna_cdp"
                   parent="industry_fsm.fsm_tasks_menu" action="action_tags_anomalie_tournee"/>
 
         <record id="industry_fsm.fsm_menu_root" model="ir.ui.menu">
