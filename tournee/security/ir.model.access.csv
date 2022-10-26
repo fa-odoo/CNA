@@ -1,17 +1,50 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_tags_user","Tags user","model_tags_tags","base.group_user",1,0,0,0
-"access_add_tags_wizard_user","add.tags.wizard user","model_add_tags_wizard","base.group_user",1,1,1,1
-"access_add_comment_task_wizard_user","add.comment.task.wizard user","tournee.model_add_comment_task_wizard","base.group_user",1,1,1,1
-"access_tags_manager","Tags manager","model_tags_tags","tournee.tags_manager",1,1,1,1
-"access_tags_task_anomalie_user","tags.task.anomalie USER","model_tags_task_anomalie","tournee.tags_user",1,1,1,1
-"access_tags_anomalie_user","tags.anomalie USER","model_tags_anomalie","tournee.tags_user",1,1,1,1
-"access_tags_anomalie_commentaire_user","tags.anomalie.commentaire USER","model_tags_anomalie_commentaire","tournee.tags_user",1,1,1,1
-"access_task_tags_line_user","task.tags.line USER","model_task_tags_line","industry_fsm.group_fsm_user",1,1,1,1
-"access_ronde_ronde_user","ronde.ronde USER","model_ronde_ronde","industry_fsm.group_fsm_user",1,0,0,0
-"access_ronde_ronde_manager","ronde.ronde manager","model_ronde_ronde","tournee.tags_manager",1,1,1,1
-"access_ronde_tags_user","ronde.tags USER","model_ronde_tags","industry_fsm.group_fsm_user",1,0,0,0
-"access_navire_time_report_wizard_user","navire_time_report_wizard USER","model_navire_time_report_wizard","industry_fsm.group_fsm_user",1,1,1,1
-"access_ronde_tags_manager","ronde.tags manager","model_ronde_tags","tournee.tags_manager",1,1,1,1
-"access_navire_manager","Navire manager","activities.model_navire_navire","tournee.tags_manager",1,1,1,1
-"access_navire_duration_manager","Navire Duration manager","tournee.model_navire_duration","tournee.tags_manager",1,1,1,1
-"access_navire_duration_wizard_manager","Navire Duration wizard manager","tournee.model_navire_duration_wizard","tournee.tags_manager",1,1,1,1
+"access_tags_ads","Tags ADS","model_tags_tags","activities.group_cna_ads",1,0,0,0
+"access_tags_cdp","Tags CDP","model_tags_tags","activities.group_cna_cdp",1,1,1,0
+"access_tags_admin","Tags ADMIN","model_tags_tags","activities.group_cna_admin",1,1,1,0
+
+"access_add_tags_wizard_cdp","add.tags.wizard CDP","model_add_tags_wizard","activities.group_cna_cdp",1,1,1,0
+"access_add_tags_wizard_admin","add.tags.wizard ADMIN","model_add_tags_wizard","activities.group_cna_admin",1,1,1,1
+
+"access_add_comment_task_wizard_cdp","add.comment.task.wizard CDP","tournee.model_add_comment_task_wizard","activities.group_cna_cdp",1,1,1,0
+"access_add_comment_task_wizard_admin","add.comment.task.wizard ADMIN","tournee.model_add_comment_task_wizard","activities.group_cna_admin",1,1,1,1
+
+"access_tags_task_anomalie_ads","tags.task.anomalie ADS","model_tags_task_anomalie","activities.group_cna_ads",1,1,1,0
+"access_tags_task_anomalie_admin","tags.task.anomalie ADMIN","model_tags_task_anomalie","activities.group_cna_admin",1,1,1,1
+
+"access_tags_anomalie_ads","tags.anomalie ADS","model_tags_anomalie","activities.group_cna_ads",1,0,0,0
+"access_tags_anomalie_admin","tags.anomalie ADMIN","model_tags_anomalie","activities.group_cna_admin",1,1,1,1
+
+"access_tags_anomalie_commentaire_cdp","tags.anomalie.commentaire CDP","model_tags_anomalie_commentaire","activities.group_cna_ads",1,0,0,0
+"access_tags_anomalie_commentaire_admin","tags.anomalie.commentaire ADMIN","model_tags_anomalie_commentaire","activities.group_cna_admin",1,1,1,1
+
+"access_task_tags_line_ads","task.tags.line ADS","model_task_tags_line","activities.group_cna_ads",1,1,1,1
+
+"access_ronde_ronde_ads","Ronde ronde ADS","tournee.model_ronde_ronde","activities.group_cna_ads",1,0,0,0
+"access_ronde_ronde_cdp","ronde.ronde CDP","model_ronde_ronde","activities.group_cna_cdp",1,1,1,0
+"access_ronde_ronde_admin","ronde.ronde ADMIN","model_ronde_ronde","activities.group_cna_admin",1,1,1,1
+
+"access_ronde_tags_ads","Ronde Tags ADS","tournee.model_ronde_tags","activities.group_cna_ads",1,0,0,0
+"access_ronde_tags_cdp","ronde.tags CDP","model_ronde_tags","activities.group_cna_cdp",1,1,1,0
+"access_ronde_tags_admin","ronde.tags ADMIN","model_ronde_tags","activities.group_cna_admin",1,1,1,1
+
+"access_navire_time_report_wizard_ads","navire_time_report_wizard ADS","model_navire_time_report_wizard","activities.group_cna_ads",1,1,1,0
+"access_navire_time_report_wizard_admin","navire_time_report_wizard ADMIN","model_navire_time_report_wizard","activities.group_cna_admin",1,1,1,1
+
+"access_navire_cdp","Navire CDP","activities.model_navire_navire","activities.group_cna_ads",1,0,0,0
+"access_navire_admin","Navire ADMIN","activities.model_navire_navire","activities.group_cna_admin",1,1,1,1
+
+"access_navire_duration_cdp","Navire Duration CDP","tournee.model_navire_duration","activities.group_cna_cdp",1,1,1,0
+"access_navire_duration_admin","Navire Duration ADMIN","tournee.model_navire_duration","activities.group_cna_admin",1,1,1,1
+
+"access_navire_duration_wizard_cdp","Navire Duration wizard CDP","tournee.model_navire_duration_wizard","activities.group_cna_cdp",1,1,1,0
+"access_navire_duration_wizard_admin","Navire Duration wizard ADMIN","tournee.model_navire_duration_wizard","activities.group_cna_admin",1,1,1,1
+
+"access_cna_project_ads","Project ADS","project.model_project_project","activities.group_cna_ads",1,0,0,0
+
+"access_project_task_ads","Project task ADS","tournee.model_project_task","activities.group_cna_ads",1,1,1,0
+
+"access_employee_ads","Employee ADS","hr.model_hr_employee","activities.group_cna_ads",1,0,0,0
+"access_res_partner_ads","Partner ADS","base.model_res_partner","activities.group_cna_ads",1,0,0,0
+
+
