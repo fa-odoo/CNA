@@ -82,6 +82,8 @@
                             <field name="name"/>
                             <field name="create_date" string="Crée le"/>
                             <field name="write_date" string="Modifié le"/>
+                            <field name="report_filename" invisible="1"/>
+                            <field name="report_file" filename="report_filename" attrs="{'invisible':[('report_type', '!=', 'incident')]}"/>
                         </group>
                     </group>
 
@@ -92,7 +94,6 @@
                             <field name="company_id" invisible="0"  options="{'no_create':1, 'no_edit':1}"/>
                         </group>
                         <group>
-
                         </group>
                     </group>
 

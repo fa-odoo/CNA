@@ -3,6 +3,24 @@
 "access_cna_incident_cdp","Activities CDP","model_cna_incident","activities.group_cna_cdp",1,1,1,0
 "access_cna_incident_admin","Activities ADMIN","model_cna_incident","activities.group_cna_admin",1,1,1,1
 
+"access_activities_user","Activities user","model_cna_incident","activities.activities_user",1,0,0,0
+"access_activities_manager","Activities manager","model_cna_incident","activities.activities_manager",1,1,1,1
+"access_secours_secours_user","Secours user","model_secours_secours","activities.activities_user",1,0,0,0
+"access_secours_secours_manager","Secours manager","model_secours_secours","activities.activities_manager",1,1,1,1
+"access_site_site","Site manager","model_site_site","base.group_user",1,1,1,1
+"access_site_lieu","Site lieu manager","model_site_lieu","base.group_user",1,1,1,1
+"access_model_importance","model.importance manager","model_model_importance","base.group_user",1,1,1,1
+"access_model_incident_type","incident.type","activities.model_incident_type","base.group_user",1,1,1,1
+"access_model_incident_type_short_description","incident.type.short.description","activities.model_incident_type_short_description","base.group_user",1,1,1,1
+"access_navire_user","Navire user","model_navire_navire","base.group_user",1,0,0,0
+
+"access_mesure_prise_user","Mesure prise user","model_mesure_prise","base.group_user",1,1,1,1
+"access_cna_type_activitie_user","Type activitie user","model_cna_type_activitie","base.group_user",1,1,1,1
+"access_cna_type_activitie_short_desc_user","Type activitie short desc user","model_cna_type_activitie_short_desc","base.group_user",1,1,1,1
+"access_cna_incident_personne_avise_user","incident_personne_avise user","model_incident_personne_avise","base.group_user",1,1,1,1
+"access_cna_agent_intervenant_user","incident_agent_intervenant user","model_agent_intervenant","base.group_user",1,1,1,1
+"access_incident_duration_wizard_user","Incident duration wizard user","model_incident_duration_wizard","base.group_user",1,1,1,1
+
 "access_secours_secours_ads","Secours ADS","model_secours_secours","activities.group_cna_ads",1,0,0,0
 "access_secours_secours_admin","Secours ADMIN","model_secours_secours","activities.group_cna_admin",1,1,1,1
 

@@ -11,7 +11,7 @@
     'version': '0.1',
     
     'depends': [
-        'base','contacts','industry_fsm','hr','mail',"web"
+        'base','contacts','industry_fsm','hr','mail',"web", 'report_xlsx'
     ],
     'data': [
         # security
@@ -26,6 +26,7 @@
         'views/incident_type.xml',
         'views/lieu.xml',
         'views/activitie_type.xml',
+        'wizard/incident_duration_wizard_view.xml',
 
         # report
         'report/layout.xml',
