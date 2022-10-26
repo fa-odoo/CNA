@@ -240,6 +240,7 @@ class TaskTagsLine(models.Model):
 class TagsTaskAnomalie(models.Model):
     _name = "tags.task.anomalie"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'documents.mixin']
+    _order = "tag_id"
 
     def _get_document_tags(self):
         return self.company_id.project_tags

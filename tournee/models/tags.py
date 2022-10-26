@@ -54,18 +54,18 @@ class Tags(models.Model):
 	def compute_tags_name(self):
 		for rec in self:
 			name = rec.numero or ''
-			if rec.designation:
-				name += ' ' + rec.designation
 			if rec.navire_id:
 				name += ' - '+rec.navire_id.name
-			elif rec.lieu:
-				name += ' - '+ rec.lieu.name
+			if rec.pont:
+				name += ' - Pont ' + rec.pont
 			if rec.lot:
-				name += ' Lot '+rec.lot
+				name += ' - Lot '+rec.lot
 			if rec.couple:
 				name +=  ' - '+rec.couple
-			if rec.pont:
-				name += ' '+ rec.pont
+			if rec.designation:
+				name += ' - ' + rec.bd_td_axe
+			if rec.designation:
+				name += ' - ' + rec.designation
 			rec.name = regex.sub(r"\p{Mn}", "", unicodedata.normalize("NFKD", name.strip()))
 
 
