@@ -100,6 +100,7 @@ class Incident(models.Model):
 
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
 
+
     report_file = fields.Binary(string="Document")
     report_filename = fields.Char(string="Nom de Document")
 
@@ -114,7 +115,6 @@ class Incident(models.Model):
                 ext = tmp[-1]
                 if ext != 'pdf':
                     raise ValidationError(_("Le fichier doit être un fichier PDF"))
-
 
     @api.depends('date_start', 'report_type', 'short_description_id', 'type_activitie_short_desc_id', 'lieu', 'auteur', 'auteur_company', 'auteur_badge',
                  'victime', 'victime_company', 'victime_badge',)
