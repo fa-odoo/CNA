@@ -79,6 +79,7 @@ class Tags(models.Model):
 				if rec.pont:
 					name += ' '+ rec.pont
 
+
 			rec.name = regex.sub(r"\p{Mn}", "", unicodedata.normalize("NFKD", name.strip()))
 
 

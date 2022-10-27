@@ -47,7 +47,7 @@
         </record>
 
 
-        <menuitem id="menu_site_lieu_categ" name="Lieux" parent="industry_fsm.fsm_menu_settings" action="action_site_lieu_view" sequence="6"/>
+        <menuitem id="menu_site_lieu_categ" name="Lieux" parent="industry_fsm.fsm_menu_settings" action="action_site_lieu_view" sequence="8" groups="activities.group_cna_admin"/>
 
         <record id="view_incident_personne_avise_form" model="ir.ui.view">
             <field name="name">view.incident.personne.avise.form</field>
@@ -102,7 +102,7 @@
         </record>
 
 
-        <menuitem id="action_incident_personne_avise_menu" name="Personnes avisés" parent="industry_fsm.fsm_menu_settings" action="action_incident_personne_avise_view" sequence="6"/>
+        <menuitem id="action_incident_personne_avise_menu" name="Personnes avisés" parent="industry_fsm.fsm_menu_settings" action="action_incident_personne_avise_view" sequence="9" groups="activities.group_cna_admin"/>
    <record id="view_incident_agent_intervenant_form" model="ir.ui.view">
             <field name="name">view.incident.agent.intervenant.form</field>
             <field name="model">agent.intervenant</field>
@@ -129,7 +129,7 @@
         </record>
 
 
-        <menuitem id="action_incident_agent_intervenant_menu" name="Agents intervenants" parent="industry_fsm.fsm_menu_settings" action="action_incident_agent_intervenant_view" sequence="6"/>
+        <menuitem id="action_incident_agent_intervenant_menu" name="Agents intervenants" parent="industry_fsm.fsm_menu_settings" action="action_incident_agent_intervenant_view" sequence="10" groups="activities.group_cna_admin"/>
 
     </data>
 </odoo>
