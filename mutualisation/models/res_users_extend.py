@@ -18,7 +18,7 @@ class Users(models.Model):
                 if user.is_multi_connexion:
                     if 'emp' in request.params and request.params['emp'] != '' and 'pin' in request.params and request.params['pin'] != '':
                         emp = request.env['hr.employee'].with_user(SUPERUSER_ID).search(
-                            [('name', '=', request.params['emp']), ('pin', '=', request.params['pin'])], limit=1)
+                            [('name', '=', request.params['emp']), ('pin', '=', request.params['pin']), ('connect_user_id', '=', user.id)], limit=1)
                         if emp:
                             request.session['emp_id'] = emp.id
                         else:
@@ -26,3 +26,10 @@ class Users(models.Model):
                     else:
                         raise AccessDenied(_("Saisi employé/pin"))
         return user_id
+
+
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
+
+
+    connect_user_id = fields.Many2one('res.users', 'Utilisateur de connexion')
