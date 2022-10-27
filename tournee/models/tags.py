@@ -62,7 +62,7 @@ class Tags(models.Model):
 				name += ' - Lot '+rec.lot
 			if rec.couple:
 				name +=  ' - '+rec.couple
-			if rec.designation:
+			if rec.bd_td_axe:
 				name += ' - ' + rec.bd_td_axe
 			if rec.designation:
 				name += ' - ' + rec.designation
