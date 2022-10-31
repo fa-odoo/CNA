@@ -8,6 +8,9 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
 
+                <xpath expr="//field[@name='pin']" position="before">
+                    <field name="connect_user_id" groups="hr.group_hr_manager"/>
+                </xpath>
                 <xpath expr="//field[@name='pin']" position="attributes">
                     <attribute name="password">True</attribute>
                 </xpath>

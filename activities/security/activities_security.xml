@@ -1,29 +1,42 @@
 <odoo>
     <data>
-        <record model="ir.module.category" id="module_activities">
-            <field name="name">Activités</field>
-            <field name="sequence">8</field>
+
+        <record model="ir.module.category" id="category_cna_management">
+            <field name="name">CNA management</field>
+            <field name="sequence">2</field>
         </record>
-        <record id="activities_user" model="res.groups">
-            <field name="name">Utilisateur</field>
+
+        <record id="group_cna_ads" model="res.groups">
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-            <field name="category_id" ref="module_activities"/>
+            <field name="name">ADS</field>
+            <field name="category_id" ref="category_cna_management"/>
         </record>
-        <record id="activities_manager" model="res.groups">
-            <field name="name">Responsable</field>
-            <field name="implied_ids" eval="[(4, ref('activities.activities_user'))]"/>
-            <field name="category_id" ref="module_activities"/>
+
+        <record id="group_cna_cdp" model="res.groups">
+            <field name="name">CDP</field>
+            <field name="implied_ids" eval="[(4, ref('activities.group_cna_ads'))]"/>
+            <field name="category_id" ref="category_cna_management"/>
+        </record>
+
+        <record id="group_cna_admin" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="implied_ids" eval="[(4, ref('activities.group_cna_cdp'))]"/>
+            <field name="category_id" ref="category_cna_management"/>
             <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
-<record id="activities_cloture" model="res.groups">
-            <field name="name">Clôturer</field>
-            <field name="implied_ids" eval="[(4, ref('activities.activities_manager'))]"/>
-            <field name="category_id" ref="module_activities"/>
+
+        <record id="cna_incident_rule_user_ads" model="ir.rule">
+            <field name="name">Only user incident</field>
+            <field name="model_id" ref="activities.model_cna_incident"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('activities.group_cna_ads'))]"/>
         </record>
 
-        <record id="group_change_incident_done" model="res.groups">
-            <field name="name">Modifier une incident/activité cloturé</field>
+        <record id="cna_incident_rule_user_cdp" model="ir.rule">
+            <field name="name">All incident</field>
+            <field name="model_id" ref="activities.model_cna_incident"/>
+             <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('activities.group_cna_cdp'))]"/>
         </record>
-
     </data>
 </odoo>

@@ -51,7 +51,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_incident_type_view" sequence="5" name="Type d'incident"
+        <menuitem id="menu_incident_type_view" sequence="7" name="Type d'incident" groups="activities.group_cna_admin"
                   parent="industry_fsm.fsm_menu_settings" action="action_incident_type_view"/>
 
 
