@@ -26,3 +26,4 @@ access_cna_incident_personne_avise_ads,Incident personne avise ADS,model_inciden
 access_cna_incident_personne_avise_admin,Incident personne avise ADMIN,model_incident_personne_avise,activities.group_cna_admin,1,1,1,1
 access_agent_intervenant_ads,Agent intervenant ADS,model_agent_intervenant,activities.group_cna_ads,1,0,0,0
 access_agent_intervenant_avise_admin,Agent intervenant avise ADMIN,model_agent_intervenant,activities.group_cna_admin,1,1,1,1
+access_incident_duration_wizard_user,Incident duration wizard user,model_incident_duration_wizard,activities.group_cna_admin,1,1,1,1
