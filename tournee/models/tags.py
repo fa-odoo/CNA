@@ -66,18 +66,18 @@ class Tags(models.Model):
 				if rec.pont:
 					name += ' ' + rec.pont
 			else:
-				if rec.designation:
-					name += ' ' + rec.designation
 				if rec.navire_id:
-					name += ' - '+rec.navire_id.name
-				elif rec.lieu:
-					name += ' - '+ rec.lieu.name
-				if rec.lot:
-					name += ' Lot '+rec.lot
-				if rec.couple:
-					name +=  ' - '+rec.couple
+					name += ' - ' + rec.navire_id.name
 				if rec.pont:
-					name += ' '+ rec.pont
+					name += ' - Pont ' + rec.pont
+				if rec.lot:
+					name += ' - Lot ' + rec.lot
+				if rec.couple:
+					name += ' - ' + rec.couple
+				if rec.bd_td_axe:
+					name += ' - ' + rec.bd_td_axe
+				if rec.designation:
+					name += ' - ' + rec.designation
 
 
 			rec.name = regex.sub(r"\p{Mn}", "", unicodedata.normalize("NFKD", name.strip()))
