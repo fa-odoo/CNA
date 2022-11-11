@@ -209,54 +209,74 @@
                         <t t-if="doc.report_type=='incident'">
                             <div class="row mt32">
                                 <table class="table table-bordered">
-                                    <t t-if="doc.auteur or doc.auteur_badge">
+                                    <t t-if="doc.auteur or doc.auteur_badge or doc.auteur_company">
                                         <tr>
                                             <t t-if="doc.auteur">
-                                                <td colspan="2" style="border-right:None;width:50%">
+                                                <td colspan="2" style="border-right:None;width:33%">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         Auteur</span>:
                                                     <span t-field="doc.auteur"/>
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="2" style="border-right:None;width:33%"></td>
                                             </t>
-
+                                            <t t-if="doc.auteur_company">
+                                                <td colspan="2" style="border-left:None;border-right:None;width:34%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Société</span>:
+                                                    <span t-field="doc.auteur_company"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2"
+                                                    style="border-left:None;border-right:None;width:34%"></td>
+                                            </t>
                                             <t t-if="doc.auteur_badge">
-                                                <td colspan="2" style="border-left:None;width:50%">
+                                                <td colspan="2" style="border-left:None;width:33%">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         Badge</span>:
                                                     <span t-field="doc.auteur_badge"/>
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="2" style="border-left:None;width:33%"></td>
                                             </t>
                                         </tr>
                                     </t>
 
-                                    <t t-if="doc.victime or doc.victime_badge">
+                                    <t t-if="doc.victime or doc.victime_badge or doc.victime_company">
                                         <tr>
                                             <t t-if="doc.victime">
-                                                <td colspan="2" style="border-right:None;width:50%">
+                                                <td colspan="2" style="border-right:None;width:33%">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         Victime</span>:
                                                     <span t-field="doc.victime"/>
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="2" style="border-right:None;width:33%"></td>
                                             </t>
-
+                                            <t t-if="doc.victime_company">
+                                                <td colspan="2" style="border-left:None;border-right:None;width:34%">
+                                                    <span style="font-weight: bold !important;text-decoration: underline;">
+                                                        Société</span>:
+                                                    <span t-field="doc.victime_company"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td colspan="2"
+                                                    style="border-left:None;border-right:None;width:34%"></td>
+                                            </t>
                                             <t t-if="doc.victime_badge">
-                                                <td colspan="2" style="border-left:None;width:50%">
+                                                <td colspan="2" style="border-left:None;width:33%">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         Badge</span>:
                                                     <span t-field="doc.victime_badge"/>
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="2" style="border-left:None;width:33%"></td>
                                             </t>
                                         </tr>
                                     </t>
@@ -264,8 +284,8 @@
                                     <t t-if="doc.person_av or doc.agent_int">
                                         <tr>
                                             <t t-if="doc.person_av">
-                                                <td colspan="2"
-                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                                <td colspan="3"
+                                                    style="border-right:None;border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         <t t-if="len(doc.person_av) &gt; 1">Personnes Avisées</t>
                                                         <t t-else="">Personne avisée</t>
@@ -276,12 +296,12 @@
 
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="3" style="border-right:None;"></td>
                                             </t>
 
                                             <t t-if="doc.agent_int">
-                                                <td colspan="2"
-                                                    style="border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
+                                                <td colspan="3"
+                                                    style="border-left:None;border-bottom:None;border-top:None;padding:6px 2px 2px 8px;">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         <t t-if="len(doc.agent_int) &gt; 1">Agents intervenants</t>
                                                         <t t-else="">Agent intervenant</t>
@@ -291,14 +311,14 @@
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="3" style="border-left:None;"></td>
                                             </t>
                                         </tr>
                                     </t>
                                     <t t-if="doc.secour or doc.mesure">
                                         <tr>
                                             <t t-if="doc.secour">
-                                                <td colspan="2" style="border-bottom:None;padding:6px 2px 2px 8px;">
+                                                <td colspan="3" style="border-right:None;border-bottom:None;padding:6px 2px 2px 8px;">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         <t t-if="len(doc.secour) &gt; 1">Secours demandés</t>
                                                         <t t-else="">Secours demandé</t>
@@ -308,11 +328,11 @@
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="3" style="border-right:None;"></td>
                                             </t>
 
                                             <t t-if="doc.mesure">
-                                                <td colspan="2" style="border-bottom:None;padding:6px 2px 2px 8px;">
+                                                <td colspan="3" style="border-left:None;border-bottom:None;padding:6px 2px 2px 8px;">
                                                     <span style="font-weight: bold !important;text-decoration: underline;">
                                                         <t t-if="len(doc.mesure) &gt; 1">Mesures prises</t>
                                                         <t t-else="">Mesure prise</t>
@@ -322,7 +342,7 @@
                                                 </td>
                                             </t>
                                             <t t-else="">
-                                                <td colspan="2" style="border-right:None;width:50%"></td>
+                                                <td colspan="3" style="border-left:None;"></td>
                                             </t>
                                         </tr>
                                     </t>
