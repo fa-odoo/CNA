@@ -287,6 +287,7 @@ class TagsTaskAnomalie(models.Model):
         return res
 
     tag_id = fields.Many2one('tags.tags', 'Lieu')
+    navire_id = fields.Many2one('navire.navire', related='tag_id.navire_id', store=True, string='Navire')
     designation = fields.Char('Designation', related='tag_id.designation', store=True)
     line_id = fields.Many2one('task.tags.line', 'Ligne de tournée')
     task_id = fields.Many2one('project.task', related='line_id.task_id', store=True, string='Tournée')
