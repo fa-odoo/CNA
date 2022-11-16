@@ -300,6 +300,7 @@
                     <field name="designation"/>
                     <field name="bd_td_axe"/>
                     <field name="couple"/>
+                    <field name="navire_id"/>
                     <field name="respo_zone_id"/>
                     <field name="anomalie_id"/>
                     <field name="anomalie_commentaire_id"/>
