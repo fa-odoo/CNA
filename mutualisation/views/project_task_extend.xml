@@ -35,6 +35,15 @@
             </field>
         </record>
 
-
+        <record id="view_tourne_analyse_tree_inherit" model="ir.ui.view">
+            <field name="name">project.task.view.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="tournee.view_tourne_analyse_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="create_emp_id"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
