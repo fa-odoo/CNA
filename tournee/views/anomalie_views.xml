@@ -154,7 +154,7 @@
                     <field name="state"/>
                     <field name="comment"/>
                     <field name="document_id" invisible="1"/>
-                    <field name="url"/>
+                    <field name="url" widget="url"  />
                 </tree>
             </field>
         </record>
@@ -212,7 +212,7 @@
                             <field name="comment"/>
                             <field name="document_id" invisible="1"/>
 
-                            <field name="url"/>
+                            <field name="url" widget="url" />
                             <field name="create_share_id" invisible="1"/>
                             <field name="company_id" invisible="1"/>
                         </group>
@@ -320,7 +320,7 @@
                            options='{"fg_color": "white", "bg_color": "green:green_color_state == True; #0066ff:blue_color_state == True"}'/>
 
                     <field name="comment"/>
-                    <field name="url"/>
+                    <field name="url" widget="url" />
                 </tree>
             </field>
         </record>
