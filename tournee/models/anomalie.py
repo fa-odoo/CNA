@@ -89,7 +89,7 @@ class ProjectTask(models.Model):
 
         for task in self:
             for tag in task.tag_anomalie_ids:
-                if tag.is_required and tag.state == 'draft':
+                if tag.is_required and (tag.state == 'draft' or not tag.scan_date):
                     raise UserError('Attention, il faut scanner tous les tags obligatoire')
         return result
 
