@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
-
+from pytz import timezone, utc
 
 class Incident(models.Model):
     _name = 'cna.incident'
@@ -122,7 +122,8 @@ class Incident(models.Model):
         for rec in self:
             object = ""
             if rec.date_start:
-                object += str(rec.date_start)+' '
+                tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
+                object += str(utc.localize(rec.date_start).astimezone(tz).strftime("%Y-%m-%d %T"))+' '
             if rec.report_type == 'incident' and rec.short_description_id:
                 object += rec.short_description_id.name+' '
             if rec.report_type == 'activity' and rec.type_activitie_short_desc_id:
