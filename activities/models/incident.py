@@ -3,6 +3,10 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from pytz import timezone, utc
+from PIL import Image, ImageOps
+import logging
+import io
+_logger = logging.getLogger(__name__)
 
 class Incident(models.Model):
     _name = 'cna.incident'
@@ -297,3 +301,29 @@ class Navire(models.Model):
 
     name = fields.Char('Navire', required=True)
     site_id = fields.Many2one('site.site', 'Site', required=True)
+
+
+class IrAttachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    @api.model
+    def _file_read(self, fname):
+        full_path = self._full_path(fname)
+        try:
+            with open(full_path, 'rb') as f:
+                data = f.read()
+                if self.image_src:
+                    try:
+                        img = Image.open(f)
+                        image_oriented = ImageOps.exif_transpose(img)
+                        buf = io.BytesIO()
+                        image_oriented.save(buf, format=self.mimetype.split('/')[1])
+                        buf.seek(0)
+                        data = buf.read()
+                    except (AttributeError, KeyError, IndexError):
+                        # Image don't have getexif
+                        pass
+                return data
+        except (IOError, OSError):
+            _logger.info("_read_file reading %s", full_path, exc_info=True)
+        return b''
