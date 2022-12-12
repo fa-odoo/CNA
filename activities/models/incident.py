@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from odoo.tools.mimetypes import guess_mimetype
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from pytz import timezone, utc
@@ -308,21 +309,23 @@ class IrAttachment(models.Model):
 
     @api.model
     def _file_read(self, fname):
+        print('_file_read_file_read_file_read')
         full_path = self._full_path(fname)
         try:
             with open(full_path, 'rb') as f:
                 data = f.read()
-                if self.image_src:
-                    try:
+                try:
+                    mimetype = guess_mimetype(data)
+                    if mimetype.startswith('image/'):
                         img = Image.open(f)
                         image_oriented = ImageOps.exif_transpose(img)
                         buf = io.BytesIO()
-                        image_oriented.save(buf, format=self.mimetype.split('/')[1])
+                        image_oriented.save(buf, format=mimetype.split('/')[1])
                         buf.seek(0)
                         data = buf.read()
-                    except (AttributeError, KeyError, IndexError):
-                        # Image don't have getexif
-                        pass
+                except (AttributeError, KeyError, IndexError):
+                    # Image don't have getexif
+                    pass
                 return data
         except (IOError, OSError):
             _logger.info("_read_file reading %s", full_path, exc_info=True)
