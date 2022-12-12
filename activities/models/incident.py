@@ -4,7 +4,7 @@ from odoo.tools.mimetypes import guess_mimetype
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from pytz import timezone, utc
-from PIL import Image, ImageOps
+from PIL import Image, ExifTags
 import logging
 import io
 _logger = logging.getLogger(__name__)
@@ -317,14 +317,28 @@ class IrAttachment(models.Model):
                 try:
                     mimetype = guess_mimetype(data)
                     if mimetype.startswith('image/'):
-                        img = Image.open(f)
-                        image_oriented = ImageOps.exif_transpose(img)
+                        image = Image.open(f)
+
+                        for orientation in ExifTags.TAGS.keys():
+                            if ExifTags.TAGS[orientation] == 'Orientation':
+                                break
+
+                        exif = image._getexif()
+
+                        if exif and exif[orientation] == 3:
+                            image = image.rotate(180, expand=True)
+                        elif exif and exif[orientation] == 6:
+                            image = image.rotate(270, expand=True)
+                        elif exif and exif[orientation] == 8:
+                            image = image.rotate(90, expand=True)
+
                         buf = io.BytesIO()
-                        image_oriented.save(buf, format=mimetype.split('/')[1])
+                        image.save(buf, format=mimetype.split('/')[1])
                         buf.seek(0)
                         data = buf.read()
+
                 except (AttributeError, KeyError, IndexError):
-                    # Image don't have getexif
+                    # cases: image don't have getexif
                     pass
                 return data
         except (IOError, OSError):
