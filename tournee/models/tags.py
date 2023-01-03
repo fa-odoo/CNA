@@ -150,6 +150,6 @@ class RondeTags(models.Model):
 	_name = 'ronde.tags'
 
 	sequence = fields.Integer(default=1)
-	tag_id = fields.Many2one('tags.tags', 'Tag', required=True)
+	tag_id = fields.Many2one('tags.tags', 'Tag', required=True, ondelete='restrict')
 	ronde_id = fields.Many2one('ronde.ronde', 'Ronde')
 	is_required = fields.Boolean(string="Obligatoire")
