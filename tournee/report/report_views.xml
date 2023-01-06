@@ -45,12 +45,28 @@
             <field name="binding_model_id" ref="tournee.model_navire_time_report_wizard"/>
             <field name="binding_type">report</field>
         </record>
+        <record id="action_report_navire_time" model="ir.actions.report">
+            <field name="name">Temps de passage par semaine</field>
+            <field name="model">navire.time.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">tournee.navire_transit_time_report</field>
+            <field name="report_file">tournee.navire_transit_time_report</field>
+            <field name="binding_model_id" ref="tournee.model_navire_transit_time_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
         <record id="navire_duration_report_xlsx_id" model="ir.actions.report">
             <field name="name">Durée Navire</field>
             <field name="model">product.product</field>
             <field name="report_type">xlsx</field>
             <field name="report_name">tournee.navire_duration_report_xlsx</field>
             <field name="report_file">tournee.navire_duration_report_xlsx</field>
+        </record>
+        <record id="navire_transit_time_xlsx_action" model="ir.actions.report">
+            <field name="name">Temps de passage par semaine Xlsx</field>
+            <field name="model">navire.navire</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">tournee.navire_transit_time_xlsx</field>
+            <field name="report_file">tournee.navire_transit_time_xlsx</field>
         </record>
     </data>
 </odoo>
