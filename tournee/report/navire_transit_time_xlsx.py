@@ -64,4 +64,3 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             sheet.write(i, 4, doc[4], td_format)
             i += 1
         sheet.write(i, 4, "Moyenne = {}".format(str(diff_time/len(tag_ids)).split('.')[0]), td_format)
-
