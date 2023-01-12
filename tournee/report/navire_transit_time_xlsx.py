@@ -31,7 +31,7 @@ class NavireTransitTimeXlsx(models.AbstractModel):
 
             if tag_line_id:
                 tag_line.append(tag_line_id.scan_date)
-                domain.extend([('task_id', '!=', tag_line_id.task_id.id), ('id', '!=', tag_line_id.id)])
+                domain.extend([('id', '!=', tag_line_id.id)])
                 before_tag_line_id = self.env['task.tags.line'].sudo().search(domain, order='scan_date desc', limit=1)
             else:
                 tag_line.append('')
