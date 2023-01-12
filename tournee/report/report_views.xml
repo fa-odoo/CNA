@@ -52,5 +52,12 @@
             <field name="report_name">tournee.navire_duration_report_xlsx</field>
             <field name="report_file">tournee.navire_duration_report_xlsx</field>
         </record>
+        <record id="transit_time_graph_xlsx_id" model="ir.actions.report">
+            <field name="name">Temps de passage graphique XLSX</field>
+            <field name="model">report.tournee.transit_time_graph_xlsx</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">tournee.transit_time_graph_xlsx</field>
+            <field name="report_file">tournee.transit_time_graph_xlsx</field>
+        </record>
     </data>
 </odoo>
