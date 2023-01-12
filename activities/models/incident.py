@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from odoo.tools.mimetypes import guess_mimetype
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
-
+from pytz import timezone, utc
+from PIL import Image, ExifTags
+import logging
+import io
+_logger = logging.getLogger(__name__)
 
 class Incident(models.Model):
     _name = 'cna.incident'
@@ -122,7 +127,8 @@ class Incident(models.Model):
         for rec in self:
             object = ""
             if rec.date_start:
-                object += str(rec.date_start)+' '
+                tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
+                object += str(utc.localize(rec.date_start).astimezone(tz).strftime("%Y-%m-%d %T"))+' '
             if rec.report_type == 'incident' and rec.short_description_id:
                 object += rec.short_description_id.name+' '
             if rec.report_type == 'activity' and rec.type_activitie_short_desc_id:
@@ -296,3 +302,45 @@ class Navire(models.Model):
 
     name = fields.Char('Navire', required=True)
     site_id = fields.Many2one('site.site', 'Site', required=True)
+
+
+class IrAttachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    @api.model
+    def _file_read(self, fname):
+        print('_file_read_file_read_file_read')
+        full_path = self._full_path(fname)
+        try:
+            with open(full_path, 'rb') as f:
+                data = f.read()
+                try:
+                    mimetype = guess_mimetype(data)
+                    if mimetype.startswith('image/'):
+                        image = Image.open(f)
+
+                        for orientation in ExifTags.TAGS.keys():
+                            if ExifTags.TAGS[orientation] == 'Orientation':
+                                break
+
+                        exif = image._getexif()
+
+                        if exif and exif[orientation] == 3:
+                            image = image.rotate(180, expand=True)
+                        elif exif and exif[orientation] == 6:
+                            image = image.rotate(270, expand=True)
+                        elif exif and exif[orientation] == 8:
+                            image = image.rotate(90, expand=True)
+
+                        buf = io.BytesIO()
+                        image.save(buf, format=mimetype.split('/')[1])
+                        buf.seek(0)
+                        data = buf.read()
+
+                except (AttributeError, KeyError, IndexError):
+                    # cases: image don't have getexif
+                    pass
+                return data
+        except (IOError, OSError):
+            _logger.info("_read_file reading %s", full_path, exc_info=True)
+        return b''

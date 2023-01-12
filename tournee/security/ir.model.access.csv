@@ -1,7 +1,7 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_tags_ads","Tags ADS","model_tags_tags","activities.group_cna_ads",1,0,0,0
 "access_tags_cdp","Tags CDP","model_tags_tags","activities.group_cna_cdp",1,1,1,0
-"access_tags_admin","Tags ADMIN","model_tags_tags","activities.group_cna_admin",1,1,1,0
+"access_tags_admin","Tags ADMIN","model_tags_tags","activities.group_cna_admin",1,1,1,1
 "access_documents_share_admin","documents.share ADMIN","documents.model_documents_share","activities.group_cna_cdp",1,1,1,1
 
 "access_add_tags_wizard_cdp","add.tags.wizard CDP","model_add_tags_wizard","activities.group_cna_cdp",1,1,1,0

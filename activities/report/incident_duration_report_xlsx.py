@@ -49,5 +49,6 @@ class IncidentDurationReportXlsx(models.AbstractModel):
             sheet.write(i, 7, incident_id.auteur, td_format)
             sheet.write(i, 8, incident_id.auteur_badge, td_format)
             sheet.write(i, 9, incident_id.auteur_company, td_format)
+
             sheet.write(i, 10, incident_id.description if incident_id.description else "", td_format)
             i += 1
