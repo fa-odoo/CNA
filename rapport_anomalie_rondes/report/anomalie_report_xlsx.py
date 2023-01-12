@@ -71,25 +71,37 @@ class PartnerXlsx(models.AbstractModel):
             '12': 'Décembre'
         }
         for obj in anomalies:
-            sheet.write(y, 0, int(obj.year) if obj.year.isdigit() else obj.year, body_center)
-            sheet.write(y, 1, months[obj.month], body_center)
-            sheet.write(y, 2, int(obj.week) if obj.week.isdigit() else obj.week, body_center)
-            sheet.write(y, 3, obj.day, body_center)
-            sheet.write(y, 4, obj.date_anomalie.strftime('%d-%m-%Y'), body_center)
-            sheet.write(y, 5, int(obj.lot), body_center)
-            sheet.write(y, 6, obj.designation, body_center)
-            sheet.write(y, 7, obj.bd_td_axe, body_center)
-            sheet.write(y, 8, int(obj.couple), body_center)
-            sheet.write(y, 9, obj.navire_id.name, body_center)
-            sheet.write(y, 10, obj.respo_zone_id.name, body_center)
-            sheet.write(y, 11, obj.anomalie_id.name, body_left)
-            sheet.write(y, 12, obj.anomalie_commentaire_id.name, body_left)
+            sheet.write(y, 0, int(obj.year) if obj.year and obj.year.isdigit() else obj.year, body_center)
+            sheet.write(y, 1, months[obj.month] if obj.month else None, body_center)
+            sheet.write(y, 2, int(obj.week) if obj.week and obj.week.isdigit() else obj.week, body_center)
+            sheet.write(y, 3, obj.day if obj.day else None, body_center)
+            sheet.write(y, 4, obj.date_anomalie.strftime('%d-%m-%Y') if obj.date_anomalie else None, body_center)
+            sheet.write(y, 5, int(obj.lot) if obj.lot else None, body_center)
+            sheet.write(y, 6, obj.designation if obj.designation else None, body_center)
+            sheet.write(y, 7, obj.bd_td_axe if obj.bd_td_axe else None, body_center)
+            sheet.write(y, 8, int(obj.couple) if obj.couple else None, body_center)
+            sheet.write(y, 9, obj.navire_id.name if obj.navire_id else None, body_center)
+            sheet.write(y, 10, obj.respo_zone_id.name if obj.respo_zone_id else None, body_center)
+            sheet.write(y, 11, obj.anomalie_id.name if obj.anomalie_id else None, body_left)
+            sheet.write(y, 12, obj.anomalie_commentaire_id.name if obj.anomalie_commentaire_id else None, body_left)
             # sheet.write(y, 13, obj.depuis_le.strftime('%d-%m-%Y'), body_center)
-            sheet.write(y, 13, obj.already_reported, body_center)
-            sheet.write(y, 14, obj.criticite, body_center)
-            sheet.write(y, 15, obj.state, body_center)
-            sheet.write(y, 16, obj.comment, body_center)
-            sheet.write(y, 17, obj.url, body_center)
+            sheet.write(y, 13, obj.already_reported if obj.already_reported else None, body_center)
+            # criticite color:
+            if obj.criticite == "1":
+                criticite_style = workbook.add_format({'align': 'center', 'font_size': 14, 'font_name': 'Calibri', 'bg_color': 'red'})
+            elif obj.criticite == "2":
+                criticite_style = workbook.add_format(
+                    {'align': 'center', 'font_size': 14, 'font_name': 'Calibri', 'bg_color': 'orange'})
+            elif obj.criticite == "3":
+                criticite_style = workbook.add_format(
+                    {'align': 'center', 'font_size': 14, 'font_name': 'Calibri', 'bg_color': 'yellow'})
+            else:
+                criticite_style = workbook.add_format(
+                    {'align': 'center', 'font_size': 14, 'font_name': 'Calibri', 'bg_color': 'white'})
+            sheet.write(y, 14, obj.criticite if obj.criticite else None, criticite_style)
+            sheet.write(y, 15, obj.state if obj.state else None, body_center)
+            sheet.write(y, 16, obj.comment if obj.comment else None, body_center)
+            sheet.write(y, 17, obj.url if obj.url else None, body_center)
 
             y = y + 1
 
