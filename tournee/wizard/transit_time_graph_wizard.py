@@ -16,4 +16,5 @@ class TransitTimeGraphWizard(models.TransientModel):
         return self.env.ref('tournee.transit_time_graph_xlsx_id').report_action(self, data={
             'start_date': self.start_date,
             'end_date': self.end_date,
-            'navire_ids': self.navire_ids.ids})
+            'navire_ids': self.navire_ids.ids,
+            'navire_names': ", ".join(navire_id.name for navire_id in self.navire_ids)})
