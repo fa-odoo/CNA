@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_transit_time_graph_wizard_form" model="ir.ui.view">
+        <field name="name">transit.time.graph.wizard.form</field>
+        <field name="model">transit.time.graph.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <label for="start_date" string="Date"/>
+                        <div class="o_row">
+                            <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}"/>
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}"/>
+                        </div>
+                        <field name="navire_ids"  widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <button class="oe_highlight" string="Génerer" name="generate_report" type="object" />
+                        <button string="Annuler" class="btn btn-default" special="cancel"/>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="transit_time_graph_wizard_action" model="ir.actions.act_window">
+        <field name="name">Temps de passage graphique</field>
+        <field name="res_model">transit.time.graph.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_transit_time_graph_wizard_form" />
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_incident_duration" name="Temps de passage graphique" parent="industry_fsm.fsm_menu_reporting" action="transit_time_graph_wizard_action" sequence="54" />
+</odoo>
