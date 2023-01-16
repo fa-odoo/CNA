@@ -26,8 +26,6 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         tags_line = {x[0]: [x[1], x[2]] for x in cr.fetchall()}
         for tag_id in tag_ids:
             tag_content = tags_line.get(tag_id.id, False)
-            if tag_id.id == 21066:
-                print('tag_content[1]', tag_content[1])
             if tag_content:
                 tag_line = [tag_id.navire_id.name, tag_id.name]
                 tag_line.extend([tag_content[0], str(tag_content[1])])
@@ -51,6 +49,5 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             sheet.write(i, 1, doc[1], td_format)
             sheet.write(i, 2, doc[2].strftime('%d/%m/%Y %H:%M') if doc[2] != '' else '', td_format)
             sheet.write(i, 3, doc[3], td_format)
-
             i += 1
         sheet.write(i, 3, "Moyenne = {}".format(str(diff_time/len(tag_ids)).split('.')[0]), td_format)
