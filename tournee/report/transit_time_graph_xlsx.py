@@ -61,7 +61,6 @@ class TransitTimeGraphXlsx(models.AbstractModel):
             hour_data.append(hour_res)
             label_week_data.append(res_label)
             week_data.append(key)
-        print('=====moth_color', moth_color)
 
         # specify a date to use for the times
         zero = datetime.datetime(2018, 1, 1)
@@ -69,9 +68,9 @@ class TransitTimeGraphXlsx(models.AbstractModel):
         # convert datetimes to numbers
         zero = mdates.date2num(zero)
         hour_num = [t - zero for t in mdates.date2num(time)]
-        print('hour_num', hour_num)
         for key, values in moth_color.items():
-            plt.bar(values, [max(hour_num)] * len(values), label="BMW", width=.5, zorder=1)
+            plt.bar(values, [max(hour_num)] * len(values), label="BMW", width=1.0, zorder=1)
+        plt.legend(moth_color.keys(), bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
         plt.plot(week_data, hour_num, marker='s', c='black', zorder=2)
         plt.xticks(week_data, label_week_data, rotation=75, ha='right')
         plt.tight_layout()
@@ -80,14 +79,12 @@ class TransitTimeGraphXlsx(models.AbstractModel):
         buf.seek(0)
         plt.close()
         sheet = workbook.add_worksheet(data['start_date'] + ' au ' + data['end_date'])
-        sheet.merge_range(0, 4, 1, 12, "Temps de passage {}".format(data['start_date'] + ' au ' + data['end_date']), slim_bold_border_format)
-        sheet.merge_range(2, 4, 4, 12, "Nivers: {}".format(data['navire_names']), slim_bold_border_format)
+        sheet.merge_range(0, 4, 1, 13, "Temps de passage {}".format(data['start_date'] + ' au ' + data['end_date']), slim_bold_border_format)
+        sheet.merge_range(2, 4, 4, 13, "Nivers: {}".format(data['navire_names']), slim_bold_border_format)
+        sheet.merge_range(5, 4, 26, 13, '')
         sheet.insert_image(4, 4, "image.png", {'image_data': buf})
 
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
-        print('=============================')
-        print('start_date ',start_date)
-        print('end_date ',end_date)
         cr.execute(
             "SELECT SUM(avg_date_table.avg_date) FROM ( SELECT tag_id, min(scan_date) as start_date, max(scan_date) as end_date, max(scan_date) - min(scan_date) as avg_date FROM ( SELECT tag_id, scan_date FROM (SELECT ROW_NUMBER() OVER (PARTITION BY tag_id ORDER BY scan_date DESC  NULLS LAST) AS r, t.* FROM task_tags_line t) line WHERE line.r <= 2 AND tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s)) scanned_date GROUP BY scanned_date.tag_id) avg_date_table",
             (tuple(tag_ids), str(start_date), str(end_date)))
