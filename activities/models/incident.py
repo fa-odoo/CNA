@@ -309,7 +309,6 @@ class IrAttachment(models.Model):
 
     @api.model
     def _file_read(self, fname):
-        print('_file_read_file_read_file_read')
         full_path = self._full_path(fname)
         try:
             with open(full_path, 'rb') as f:
