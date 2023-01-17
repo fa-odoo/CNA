@@ -18,8 +18,7 @@ class TransitTimeGraphXlsx(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, obj):
-        slim_bold_border_format = workbook.add_format(
-            {'bold': True, 'border': 1, 'align': 'center', 'valign': 'vcenter'})
+        slim_bold_border_format = workbook.add_format({'bold': True, 'border': 1, 'align': 'center', 'valign': 'vcenter'})
         moth_color = {}
         week_data = []
         label_week_data = []
@@ -83,6 +82,8 @@ class TransitTimeGraphXlsx(models.AbstractModel):
         sheet.merge_range(2, 4, 4, 13, "Nivers: {}".format(data['navire_names']), slim_bold_border_format)
         sheet.merge_range(5, 4, 26, 13, '')
         sheet.insert_image(4, 4, "image.png", {'image_data': buf})
+        sheet.merge_range(27, 4, 28, 13, "Temps de passage moyenne: {}".format(str(sum(hour_data, datetime.timedelta())/len(hour_data)).split('.')[0]), slim_bold_border_format)
+
 
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
         cr.execute(
