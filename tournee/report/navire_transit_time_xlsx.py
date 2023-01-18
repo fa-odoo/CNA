@@ -25,6 +25,7 @@ class NavireTransitTimeXlsx(models.AbstractModel):
                    (tuple(tag_ids.ids), data['date_start'], data['date_end']))
         tags_line = {x[0]: [x[1], x[2]] for x in cr.fetchall()}
         for tag_id in tag_ids:
+            tag_line = False
             tag_content = tags_line.get(tag_id.id, False)
             if tag_content:
                 tag_line = [tag_id.navire_id.name, tag_id.name]
@@ -33,7 +34,8 @@ class NavireTransitTimeXlsx(models.AbstractModel):
                     diff_time += tag_content[1]
                 else:
                     diff_time = tag_content[1]
-            docs.append(tag_line)
+            if tag_line:
+                docs.append(tag_line)
 
         sheet = workbook.add_worksheet(data['date_start'] + ' au ' + data['date_end'])
         sheet.write(0, 0, 'NAVIRE', th_format)
