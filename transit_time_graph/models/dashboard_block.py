@@ -50,7 +50,7 @@ class DashboardBlock(models.Model):
                 if rec.type == 'graph' or rec.avg_time:
                     if rec.avg_time and rec.type == 'graph':
                         x_axis, y_axis, avg_time = self.avg_navire_ids(rec.navire_ids, rec.start_date, rec.end_date)
-                        vals.update({'type': 'graph', 'graph_type': 'bar', 'graph_size': 'col-lg-12',
+                        vals.update({'type': 'graph', 'graph_size': 'col-lg-12',
                                      'name': "Temps de passage {} \n Moyenne : {} ".format(
                                          str(rec.start_date) + ' au ' + str(rec.end_date), avg_time)})
                     else:
@@ -138,13 +138,7 @@ class DashboardBlock(models.Model):
             diff_time = res[0] / len(tag_ids)
         else:
             diff_time = timedelta()
-        return diff_time, self.get_label(str(diff_time).split('.')[0], end_date)
+        return diff_time, self.get_label(str(diff_time).split('.')[0], start_date)
 
-    def get_label(self, diff_time, end_date):
-        if end_date.day <= 7:
-            return "S1 {}".format(diff_time)
-        if end_date.day <= 14:
-            return "S2 {}".format(diff_time)
-        if end_date.day <= 21:
-            return "S3 {}".format(diff_time)
-        return "S4 {}".format(diff_time)
+    def get_label(self, diff_time, start_date):
+        return "S{} {}".format(start_date.isocalendar()[1], diff_time)
