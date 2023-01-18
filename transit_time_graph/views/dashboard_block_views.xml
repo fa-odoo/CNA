@@ -1,0 +1,51 @@
+<odoo>
+    <record id="dashboard_block_form_view" model="ir.ui.view">
+        <field name="name">dashboard.block.view</field>
+        <field name="model">dashboard.block</field>
+        <field name="inherit_id" ref="odoo_dynamic_dashboard.dashboard_block_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='model_id']" position="before">
+                <field name="avg_time" widget="boolean_toggle"/>
+                <label for="start_date" string="Date"
+                       attrs="{'required':[('avg_time','=', True)], 'invisible': [('avg_time','=', False)]}"/>
+                <div class="o_row" attrs="{'invisible': [('avg_time','=', False)]}">
+                    <field name="start_date" widget="daterange" nolabel="1" class="oe_inline"
+                           options="{'related_end_date': 'end_date'}" attrs="{'required':[('avg_time','=', True)]}"/>
+                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                    <field name="end_date" widget="daterange" nolabel="1" class="oe_inline"
+                           options="{'related_start_date': 'start_date'}"
+                           attrs="{'required':[('avg_time','=', True)]}"/>
+                </div>
+                <field name="navire_ids" widget="many2many_tags" options="{'no_create':1, 'no_edit':1}" attrs="{'required':[('avg_time','=', True)], 'invisible': [('avg_time','=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='model_id']" position="attributes">
+                <attribute name="attrs">{'required':[('edit_mode','=', True), ('avg_time','=', False)], 'invisible':
+                    [('avg_time','=', True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='operation']" position="attributes">
+                <attribute name="attrs">{'required':[('edit_mode','=', True), ('avg_time','=', False)], 'invisible':
+                    [('avg_time','=', True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='measured_field']" position="attributes">
+                <attribute name="attrs">{'required':[('edit_mode','=', True), ('avg_time','=', False)], 'invisible':
+                    [('avg_time','=', True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='filter']" position="attributes">
+                <attribute name="attrs">{'invisible': [('avg_time','=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='group_by']" position="attributes">
+                <attribute name="attrs">{'invisible': [('type','not in', 'graph')], 'required':[('edit_mode','=',
+                    True),('type','=','graph'), ('avg_time','=', False)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='group_by']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('type','not in', 'graph'), ('avg_time','=', True)], 'required':[('edit_mode','=',
+                    True),('type','=','graph'), ('avg_time','=', False)]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
