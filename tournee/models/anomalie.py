@@ -166,8 +166,10 @@ class TaskTagsLine(models.Model):
     _name = 'task.tags.line'
     _rec_name = 'task_id'
 
+
     navire_id = fields.Many2one(related='tag_id.navire_id', store=True, string='Navire', index=True)
     tag_id = fields.Many2one('tags.tags', 'Tag', required=True, index=True)
+
     task_id = fields.Many2one('project.task', 'Tournée')
     anomalie_ids = fields.One2many('tags.task.anomalie', 'line_id', 'Anomalies')
     state = fields.Selection([('draft', 'Brouillon'), ('done', 'Scané')], default='draft', string='Etat')
