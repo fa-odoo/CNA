@@ -111,6 +111,11 @@
             <field name="model">navire.navire</field>
             <field name="inherit_id" ref="activities.view_navire_tree"/>
             <field name="arch" type="xml">
+                <tree position="inside">
+                    <header>
+                    <button name="create_navire_time" string="Moyenne" type="object"/>
+                    </header>
+                </tree>
                 <field name="site_id" position="after">
                     <field name="temps_passage_avg" widget="timesheet_uom"/>
                     <field name="tourne_duration" widget="timesheet_uom"/>
