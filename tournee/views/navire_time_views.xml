@@ -1,0 +1,50 @@
+<odoo>
+    <record id="navire_time_tree_view" model="ir.ui.view">
+        <field name="name">tags.anomalie.tree.view</field>
+        <field name="model">navire.time</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="name"/>
+                <field name="navire_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="avg_time" widget="float_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="navire_time_pivot_view" model="ir.ui.view">
+        <field name="name">navire.time.pivot</field>
+        <field name="model">navire.time</field>
+        <field name="arch" type="xml">
+            <pivot string="Anomalies">
+                <field name="name" type="col"/>
+                <field name="avg_time" type="row" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="navire_time_search_view" model="ir.ui.view">
+        <field name="name">navire.time.search</field>
+        <field name="model">navire.time</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="navire_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_navire_time" model="ir.actions.act_window">
+        <field name="name">Temps de passage moyenne</field>
+        <field name="res_model">navire.time</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="search_view_id" ref="navire_time_search_view"/>
+    </record>
+
+    <menuitem id="menu_navire_time" name='Temps de passage moyenne' parent="industry_fsm.fsm_menu_settings"
+              action="action_navire_time" groups="activities.group_cna_admin"/>
+
+</odoo>

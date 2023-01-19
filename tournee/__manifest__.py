@@ -25,6 +25,7 @@
         # data
         'data/tags_sequence.xml',
         'data/mail_template.xml',
+        'data/navire_time_cron.xml',
 
 
 
@@ -42,7 +43,7 @@
         'views/incident_extend.xml',
         'views/activitie_extend.xml',
         'views/tourne_views.xml',
-
+        'views/navire_time_views.xml',
 
 
         # report
