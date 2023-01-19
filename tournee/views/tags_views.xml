@@ -107,6 +107,45 @@ action = {
                 </tree>
             </field>
         </record>
+        <record id="view_task_tags_line_form" model="ir.ui.view">
+            <field name="name">view.task.tags.line.form</field>
+            <field name="model">task.tags.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+<field name="task_id"/>
+                    <field name="tag_id"/>
+                    <field name="navire_id"/>
+                    <field name="is_required"/>
+                    <field name="hors_parcours"/>
+                    <field name="temps_passage" invisible="1"/>
+                    <field name="scan_date"/>
+                    <field name="state"/>                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+<record id="view_task_tags_line_search" model="ir.ui.view">
+            <field name="name">view.task.tags.line.search</field>
+            <field name="model">task.tags.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="task_id"/>
+                    <field name="tag_id"/>
+                    <field name="navire_id"/>
+                    <field name="hors_parcours"/>
+                    <field name="scan_date"/>
+                    <field name="state"/>
+                    <filter name="groupby_navire" string="Navire" domain="[]" context="{'group_by': 'navire_id'}"/>
+                    <filter name="groupby_tag" string="Tag" domain="[]" context="{'group_by': 'tag_id'}"/>
+                    <filter name="groupby_state" string="Etat" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="groupby_scan_date" string="Moment du scan" domain="[]" context="{'group_by': 'scan_date'}"/>
+
+                </search>
+            </field>
+        </record>
 
 
         <record id="tags_form_view" model="ir.ui.view">
