@@ -54,7 +54,7 @@
         <field name="search_view_id" ref="navire_time_search_view"/>
     </record>
 
-    <menuitem id="menu_navire_time" name='Temps de passage moyenne' parent="industry_fsm.fsm_menu_reporting"
+    <menuitem id="menu_navire_time" name='Analyse temps de passage' parent="industry_fsm.fsm_menu_reporting"
               action="action_navire_time" groups="activities.group_cna_admin"/>
 
 </odoo>
