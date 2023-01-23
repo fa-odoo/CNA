@@ -30,7 +30,7 @@ WHERE (row_number = 1 OR row_number = 2) and navire_id =%s;"""%(navire.id))
 			print('sssssssssssss',tag_dict )
 			for elem in tag_dict:
 				if len(tag_dict[elem])==2:
-					self.env.cr.execute("insert into navire_time (navire_id, tag_id, week, month, year, passage_time, start_date, end_date) values"
+					self.env.cr.execute("insert into navire_time (navire_id, tag_id, week_col, month_col, year_col, passage_time, start_date, end_date) values"
 										"(%s, %s, %s, %s, %s, %s, '%s', '%s')"
 										%(navire.id, elem[0], elem[1], elem[2], elem[3],
 										  (tag_dict[elem][0][1] - tag_dict[elem][1][1]).total_seconds() / 3600, tag_dict[elem][0][0],

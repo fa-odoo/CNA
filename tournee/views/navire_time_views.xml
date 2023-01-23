@@ -7,6 +7,7 @@
                 <field name="navire_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="week_name"/>
                 <field name="passage_time" widget="float_time"/>
             </tree>
         </field>
@@ -18,7 +19,7 @@
         <field name="arch" type="xml">
             <pivot string="Anomalies">
                 <field name="navire_id" type="row"/>
-                <field name="week" type="col"/>
+                <field name="week_name" type="col"/>
                 <field name="passage_time" type="measure" widget="float_time"/>
             </pivot>
         </field>
@@ -28,7 +29,7 @@
         <field name="model">navire.time</field>
         <field name="arch" type="xml">
             <graph string="Anomalies">
-                <field name="navire_id" type="row"/>
+                <field name="week_name" type="row"/>
                 <field name="passage_time" type="measure" widget="float_time"/>
             </graph>
         </field>

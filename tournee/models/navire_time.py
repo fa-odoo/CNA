@@ -11,11 +11,11 @@ class Naviretime(models.Model):
     tag_id = fields.Many2one('tags.tags', 'Tag')
     start_date = fields.Date(string="Date début", required=True)
     end_date = fields.Date(string="Date fin", required=True)
-    week = fields.Char('Semaine',)
-    month = fields.Char('Mois', )
-    year = fields.Char('Année', )
+    week_col = fields.Char(string='Semaine')
+    month_col = fields.Char(string='Mois')
+    year_col = fields.Char(string='Année')
     passage_time = fields.Float(group_operator='avg')
-
+    week_name = fields.Char(string='Semaine')
 
     @api.model
     def _cron_create_lines(self):
@@ -65,3 +65,30 @@ class Naviretime(models.Model):
         #             'end_date': end_week,
         #             'avg_time': avg_time,
         #         })
+
+
+    @api.model
+    def _select(self):
+        return '''
+            SELECT tag_id, navire_id, scan_week as week_col, scan_month as month_col, scan_year as year_col, CONCAT('S', scan_week, '-', right(scan_year, 2)) AS week_name, scan_week_first_day as start_date, scan_week_last_day as end_date, max(scan_date) - min(scan_date) as passage_time
+        '''
+
+    @api.model
+    def _from(self):
+        return '''
+         FROM 
+            (
+                SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+                         tag_id ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE scan_date >= {start_date} AND scan_date <= {end_date} AND scan_date is not null AND date_scan_ok is True) as res
+            ) AS A
+                JOIN  ON currency_table.company_id = line.company_id
+        '''.format(
+            start_date=fields.Date.today(), end_date=fields.Date.today() + timedelta(days=-60)
+        )
+
+    @api.model
+    def _where(self):
+        return '''
+            WHERE Row_ID <3
+            GROUP BY tag_id, navire_id, scan_week, scan_month, scan_year, scan_week_first_day, scan_week_last_day
+        '''
