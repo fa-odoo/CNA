@@ -19,10 +19,10 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         td_format = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
         tag_ids = self.env['tags.tags'].sudo().search([('navire_id', 'in', data['navire_ids'])], order='navire_id')
 
-        cr.execute("SELECT tag_id, max(scan_date) as end_date, max(scan_date) - min(scan_date) as avg_date "
-                   "FROM (SELECT tag_id, scan_date FROM task_tags_line "
-                   "WHERE tag_id IN %s AND date_scan_ok is True AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) ORDER BY scan_date DESC  NULLS LAST) scan_res "
-                   "GROUP BY tag_id",
+        cr.execute("SELECT tag_id, max(scan_date) as end_date, max(scan_date) - min(scan_date) as avg_date FROM "
+                   "(SELECT *, ROW_NUMBER() OVER (PARTITION BY "
+                   "tag_id ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) AND scan_date is not null and date_scan_ok is True) as res"
+                   ") AS A WHERE Row_ID <3 GROUP BY tag_id",
                    (tuple(tag_ids.ids), data['date_start'], data['date_end']))
 
         tags_line = {x[0]: [x[1], x[2]] for x in cr.fetchall()}
@@ -54,4 +54,4 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             sheet.write(i, 2, doc[2].strftime('%d/%m/%Y %H:%M') if doc[2] != '' else '', td_format)
             sheet.write(i, 3, doc[3], td_format)
             i += 1
-        sheet.write(i, 3, "Moyenne = {}".format(str(diff_time/len(docs)).split('.')[0]), td_format)
+        sheet.write(i, 3, "Moyenne = {}".format(str(diff_time/(len(docs) or 1)).split('.')[0]), td_format)
