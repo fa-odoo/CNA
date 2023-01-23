@@ -6,7 +6,7 @@ class NavireTransitTimeWizard(models.TransientModel):
 
     date_start = fields.Date(string="Date début")
     date_end = fields.Date(string="Date fin")
-    navire_ids = fields.Many2many('navire.navire', string='Navires', reqiured=True)
+    navire_ids = fields.Many2many('navire.navire', string='Navires', required=True)
 
     @api.model
     def default_get(self, fields):

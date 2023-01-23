@@ -3,7 +3,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class ProjectTask(models.Model):
@@ -24,6 +24,7 @@ class ProjectTask(models.Model):
     access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
                                     required = True, tracking = True, default = 'navire')
     lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
+
 
     @api.depends('anomalie_ids')
     def compute_has_anomalies(self):
@@ -167,6 +168,8 @@ class TaskTagsLine(models.Model):
     _rec_name = 'task_id'
 
     tag_id = fields.Many2one('tags.tags', 'Tag', required=True)
+    navire_id = fields.Many2one(related='tag_id.navire_id', store=True, string='Navire', index=True)
+
     task_id = fields.Many2one('project.task', 'Tournée')
     anomalie_ids = fields.One2many('tags.task.anomalie', 'line_id', 'Anomalies')
     state = fields.Selection([('draft', 'Brouillon'), ('done', 'Scané')], default='draft', string='Etat')
@@ -175,7 +178,33 @@ class TaskTagsLine(models.Model):
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
     date_scan_ok = fields.Boolean(compute='check_scan_date', store=True)
+    scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
+    scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
+    scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
+    scan_week_first_day = fields.Date(compute='compute_date_parameters', store=True,
+                                      string="Premier jours de la semaine")
+    scan_week_last_day = fields.Date(compute='compute_date_parameters', store=True,
+                                     string="Premier jours de la semaine")
 
+    @api.depends('scan_date')
+    def compute_date_parameters(self):
+        for rec in self:
+            scan_week = ''
+            scan_month = ''
+            scan_year = ''
+            scan_week_first_day = False
+            scan_week_last_day = False
+            if rec.scan_date:
+                scan_week = rec.scan_date.isocalendar()[1]
+                scan_month = rec.scan_date.month
+                scan_year = rec.scan_date.year
+                scan_week_first_day = rec.scan_date - timedelta(days=rec.scan_date.weekday())
+                scan_week_last_day = scan_week_first_day + timedelta(days=6)
+            rec.scan_week = scan_week
+            rec.scan_month = scan_month
+            rec.scan_year = scan_year
+            rec.scan_week_first_day = scan_week_first_day
+            rec.scan_week_last_day = scan_week_last_day
     @api.depends('scan_date')
     def check_scan_date(self):
         for rec in self:
