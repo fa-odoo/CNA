@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-
+from odoo.exceptions import ValidationError
 
 class NavireTransitTimeWizard(models.TransientModel):
     _name = 'navire.transit.time.wizard'
@@ -7,6 +7,7 @@ class NavireTransitTimeWizard(models.TransientModel):
     date_start = fields.Date(string="Date début")
     date_end = fields.Date(string="Date fin")
     navire_ids = fields.Many2many('navire.navire', string='Navires', required=True)
+
 
     @api.model
     def default_get(self, fields):
