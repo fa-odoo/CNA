@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import UserError
 from datetime import timedelta
 
 class NavireTransitTimeWizard(models.TransientModel):
@@ -15,7 +16,7 @@ class NavireTransitTimeWizard(models.TransientModel):
     def _check_start_end_tag(self):
         for rec in self:
             if rec.date_start and rec.type:
-                if rec.type == 'week' and rec.date_start.weekday() != 0 or rec.type == 'month' and rec.date_start.day != 0:
+                if rec.type == 'week' and rec.date_start.weekday() != 0 or rec.type == 'month' and rec.date_start.day != 1:
                     raise UserError("Veuillez choisir une date valide")
 
     @api.model

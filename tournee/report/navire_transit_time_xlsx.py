@@ -3,8 +3,8 @@
 from odoo import models, fields
 from dateutil.rrule import rrule, MONTHLY
 import random
-import datetime
 from datetime import timedelta
+import numpy as np
 
 class NavireTransitTimeXlsx(models.AbstractModel):
     _name = 'report.tournee.navire_transit_time_xlsx'
@@ -33,7 +33,16 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             tag_content = dict_keys.get(tag_id.id, False)
             if tag_content:
                 tag_line = [tag_id.navire_id.name, tag_id.name]
-                res_avg = (sum([x[1] for x in tag_content]) + ((6-len(tag_content))*24))/6
+                if data['navire_ids'] == 'week':
+                    diff_day = 6
+                else:
+                    start_date = fields.Date.from_string(data['date_start'])
+                    end_date = fields.Date.from_string(data['date_end'])
+                    # Get number of sunday between start and end date
+                    nb_sun = np.busday_count(str(start_date), str(end_date), weekmask='Sun')
+                    delta = end_date - start_date
+                    diff_day = delta.days - nb_sun
+                res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
                 res_avg = timedelta(minutes=res_avg)
                 tag_line.extend([tag_content[-1][0], str(res_avg).split('.')[0]])
                 if diff_time:
