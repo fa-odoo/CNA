@@ -102,6 +102,7 @@ action = {
                     <field name="tag_id"/>
                     <field name="is_required"/>
                     <field name="hors_parcours"/>
+                    <field name="temps_passage_daily" widget="float_time"/>
                     <field name="temps_passage" invisible="1"/>
                     <field name="scan_date"/>
                     <field name="state"/>

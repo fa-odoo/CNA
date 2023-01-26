@@ -4,7 +4,7 @@ from odoo import models, fields
 from dateutil.rrule import rrule, MONTHLY
 import random
 import datetime
-
+from datetime import timedelta
 
 class NavireTransitTimeXlsx(models.AbstractModel):
     _name = 'report.tournee.navire_transit_time_xlsx'
@@ -19,23 +19,27 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         td_format = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
         tag_ids = self.env['tags.tags'].sudo().search([('navire_id', 'in', data['navire_ids'])], order='navire_id')
 
-        cr.execute("SELECT tag_id, max(scan_date) as end_date, max(scan_date) - min(scan_date) as avg_date FROM "
+        cr.execute(""
+                   "SELECT tag_id, scan_date, temps_passage_daily FROM "
                    "(SELECT *, ROW_NUMBER() OVER (PARTITION BY "
-                   "tag_id ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) AND scan_date is not null and date_scan_ok is True) as res"
-                   ") AS A WHERE Row_ID <3 GROUP BY tag_id",
+                   "tag_id, DATE(scan_date) ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE scan_date is not null AND tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) AND temps_passage_daily is not null and date_scan_ok is True) as res"
+                   ") AS A WHERE Row_ID <2",
                    (tuple(tag_ids.ids), data['date_start'], data['date_end']))
+        dict_keys = {tag_id: [] for tag_id in tag_ids.ids}
+        _ = {dict_keys[x[0]].append([x[1], x[2]]) for x in cr.fetchall()}
 
-        tags_line = {x[0]: [x[1], x[2]] for x in cr.fetchall()}
         for tag_id in tag_ids:
             tag_line = False
-            tag_content = tags_line.get(tag_id.id, False)
+            tag_content = dict_keys.get(tag_id.id, False)
             if tag_content:
                 tag_line = [tag_id.navire_id.name, tag_id.name]
-                tag_line.extend([tag_content[0], str(tag_content[1])])
+                res_avg = (sum([x[1] for x in tag_content]) + ((6-len(tag_content))*24))/6
+                res_avg = timedelta(minutes=res_avg)
+                tag_line.extend([tag_content[-1][0], str(res_avg).split('.')[0]])
                 if diff_time:
-                    diff_time += tag_content[1]
+                    diff_time += res_avg
                 else:
-                    diff_time = tag_content[1]
+                    diff_time = res_avg
             if tag_line:
                 docs.append(tag_line)
 
