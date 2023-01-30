@@ -21,22 +21,19 @@ class NavirePassageTime(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
                 create or replace view %s as (
-                    WITH added_row_number AS (
-  SELECT
-    tag_id, navire_id, scan_date, scan_week, scan_month, scan_year,id,scan_week_first_day, scan_week_last_day,
-    ROW_NUMBER() OVER(PARTITION BY scan_week, scan_year, tag_id, navire_id ORDER BY scan_date DESC) AS row_number
-  FROM task_tags_line  where date_scan_ok=True
+WITH ptt AS (
+SELECT * FROM
+(SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+tag_id, DATE(scan_date) ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE scan_date is not null AND temps_passage_daily is not null and date_scan_ok is True) as res
+) AS A WHERE Row_ID <2
 )
-SELECT
- max(id) AS id,
-tag_id as tag_id
-, navire_id as navire_id,
- scan_week as   scan_week,
- scan_month as scan_month , 
- scan_week_last_day as end_date , 
- scan_week_first_day as start_date , 
- scan_year as scan_year,max(scan_date),extract(epoch from age(max(scan_date) , min(scan_date) )) / (60 * 60) as passage_time
-FROM added_row_number 
-WHERE (row_number = 1 OR row_number = 2)
- GROUP by tag_id, navire_id, scan_week,scan_month, scan_year, scan_week_last_day,scan_week_first_day
+SELECT max(id) as id, ptt.tag_id as tag_id, ptt.navire_id as navire_id,
+	ptt.scan_week as scan_week,
+	ptt.scan_month as scan_month ,
+	ptt.scan_year as scan_year,
+	ptt.scan_week_last_day as end_date , 
+	ptt.scan_week_first_day as start_date , 
+	((SUM(ptt.temps_passage_daily) + (24*(6-count(ptt.scan_week)))) / (6)) as passage_time, count(ptt.scan_week)
+FROM ptt
+GROUP BY CONCAT(ptt.scan_week, '/', ptt.scan_year), ptt.tag_id, ptt.navire_id, ptt.scan_week, ptt.scan_month, ptt.scan_year, ptt.scan_week_last_day, ptt.scan_week_first_day
             )"""%(self._table))
