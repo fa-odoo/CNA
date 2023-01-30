@@ -228,7 +228,7 @@ class TaskTagsLine(models.Model):
             rec.temps_passage = temps_passage
 
     @api.depends('task_id', 'task_id.tag_anomalie_ids', 'task_id.tag_anomalie_ids.scan_date', 'scan_date')
-    def compute_temps_passage(self):
+    def compute_temps_passage_daily(self):
         for rec in self:
             temps_passage = 0
             if rec.scan_date and rec.date_scan_ok:
@@ -237,7 +237,7 @@ class TaskTagsLine(models.Model):
                 print('previous_scans',previous_scans)
                 if previous_scans and previous_scans[0].date_scan_ok:
                     temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
-            rec.temps_passage = temps_passage
+            rec.temps_passage_daily = temps_passage
 
     @api.depends('tag_id')
     def _compute_hors_parcours(self):
