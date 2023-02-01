@@ -25,7 +25,6 @@
         # data
         'data/tags_sequence.xml',
         'data/mail_template.xml',
-        'data/navire_time_cron.xml',
 
 
 
@@ -40,6 +39,7 @@
         'wizard/navire_transit_time_wizard.xml',
 
         'report/navire_time_template.xml',
+        'report/navire_report_passage.xml',
 
         # views
         'views/anomalie_views.xml',
@@ -47,7 +47,7 @@
         'views/incident_extend.xml',
         'views/activitie_extend.xml',
         'views/tourne_views.xml',
-        'views/navire_time_views.xml',
+        # 'views/navire_time_views.xml',
 
 
         # report

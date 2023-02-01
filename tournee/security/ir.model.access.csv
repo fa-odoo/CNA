@@ -6,6 +6,8 @@
 
 "access_add_tags_wizard_cdp","add.tags.wizard CDP","model_add_tags_wizard","activities.group_cna_cdp",1,1,1,0
 "access_add_tags_wizard_admin","add.tags.wizard ADMIN","model_add_tags_wizard","activities.group_cna_admin",1,1,1,1
+"access_navire_time_passage_report_cdp","add.navire_time_passage_report CDP","model_navire_times_passage_report","activities.group_cna_cdp",1,1,1,0
+"access_navire_times_passage_report_admin","add.navire_times_passage_report ADMIN","model_navire_times_passage_report","activities.group_cna_admin",1,1,1,1
 
 "access_add_comment_task_wizard_cdp","add.comment.task.wizard CDP","tournee.model_add_comment_task_wizard","activities.group_cna_cdp",1,1,1,0
 "access_add_comment_task_wizard_admin","add.comment.task.wizard ADMIN","tournee.model_add_comment_task_wizard","activities.group_cna_admin",1,1,1,1
@@ -54,6 +56,3 @@
 
 "access_employee_ads","Employee ADS","hr.model_hr_employee","activities.group_cna_ads",1,0,0,0
 "access_res_partner_ads","Partner ADS","base.model_res_partner","activities.group_cna_ads",1,0,0,0
-
-"access_navire_time_ads","navire_time ADS","model_navire_time","activities.group_cna_ads",1,1,1,0
-"access_navire_time_admin","navire_time ADMIN","model_navire_time","activities.group_cna_admin",1,1,1,1

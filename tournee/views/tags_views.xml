@@ -127,7 +127,18 @@ action = {
                 </form>
             </field>
         </record>
-<record id="view_task_tags_line_search" model="ir.ui.view">
+<record id="view_task_tags_line_pivot" model="ir.ui.view">
+            <field name="name">view.task.tags.line.pivot</field>
+            <field name="model">task.tags.line</field>
+            <field name="arch" type="xml">
+                <pivot>
+                     <field name="task_id" type="col"/>
+                     <field name="scan_date" type="row"/>
+                </pivot>
+            </field>
+</record>
+
+        <record id="view_task_tags_line_search" model="ir.ui.view">
             <field name="name">view.task.tags.line.search</field>
             <field name="model">task.tags.line</field>
             <field name="arch" type="xml">
@@ -251,7 +262,7 @@ action = {
         <record id="action_analyse_scan" model="ir.actions.act_window">
             <field name="name">Analyse des scans</field>
             <field name="res_model">task.tags.line</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot</field>
         </record>
         <menuitem id="menu_tags" sequence="12" name='Tags' parent="industry_fsm.fsm_menu_settings" action="action_tags" groups="activities.group_cna_cdp"/>
 
