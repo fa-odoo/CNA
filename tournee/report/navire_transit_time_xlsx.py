@@ -19,36 +19,55 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         td_format = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
         tag_ids = self.env['tags.tags'].sudo().search([('navire_id', 'in', data['navire_ids'])], order='navire_id')
 
-        cr.execute(""
-                   "SELECT tag_id, scan_date, temps_passage_daily FROM "
-                   "(SELECT *, ROW_NUMBER() OVER (PARTITION BY "
-                   "tag_id, DATE(scan_date) ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE scan_date is not null AND tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) AND temps_passage_daily is not null and date_scan_ok is True) as res"
-                   ") AS A WHERE Row_ID <2",
-                   (tuple(tag_ids.ids), data['date_start'], data['date_end']))
-        dict_keys = {tag_id: [] for tag_id in tag_ids.ids}
-        _ = {dict_keys[x[0]].append([x[1], x[2]]) for x in cr.fetchall()}
+        # cr.execute(""
+        #            "SELECT tag_id, scan_date, temps_passage_daily FROM "
+        #            "(SELECT *, ROW_NUMBER() OVER (PARTITION BY "
+        #            "tag_id, DATE(scan_date) ORDER BY scan_date DESC) AS Row_ID FROM (SELECT * FROM task_tags_line WHERE scan_date is not null AND tag_id IN %s AND DATE(scan_date) >= DATE(%s) AND DATE(scan_date) <= DATE(%s) AND temps_passage_daily is not null and date_scan_ok is True) as res"
+        #            ") AS A WHERE Row_ID <2",
+        #            (tuple(tag_ids.ids), data['date_start'], data['date_end']))
 
+        cr.execute("""SELECT tag_id, max(scan_date), sum(temps_passage_daily), count(*),
+        case when sum(temps_passage_daily)/count(*) = 0  then 24
+          when count(*)  = 1 then 24 else sum(temps_passage_daily)/count(*) end as temps_passage_daily_avg
+         FROM task_tags_line 
+         WHERE scan_date is not null AND navire_id=1 and
+          tag_id in %s AND DATE(scan_date) >= DATE(%s) AND
+           DATE(scan_date) <= DATE(%s) and date_scan_ok is true
+            group by tag_id, date_trunc('day',scan_date)""", (tuple(tag_ids.ids), data['date_start'], data['date_end']))
+        dict_keys = {tag_id: {}for tag_id in tag_ids.ids}
+        for x in cr.fetchall():
+
+            dict_keys[x[0]][x[1]]=(x[2], x[3], x[4])
+        print('dddddddddddddd',dict_keys )
+        start_date = fields.Date.from_string(data['date_start'])
+        end_date = fields.Date.from_string(data['date_end'])
         for tag_id in tag_ids:
             tag_line = False
             tag_content = dict_keys.get(tag_id.id, False)
             if tag_content:
-                tag_line = [tag_id.navire_id.name, tag_id.name]
-                if data['navire_ids'] == 'week':
-                    diff_day = 6
-                else:
-                    start_date = fields.Date.from_string(data['date_start'])
-                    end_date = fields.Date.from_string(data['date_end'])
-                    # Get number of sunday between start and end date
-                    nb_sun = np.busday_count(str(start_date), str(end_date), weekmask='Sun')
-                    delta = end_date - start_date
-                    diff_day = delta.days - nb_sun
-                res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
-                res_avg = timedelta(minutes=res_avg)
-                tag_line.extend([tag_content[-1][0], str(res_avg).split('.')[0]])
-                if diff_time:
-                    diff_time += res_avg
-                else:
-                    diff_time = res_avg
+                current_date = start_date
+                while current_date <= end_date:
+                    if not tag_content.get(current_date, False) and current_date.weekday() != 6:
+                        dict_keys[tag_id.id][current_date] = (0,0, 24)
+                    current_date = current_date +timedelta(days=1)
+            tag_content = dict_keys.get(tag_id.id, False)
+            tag_line = [tag_id.navire_id.name, tag_id.name]
+            if data['type'] == 'week':
+                diff_day = 6
+            else:
+                start_date = fields.Date.from_string(data['date_start'])
+                end_date = fields.Date.from_string(data['date_end'])
+                # Get number of sunday between start and end date
+                nb_sun = np.busday_count(str(start_date), str(end_date), weekmask='Sun')
+                delta = end_date - start_date
+                diff_day = delta.days - nb_sun
+            res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
+            res_avg = timedelta(minutes=res_avg)
+            tag_line.extend([tag_content[-1][0], str(res_avg).split('.')[0]])
+            if diff_time:
+                diff_time += res_avg
+            else:
+                diff_time = res_avg
             if tag_line:
                 docs.append(tag_line)
 
