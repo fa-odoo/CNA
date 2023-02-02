@@ -33,7 +33,7 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             tag_content = dict_keys.get(tag_id.id, False)
             if tag_content:
                 tag_line = [tag_id.navire_id.name, tag_id.name]
-                if data['navire_ids'] == 'week':
+                if data['type'] == 'week':
                     diff_day = 6
                 else:
                     start_date = fields.Date.from_string(data['date_start'])
