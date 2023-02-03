@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime, timedelta
 
 
@@ -234,7 +234,7 @@ class TaskTagsLine(models.Model):
             temps_passage = 0
             if rec.scan_date and rec.date_scan_ok:
                 self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s' order by scan_date desc;"""%(rec.id, rec.scan_date,
-                                                                                                        rec.scan_date.strftime('%d/%m/%Y')))
+                                                                                                        rec.scan_date.strftime(DEFAULT_SERVER_DATE_FORMAT)))
                 # previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.scan_date and
                 #                                                              r.scan_date <= rec.scan_date and r.id < rec.id and
                 #                                                             r.date_scan_ok and
