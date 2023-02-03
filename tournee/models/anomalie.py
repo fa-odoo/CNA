@@ -177,6 +177,7 @@ class TaskTagsLine(models.Model):
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
+    temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
     date_scan_ok = fields.Boolean(compute='check_scan_date', store=True)
     scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
     scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
@@ -221,11 +222,24 @@ class TaskTagsLine(models.Model):
         for rec in self:
             temps_passage =0
             if rec.scan_date and rec.date_scan_ok:
-                previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
-                if previous_scans  and  previous_scans[0].date_scan_ok:
+                previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and
+                                                                                  r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
+                if previous_scans and previous_scans[0].date_scan_ok:
                     temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
             rec.temps_passage = temps_passage
 
+    @api.depends('tag_id', 'tag_id.tag_line_ids', 'scan_date')
+    def compute_temps_passage_daily(self):
+        for rec in self:
+            temps_passage = 0
+            if rec.scan_date and rec.date_scan_ok:
+                previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and
+                                                                             r.scan_date <= rec.scan_date and r.id < rec.id and
+                                                                            r.date_scan_ok and
+                                                                             r.scan_date.strftime('%d/%m/%Y') == rec.scan_date.strftime('%d/%m/%Y')).sorted('scan_date', reverse=True)
+                if previous_scans and previous_scans[0].date_scan_ok:
+                    temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
+            rec.temps_passage_daily = temps_passage
 
     @api.depends('tag_id')
     def _compute_hors_parcours(self):
