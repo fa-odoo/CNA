@@ -27,8 +27,9 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         #            (tuple(tag_ids.ids), data['date_start'], data['date_end']))
 
         cr.execute("""SELECT tag_id, max(scan_date), sum(temps_passage_daily), count(*),
-        case when sum(temps_passage_daily)/count(*) = 0  then 24
-          when count(*)  = 1 then 24 else sum(temps_passage_daily)/count(*) end as temps_passage_daily_avg
+        case when sum(temps_passage_daily) = 0  then 1440
+            when count(*)  = 1 then 1440 
+            else sum(temps_passage_daily)/(count(*)-1) end as temps_passage_daily_avg
          FROM task_tags_line 
          WHERE scan_date is not null AND navire_id=1 and
           tag_id in %s AND DATE(scan_date) >= DATE(%s) AND
@@ -38,12 +39,12 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         for x in cr.fetchall():
 
             dict_keys[x[0]][x[1]]=(x[2], x[3], x[4])
-        print('dddddddddddddd',dict_keys )
         start_date = fields.Date.from_string(data['date_start'])
         end_date = fields.Date.from_string(data['date_end'])
         for tag_id in tag_ids:
             tag_line = False
             tag_content = dict_keys.get(tag_id.id, False)
+            max_tag_date = tag_content.keys() and  max(t for t in tag_content.keys() ) or ''
             if tag_content:
                 current_date = start_date
                 while current_date <= end_date:
@@ -51,7 +52,7 @@ class NavireTransitTimeXlsx(models.AbstractModel):
                         dict_keys[tag_id.id][current_date] = (0,0, 24)
                     current_date = current_date +timedelta(days=1)
             tag_content = dict_keys.get(tag_id.id, False)
-            tag_line = [tag_id.navire_id.name, tag_id.name]
+            tag_line = [tag_id.navire_id.name, tag_id.name, max_tag_date]
             if data['type'] == 'week':
                 diff_day = 6
             else:
@@ -61,9 +62,10 @@ class NavireTransitTimeXlsx(models.AbstractModel):
                 nb_sun = np.busday_count(str(start_date), str(end_date), weekmask='Sun')
                 delta = end_date - start_date
                 diff_day = delta.days - nb_sun
-            res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
+            # res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
+            res_avg = sum(t[2] for t in tag_content.values())/diff_day
             res_avg = timedelta(minutes=res_avg)
-            tag_line.extend([tag_content[-1][0], str(res_avg).split('.')[0]])
+            tag_line.append(str(res_avg).split('.')[0])
             if diff_time:
                 diff_time += res_avg
             else:

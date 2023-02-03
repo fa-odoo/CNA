@@ -234,7 +234,7 @@ class TaskTagsLine(models.Model):
             temps_passage = 0
             if rec.scan_date and rec.date_scan_ok:
                 previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and
-                                                                             r.scan_date <= rec.scan_date and
+                                                                             r.scan_date <= rec.scan_date and r.id < rec.id and
                                                                             r.date_scan_ok and
                                                                              r.scan_date.strftime('%d/%m/%Y') == rec.scan_date.strftime('%d/%m/%Y')).sorted('scan_date', reverse=True)
                 if previous_scans and previous_scans[0].date_scan_ok:
