@@ -232,16 +232,16 @@ class TaskTagsLine(models.Model):
     def compute_temps_passage_daily(self):
         for rec in self:
             temps_passage = 0
-            # if rec.scan_date and rec.date_scan_ok:
-            #     self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s' order by scan_date desc;"""%(rec.id, rec.scan_date,
-            #                                                                                             rec.scan_date.strftime(DEFAULT_SERVER_DATE_FORMAT)))
-            #     # previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.scan_date and
-            #     #                                                              r.scan_date <= rec.scan_date and r.id < rec.id and
-            #     #                                                             r.date_scan_ok and
-            #     #                                                              r.scan_date.strftime('%d/%m/%Y') == rec.scan_date.strftime('%d/%m/%Y')).sorted('scan_date', reverse=True)
-            #     previous_scans = self.env.cr.fetchone()
-            #     if previous_scans:
-            #         temps_passage = (rec.scan_date - previous_scans[0]).total_seconds()/60
+            if rec.scan_date and rec.date_scan_ok:
+                self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s' order by scan_date desc;"""%(rec.id, rec.scan_date,
+                                                                                                        rec.scan_date.strftime(DEFAULT_SERVER_DATE_FORMAT)))
+                # previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.scan_date and
+                #                                                              r.scan_date <= rec.scan_date and r.id < rec.id and
+                #                                                             r.date_scan_ok and
+                #                                                              r.scan_date.strftime('%d/%m/%Y') == rec.scan_date.strftime('%d/%m/%Y')).sorted('scan_date', reverse=True)
+                previous_scans = self.env.cr.fetchone()
+                if previous_scans:
+                    temps_passage = (rec.scan_date - previous_scans[0]).total_seconds()/60
             rec.temps_passage_daily = temps_passage
 
     @api.depends('tag_id')
