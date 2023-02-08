@@ -167,18 +167,18 @@ class TaskTagsLine(models.Model):
     _name = 'task.tags.line'
     _rec_name = 'task_id'
 
-    tag_id = fields.Many2one('tags.tags', 'Tag', required=True)
+    tag_id = fields.Many2one('tags.tags', 'Tag', required=True, index=True)
     navire_id = fields.Many2one(related='tag_id.navire_id', store=True, string='Navire', index=True)
 
     task_id = fields.Many2one('project.task', 'Tournée', ondelete='cascade')
     anomalie_ids = fields.One2many('tags.task.anomalie', 'line_id', 'Anomalies')
     state = fields.Selection([('draft', 'Brouillon'), ('done', 'Scané')], default='draft', string='Etat')
-    scan_date = fields.Datetime('Moment du scan')
+    scan_date = fields.Datetime('Moment du scan', index=True)
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
     temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
-    date_scan_ok = fields.Boolean(compute='check_scan_date', store=True)
+    date_scan_ok = fields.Boolean(compute='check_scan_date', store=True, index=True)
     scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
     scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
     scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
@@ -233,7 +233,9 @@ class TaskTagsLine(models.Model):
         for rec in self:
             temps_passage = 0
             if rec.scan_date and rec.date_scan_ok:
-                self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s'  and tag_id=%s order by scan_date desc;"""%(rec.id, rec.scan_date,
+                self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and 
+                date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s' 
+                 and tag_id=%s order by scan_date desc;"""%(rec.id, rec.scan_date,
                                                                                                         rec.scan_date.strftime(DEFAULT_SERVER_DATE_FORMAT), rec.tag_id.id))
                 # previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.scan_date and
                 #                                                              r.scan_date <= rec.scan_date and r.id < rec.id and
