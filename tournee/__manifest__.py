@@ -8,7 +8,7 @@
     """,
     'author': "SYENTYS",
     'website': "http://www.syentys.com",
-    'version': '0.2',
+    'version': '0.3',
     
     'depends': [
         'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents',
