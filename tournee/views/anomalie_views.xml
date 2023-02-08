@@ -285,6 +285,20 @@
             <field name="groups_id" eval="[(4, ref('activities.group_cna_ads'))]"/>
         </record>
 
+        <record id="document_view_search" model="ir.ui.view">
+            <field name="name">view.documents.search</field>
+            <field name="model">documents.document</field>
+            <field name="inherit_id" ref="documents.document_view_search">tags.task.anomalie</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="navire_id"/>
+                </field>
+                <filter name="owner" position="after">
+                                        <filter name="navire_id" string="navire_id" domain="[]" context="{'group_by':'navire_id'}"/>
+
+                </filter>
+            </field>
+        </record>
         <record id="view_tags_task_anomalie_analyse_tree" model="ir.ui.view">
             <field name="name">view.tags.task.anomalie.analyse.tree</field>
             <field name="model">tags.task.anomalie</field>
