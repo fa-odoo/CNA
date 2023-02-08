@@ -31,25 +31,25 @@ class NavireTransitTimeXlsx(models.AbstractModel):
             when count(*)  = 1 then 1440 
             else sum(temps_passage_daily)/(count(*)-1) end as temps_passage_daily_avg
          FROM task_tags_line 
-         WHERE scan_date is not null AND navire_id=1 and
+         WHERE scan_date is not null and
           tag_id in %s AND DATE(scan_date) >= DATE(%s) AND
            DATE(scan_date) <= DATE(%s) and date_scan_ok is true
             group by tag_id, date_trunc('day',scan_date)""", (tuple(tag_ids.ids), data['date_start'], data['date_end']))
         dict_keys = {tag_id: {}for tag_id in tag_ids.ids}
         for x in cr.fetchall():
 
-            dict_keys[x[0]][x[1]]=(x[2], x[3], x[4])
+            dict_keys[x[0]][x[1].date()]=(x[2], x[3], x[4], x[1])
         start_date = fields.Date.from_string(data['date_start'])
         end_date = fields.Date.from_string(data['date_end'])
         for tag_id in tag_ids:
             tag_line = False
             tag_content = dict_keys.get(tag_id.id, False)
-            max_tag_date = tag_content.keys() and  max(t for t in tag_content.keys() ) or ''
+            max_tag_date = tag_content.values() and  max(t[3] for t in tag_content.values() ) or ''
             if tag_content:
                 current_date = start_date
                 while current_date <= end_date:
                     if not tag_content.get(current_date, False) and current_date.weekday() != 6:
-                        dict_keys[tag_id.id][current_date] = (0,0, 24)
+                        dict_keys[tag_id.id][current_date] = (0,0, 1440, '')
                     current_date = current_date +timedelta(days=1)
             tag_content = dict_keys.get(tag_id.id, False)
             tag_line = [tag_id.navire_id.name, tag_id.name, max_tag_date]

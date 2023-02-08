@@ -40,7 +40,7 @@ class NavireTransitTimeWizard(models.TransientModel):
                     rec.date_end = rec.date_start + timedelta(days=5)
                 else:
                     input_dt = rec.date_start
-                    next_month = input_dt.replace(day=28) + timedelta(days=4)
+                    next_month = input_dt.replace(month=28) + timedelta(days=4)
                     res = next_month - timedelta(days=next_month.day)
                     rec.date_end = res
             else:
