@@ -4,6 +4,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime, timedelta
+from pytz import timezone, utc
 
 
 class ProjectTask(models.Model):
@@ -210,10 +211,12 @@ class TaskTagsLine(models.Model):
     def check_scan_date(self):
         for rec in self:
             date_scan_ok = False
+            tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
+
             if rec.scan_date:
-                if 0<= rec.scan_date.weekday() <=4 and  6<=rec.scan_date.hour<=22:
+                if 0<= rec.scan_date.weekday() <=4 and  6<=rec.scan_date.astimezone(tz).hour<=22:
                     date_scan_ok = True
-                elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.hour<=14:
+                elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.astimezone(tz).hour<=14:
                     date_scan_ok = True
             rec.date_scan_ok = date_scan_ok
 
@@ -232,7 +235,7 @@ class TaskTagsLine(models.Model):
     def compute_temps_passage_daily(self):
         for rec in self:
             temps_passage = 0
-            if rec.scan_date and rec.date_scan_ok:
+            if rec.id and rec.scan_date and rec.date_scan_ok:
                 self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and 
                 date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s' 
                  and tag_id=%s order by scan_date desc;"""%(rec.id, rec.scan_date,
