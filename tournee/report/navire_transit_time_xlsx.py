@@ -5,6 +5,7 @@ from dateutil.rrule import rrule, MONTHLY
 import random
 from datetime import timedelta
 import numpy as np
+from pytz import timezone, utc
 
 class NavireTransitTimeXlsx(models.AbstractModel):
     _name = 'report.tournee.navire_transit_time_xlsx'
@@ -81,11 +82,12 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         sheet.write(0, 2, 'DATE DERNIER SCAN', th_format)
         sheet.write(0, 3, 'TEMPS Moyenne', th_format)
         sheet.set_column(2, 3, 30)
+        tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
 
         for doc in docs:
             sheet.write(i, 0, doc[0], td_format)
             sheet.write(i, 1, doc[1], td_format)
-            sheet.write(i, 2, doc[2].strftime('%d/%m/%Y %H:%M') if doc[2] != '' else '', td_format)
+            sheet.write(i, 2, doc[2].astimezone(tz).strftime('%d/%m/%Y %H:%M') if doc[2] != '' else '', td_format)
             sheet.write(i, 3, doc[3], td_format)
             i += 1
         sheet.write(i, 3, "Moyenne = {}".format(str(diff_time/(len(docs) or 1)).split('.')[0]), td_format)
