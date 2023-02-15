@@ -77,7 +77,7 @@ GROUP BY tag_id, date_trunc('day', scan_date)
                 # Get number of sunday between start and end date
                 nb_sun = np.busday_count(str(start_date), str(end_date), weekmask='Sun')
                 delta = end_date - start_date
-                diff_day = delta.days - nb_sun
+                diff_day = delta.days +1 - nb_sun
             # res_avg = (sum([x[1] for x in tag_content]) + ((diff_day - len(tag_content)) * 24)) / diff_day
             res_avg = sum(t[2] for t in tag_content.values())/diff_day
             res_avg = timedelta(minutes=res_avg)
