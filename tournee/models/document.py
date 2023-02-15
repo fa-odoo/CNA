@@ -10,7 +10,7 @@ class Document(models.Model):
         for rec in self:
             navire =False
             if rec.attachment_id and rec.attachment_id.res_model == 'tags.task.anomalie' and rec.attachment_id.res_id:
-                record =  self.env['tags.task.anomalie'].browse(rec.attachment_id.res_id)
+                record = self.env['tags.task.anomalie'].browse(rec.attachment_id.res_id)
                 if record:
 
                     navire = record.navire_id and record.navire_id.id
