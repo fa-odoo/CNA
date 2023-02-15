@@ -27,15 +27,30 @@ class NavireTransitTimeXlsx(models.AbstractModel):
         #            ") AS A WHERE Row_ID <2",
         #            (tuple(tag_ids.ids), data['date_start'], data['date_end']))
 
+        # cr.execute("""SELECT tag_id, max(scan_date), sum(temps_passage_daily), count(*),
+        # case when sum(temps_passage_daily) = 0  then 1440
+        #     when count(*)  = 1 then 1440
+        #     else sum(temps_passage_daily)/count(*) end as temps_passage_daily_avg
+        #  FROM task_tags_line
+        #  WHERE scan_date is not null and
+        #   tag_id in %s AND DATE(scan_date) >= DATE(%s) AND
+        #    DATE(scan_date) <= DATE(%s) and date_scan_ok is true
+        #     group by tag_id, date_trunc('day',scan_date)""", (tuple(tag_ids.ids), data['date_start'], data['date_end']))
+
         cr.execute("""SELECT tag_id, max(scan_date), sum(temps_passage_daily), count(*),
-        case when sum(temps_passage_daily) = 0  then 1440
-            when count(*)  = 1 then 1440 
-            else sum(temps_passage_daily)/(count(*)-1) end as temps_passage_daily_avg
-         FROM task_tags_line 
-         WHERE scan_date is not null and
-          tag_id in %s AND DATE(scan_date) >= DATE(%s) AND
-           DATE(scan_date) <= DATE(%s) and date_scan_ok is true
-            group by tag_id, date_trunc('day',scan_date)""", (tuple(tag_ids.ids), data['date_start'], data['date_end']))
+    CASE WHEN count(CASE WHEN temps_passage_daily > 0 THEN 1 END) = 0
+         THEN 0
+         ELSE sum(CASE WHEN temps_passage_daily > 0 THEN temps_passage_daily ELSE 0 END) / count(CASE WHEN temps_passage_daily > 0 THEN 1 END)
+    END as temps_passage_daily_avg
+FROM task_tags_line 
+WHERE scan_date is not null and
+    tag_id in %s AND 
+    DATE(scan_date) >= DATE(%s) AND 
+    DATE(scan_date) <= DATE(%s) AND date_scan_ok is true 
+    
+GROUP BY tag_id, date_trunc('day', scan_date)
+HAVING sum(CASE WHEN temps_passage_daily > 0 THEN 1 ELSE 0 END) > 0
+""", (tuple(tag_ids.ids), data['date_start'], data['date_end']))
         dict_keys = {tag_id: {}for tag_id in tag_ids.ids}
         for x in cr.fetchall():
 
