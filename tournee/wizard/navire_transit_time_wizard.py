@@ -7,6 +7,7 @@ from datetime import timedelta
 class NavireTransitTimeWizard(models.TransientModel):
     _name = 'navire.transit.time.wizard'
 
+
     type = fields.Selection([('week', 'Semaine'), ('month', 'Mois')], default='week', string='Type', required=True)
     date_start = fields.Date(string="Date début", required=True)
     date_end = fields.Date(string="Date fin", compute="compute_date_end", readonly=True)
@@ -18,6 +19,7 @@ class NavireTransitTimeWizard(models.TransientModel):
             if rec.date_start and rec.type:
                 if rec.type == 'week' and rec.date_start.weekday() != 0 or rec.type == 'month' and rec.date_start.day != 1:
                     raise UserError("Veuillez choisir une date valide")
+
 
     @api.model
     def default_get(self, fields):
