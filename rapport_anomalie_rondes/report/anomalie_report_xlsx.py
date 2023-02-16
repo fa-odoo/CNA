@@ -18,6 +18,7 @@ class PartnerXlsx(models.AbstractModel):
         sheet.set_column(2, 2, 10)
         sheet.set_column(3, 3, 5)
         sheet.set_column(4, 4, 22)
+
         sheet.set_column(5, 5, 4)
         sheet.set_column(6, 6, 18)
         sheet.set_column(7, 7, 12)
@@ -80,6 +81,7 @@ class PartnerXlsx(models.AbstractModel):
             sheet.write(y, 6, obj.designation if obj.designation else None, body_center)
             sheet.write(y, 7, obj.bd_td_axe if obj.bd_td_axe else None, body_center)
             sheet.write(y, 8, str(obj.couple) if obj.couple else None, body_center)
+
             sheet.write(y, 9, obj.navire_id.name if obj.navire_id else None, body_center)
             sheet.write(y, 10, obj.respo_zone_id.name if obj.respo_zone_id else None, body_center)
             sheet.write(y, 11, obj.anomalie_id.name if obj.anomalie_id else None, body_left)
