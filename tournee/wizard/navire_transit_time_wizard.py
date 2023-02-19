@@ -19,6 +19,7 @@ class NavireTransitTimeWizard(models.TransientModel):
                 if rec.type == 'week' and rec.date_start.weekday() != 0 or rec.type == 'month' and rec.date_start.day != 1:
                     raise UserError("Veuillez choisir une date valide")
 
+
     @api.model
     def default_get(self, fields):
         res = super().default_get(fields)
