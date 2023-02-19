@@ -31,6 +31,12 @@ class NavireTransitTimeWizard(models.TransientModel):
             if self.date_start > self.date_end:
                 raise Warning('Vous devez choisir une date valide')
         return self.env.ref('tournee.navire_transit_time_xlsx_action').report_action(self, data={'date_start': self.date_start, 'date_end': self.date_end, 'navire_ids': self.navire_ids.ids, 'type': self.type})
+    def generate_graphique_report(self):
+        # check date
+        if self.date_start and self.date_end:
+            if self.date_start > self.date_end:
+                raise Warning('Vous devez choisir une date valide')
+        return self.env.ref('tournee.navire_transit_time_xlsx_action').report_action(self, data={'date_start': self.date_start, 'date_end': self.date_end, 'navire_ids': self.navire_ids.ids, 'type': self.type})
 
     @api.depends('date_start', 'type')
     def compute_date_end(self):

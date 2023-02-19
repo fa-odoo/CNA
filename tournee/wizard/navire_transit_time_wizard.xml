@@ -13,6 +13,7 @@
                 </group>
                 <footer>
                     <button string="Générer" name="generate_report" type="object" class="oe_highlight"/>
+                    <button string="temps de paasage graphique" name="generate_graphique_report" type="object" class="oe_highlight"/>
                     <button string="Cancel" class="btn btn-default" special="cancel"/>
                 </footer>
             </form>
