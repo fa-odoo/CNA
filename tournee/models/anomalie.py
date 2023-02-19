@@ -235,6 +235,7 @@ class TaskTagsLine(models.Model):
     def compute_temps_passage_daily(self):
         for rec in self:
             temps_passage = 0
+
             # if rec.id and rec.scan_date and rec.date_scan_ok:
             #     self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and
             #     date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s'
