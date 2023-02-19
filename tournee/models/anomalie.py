@@ -181,13 +181,13 @@ class TaskTagsLine(models.Model):
     temps_passage_daily = fields.Float( string='Temps passage journalière(min)')
     # temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
     date_scan_ok = fields.Boolean(compute='check_scan_date', store=True, index=True)
-    scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
-    scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
-    scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
-    scan_week_first_day = fields.Date(compute='compute_date_parameters', store=True,
-                                      string="Premier jours de la semaine")
-    scan_week_last_day = fields.Date(compute='compute_date_parameters', store=True,
-                                     string="Premier jours de la semaine")
+    # scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
+    # scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
+    # scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
+    # scan_week_first_day = fields.Date(compute='compute_date_parameters', store=True,
+    #                                   string="Premier jours de la semaine")
+    # scan_week_last_day = fields.Date(compute='compute_date_parameters', store=True,
+    #                                  string="Premier jours de la semaine")
 
     @api.depends('scan_date')
     def compute_date_parameters(self):
