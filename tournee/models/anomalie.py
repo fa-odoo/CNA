@@ -178,7 +178,8 @@ class TaskTagsLine(models.Model):
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
-    temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
+    temps_passage_daily = fields.Float( string='Temps passage journalière(min)')
+    # temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
     date_scan_ok = fields.Boolean(compute='check_scan_date', store=True, index=True)
     scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
     scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
@@ -196,12 +197,12 @@ class TaskTagsLine(models.Model):
             scan_year = ''
             scan_week_first_day = False
             scan_week_last_day = False
-            if rec.scan_date:
-                scan_week = rec.scan_date.isocalendar()[1]
-                scan_month = rec.scan_date.month
-                scan_year = rec.scan_date.year
-                scan_week_first_day = rec.scan_date - timedelta(days=rec.scan_date.weekday())
-                scan_week_last_day = scan_week_first_day + timedelta(days=6)
+            # if rec.scan_date:
+            #     scan_week = rec.scan_date.isocalendar()[1]
+            #     scan_month = rec.scan_date.month
+            #     scan_year = rec.scan_date.year
+            #     scan_week_first_day = rec.scan_date - timedelta(days=rec.scan_date.weekday())
+            #     scan_week_last_day = scan_week_first_day + timedelta(days=6)
             rec.scan_week = scan_week
             rec.scan_month = scan_month
             rec.scan_year = scan_year
