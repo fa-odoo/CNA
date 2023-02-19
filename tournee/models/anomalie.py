@@ -181,6 +181,7 @@ class TaskTagsLine(models.Model):
     temps_passage_daily = fields.Float( string='Temps passage journalière(min)')
     # temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
     date_scan_ok = fields.Boolean(compute='check_scan_date', store=True, index=True)
+
     # scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
     # scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
     # scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
