@@ -35,7 +35,7 @@
         'wizard/add_comment_task.xml',
         'wizard/navire_transit_time_wizard.xml',
         'report/navire_time_template.xml',
-        'report/navire_report_passage.xml',
+        # 'report/navire_report_passage.xml',
 
         # views
         'views/anomalie_views.xml',
