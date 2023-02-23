@@ -26,5 +26,6 @@
         'views/incident_extend.xml',
         'views/project_task_extend.xml',
         'views/anomalie_ronde_extend.xml',
+        'views/res_company_views.xml',
     ],
 }
