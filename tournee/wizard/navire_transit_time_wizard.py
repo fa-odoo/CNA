@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import letter, landscape
 import io
 import base64
 
@@ -95,20 +95,31 @@ class NavireTransitTimeWizard(models.TransientModel):
         plt.plot(week_data, hour_num, marker='s', c='black', zorder=2)
         plt.xticks(week_data, label_week_data, rotation=75, ha='right')
         plt.tight_layout()
-        buf = io.BytesIO()
-        plt.savefig(buf, format='png')
-        # plt.savefig('temp.png')
-        buf.seek(0)
+        buf_main_graph = io.BytesIO()
+        plt.savefig(buf_main_graph, format='png')
+        buf_main_graph.seek(0)
         plt.close()
 
-        pdf_buf = io.BytesIO()
-        can = canvas.Canvas(pdf_buf, pagesize=A4)
-        can.drawString(20, 810, "NAVIRES %s" %(', '.join(self.navire_ids.mapped('name'))))
-        can.drawString(20, 790, "TEMPS DE PASSAGE")
+        fig = plt.figure(figsize=(1, 3.5))
+        plot = plt.bar([0], height=[sum(hour_num)/len(week_data)], width = 0.2)
+        # Add the data value on head of the bar
+        for value in plot:
+            height = value.get_height()
+            if height != 0.0:
+                plt.text(value.get_x() + value.get_width() / 2., 1.002 * height, '%.2f' % float(height), ha = 'center', va = 'bottom')
 
-        x_start = 20
-        y_start = 350
-        can.drawImage(ImageReader(buf), x_start, y_start, width=400, preserveAspectRatio=True, mask='auto')
+        buf_summary_graph = io.BytesIO()
+        plt.axis('off')
+        fig.savefig(buf_summary_graph, format='png')
+        buf_summary_graph.seek(0)
+
+        pdf_buf = io.BytesIO()
+        can = canvas.Canvas(pdf_buf, pagesize=landscape(letter))
+        can.drawString(20, 580, "NAVIRES %s" %(', '.join(self.navire_ids.mapped('name'))))
+        can.drawString(20, 560, "TEMPS DE PASSAGE")
+
+        can.drawImage(ImageReader(buf_main_graph), 20, 100, width=400, preserveAspectRatio=True, mask='auto')
+        can.drawImage(ImageReader(buf_summary_graph), 600, 260, height=250, preserveAspectRatio=True, mask='auto')
 
         can.showPage()
         can.save()
