@@ -31,8 +31,9 @@ class NavireTransitTimeWizard(models.TransientModel):
     def _check_start_end_tag(self):
         for rec in self:
             if rec.date_start and rec.type:
-                if rec.is_graphique and rec.date_start.weekday() != 0 or rec.date_start >= rec.end_date:
-                    raise UserError("Veuillez choisir une date valide")
+                if rec.end_date and rec.is_graphique:
+                    if rec.date_start.weekday() != 0 or rec.date_start >= rec.end_date:
+                        raise UserError("Veuillez choisir une date valide")
                 if not rec.is_graphique and rec.type == 'week' and rec.date_start.weekday() != 0 or rec.type == 'month' and rec.date_start.day != 1:
                     raise UserError("Veuillez choisir une date valide")
 
@@ -44,6 +45,9 @@ class NavireTransitTimeWizard(models.TransientModel):
 
     def generate_report(self):
         self.ensure_one()
+        print("================")
+        print('self.date_end',self.date_end)
+        print('self.date_start',self.date_start)
         # check date
         if self.date_start and self.date_end:
             if self.date_start > self.date_end:
