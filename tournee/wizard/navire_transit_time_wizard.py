@@ -137,45 +137,18 @@ class NavireTransitTimeWizard(models.TransientModel):
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
         diff_time = False
         docs = []
-        cr.execute("""SELECT tag_id, max(scan_date), sum(temps_passage_daily), count(*),
-            CASE WHEN count(CASE WHEN temps_passage_daily > 0 THEN 1 END) = 0
-                 THEN 1440
-                 ELSE sum(CASE WHEN temps_passage_daily > 0 THEN temps_passage_daily ELSE 0 END) / count(CASE WHEN temps_passage_daily > 0 THEN 1 END)
-            END as temps_passage_daily_avg
-        FROM task_tags_line 
-        WHERE scan_date is not null and
-            tag_id in %s AND 
-            DATE(scan_date) >= DATE(%s) AND 
-            DATE(scan_date) <= DATE(%s) AND date_scan_ok is true 
-
-        GROUP BY tag_id, date_trunc('day', scan_date)
-
+        cr.execute("""
+                        SELECT SUM(COUNT(tag_id)) OVER() AS total_count
+                        FROM task_tags_line 
+                        WHERE scan_date is not null and
+                                    tag_id in %s AND 
+                                    DATE(scan_date) >= DATE(%s) AND 
+                                    DATE(scan_date) <= DATE(%s) AND date_scan_ok is true 
         """, (tuple(tag_ids), str(start_date), str(end_date)))
 
-        dict_keys = {tag_id: {} for tag_id in tag_ids}
-        for x in cr.fetchall():
-            dict_keys[x[0]][x[1].date()] = (x[2], x[3], x[4], x[1])
-
-        for tag_id in tag_ids:
-            tag_content = dict_keys.get(tag_id, False)
-            if tag_content:
-                current_date = start_date
-                while current_date <= end_date:
-                    if not tag_content.get(current_date, False) and current_date.weekday() != 6:
-                        dict_keys[tag_id][current_date] = (0, 0, 1440, '')
-                    current_date = current_date + timedelta(days=1)
-            tag_content = dict_keys.get(tag_id, False)
-            diff_day = 6
-            res_avg = sum(t[2] for t in tag_content.values()) / diff_day
-            res_avg = timedelta(minutes=res_avg)
-            tag_line = [str(res_avg).split('.')[0]]
-            if diff_time:
-                diff_time += res_avg
-            else:
-                diff_time = res_avg
-            if tag_line:
-                docs.append(tag_line)
-        return diff_time / (len(docs) or 1), self.get_label(str(diff_time / (len(docs) or 1)).split('.')[0], start_date)
+        scan_tot = self.env.cr.fetchone()[0] or 1
+        print("(88*len(tag_ids)) / int(scan_tot)",(88*len(tag_ids)) / int(scan_tot))
+        return timedelta(hours=(88*len(tag_ids)) / int(scan_tot)), self.get_label(str(diff_time / (len(docs) or 1)).split('.')[0], start_date)
 
     def get_label(self, diff_time, date_key):
         week_indice = {0: 4, 1: 1, 2:2, 3:3}
