@@ -10,7 +10,7 @@
                     <field name="type" attrs="{'invisible':[('is_graphique','=', True)]}"/>
                     <field name="date_start"/>
                     <field name="date_end" force_save="1" attrs="{'invisible':[('is_graphique','=', True)]}"/>
-                    <field name="end_date" attrs="{'invisible':[('is_graphique','=', False)], 'required':[('is_graphique','=', True)]}"/>
+                    <field name="end_date" force_save="1" attrs="{'invisible':[('is_graphique','=', False)], 'required':[('is_graphique','=', True)]}"/>
                     <field name="navire_ids" widget="many2many_tags"/>
                 </group>
                 <footer>
