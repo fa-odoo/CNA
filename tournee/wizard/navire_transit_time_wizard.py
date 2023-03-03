@@ -45,9 +45,6 @@ class NavireTransitTimeWizard(models.TransientModel):
 
     def generate_report(self):
         self.ensure_one()
-        print("================")
-        print('self.date_end',self.date_end)
-        print('self.date_start',self.date_start)
         # check date
         if self.date_start and self.date_end:
             if self.date_start > self.date_end:
