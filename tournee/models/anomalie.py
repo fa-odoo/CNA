@@ -209,6 +209,7 @@ class TaskTagsLine(models.Model):
             rec.scan_year = scan_year
             rec.scan_week_first_day = scan_week_first_day
             rec.scan_week_last_day = scan_week_last_day
+
     @api.depends('scan_date')
     def check_scan_date(self):
         for rec in self:
@@ -216,7 +217,7 @@ class TaskTagsLine(models.Model):
             tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
 
             if rec.scan_date:
-                if 0<= rec.scan_date.weekday() <=4 and  6<=rec.scan_date.astimezone(tz).hour<=21:
+                if 0<= rec.scan_date.weekday() <=4 and 6<=rec.scan_date.astimezone(tz).hour<=21:
                     date_scan_ok = True
                 elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.astimezone(tz).hour<=13:
                     date_scan_ok = True
