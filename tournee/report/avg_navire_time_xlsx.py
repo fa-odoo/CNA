@@ -61,13 +61,18 @@ class AvgNavireTimeXlsx(models.AbstractModel):
 
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
         cr.execute("""
-                        SELECT SUM(COUNT(tag_id)) OVER() AS total_count
-                        FROM task_tags_line 
-                        WHERE scan_date is not null and
-                        tag_id in %s AND 
-                        DATE(scan_date) >= DATE(%s) AND 
-                        DATE(scan_date) <= DATE(%s) AND date_scan_ok is true 
+                SELECT MAX(res_t.total_count), COUNT(*)
+                FROM 
+                    (SELECT SUM(COUNT(tag_id)) OVER() AS total_count
+                    FROM task_tags_line 
+                    WHERE scan_date is not null AND
+                    tag_id in %s AND 
+                    DATE(scan_date) >= DATE(%s) AND 
+                    DATE(scan_date) <= DATE(%s) AND date_scan_ok is true
+                    GROUP BY tag_id) res_t
                 """, (tuple(tag_ids), str(start_date), str(end_date)))
 
-        scan_tot = self.env.cr.fetchone()[0] or 1
-        return timedelta(hours=(88 * len(tag_ids)) / int(scan_tot)), start_date
+        sql_res = self.env.cr.fetchone()
+        scan_tot, row_count = sql_res[0] or 1, sql_res[1] or 1
+
+        return timedelta(hours=(88 * int(row_count)) / int(scan_tot)), start_date

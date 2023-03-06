@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-
+from odoo.exceptions import UserError
 
 class AvgNavireTimeReportWizard(models.TransientModel):
     _name = 'avg.navire.time.report.wizard'
@@ -17,8 +17,8 @@ class AvgNavireTimeReportWizard(models.TransientModel):
     def generate_report(self):
         # check date
         if self.date_start and self.date_end:
-            if self.date_start > self.date_end:
-                raise Warning('Vous devez choisir une date valide')
+            if self.date_start.weekday() != 0 or self.date_start > self.date_end or self.date_end.weekday() != 5:
+                raise UserError('Vous devez choisir une date valide')
 
         data = {
                 'date_start': self.date_start,
