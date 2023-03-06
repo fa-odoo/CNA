@@ -15,7 +15,6 @@ class AvgNavireTimeReportWizard(models.TransientModel):
         return res
 
     def generate_report(self):
-        print('Print Report')
         # check date
         if self.date_start and self.date_end:
             if self.date_start > self.date_end:
