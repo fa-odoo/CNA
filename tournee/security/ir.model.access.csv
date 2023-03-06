@@ -35,6 +35,9 @@
 "access_navire_transit_time_wizard_ads","navire_transit_time_wizard ADS","model_navire_transit_time_wizard","activities.group_cna_ads",1,1,1,0
 "access_navire_transit_time_wizard_admin","navire_transit_time_wizard ADMIN","model_navire_transit_time_wizard","activities.group_cna_admin",1,1,1,1
 
+"access_avg_navire_time_report_wizard_ads","avg_navire_time_report_wizard ADS","model_avg_navire_time_report_wizard","activities.group_cna_ads",1,1,1,0
+"access_avg_navire_time_report_wizard_admin","avg_navire_time_report_wizard ADMIN","model_avg_navire_time_report_wizard","activities.group_cna_admin",1,1,1,1
+
 "access_navire_cdp","Navire CDP","activities.model_navire_navire","activities.group_cna_ads",1,0,0,0
 "access_navire_admin","Navire ADMIN","activities.model_navire_navire","activities.group_cna_admin",1,1,1,1
 
