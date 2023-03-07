@@ -9,7 +9,6 @@
 
 "access_add_comment_task_wizard_cdp","add.comment.task.wizard CDP","tournee.model_add_comment_task_wizard","activities.group_cna_cdp",1,1,1,0
 "access_add_comment_task_wizard_admin","add.comment.task.wizard ADMIN","tournee.model_add_comment_task_wizard","activities.group_cna_admin",1,1,1,1
-
 "access_tags_task_anomalie_ads","tags.task.anomalie ADS","model_tags_task_anomalie","activities.group_cna_ads",1,1,1,0
 "access_tags_task_anomalie_admin","tags.task.anomalie ADMIN","model_tags_task_anomalie","activities.group_cna_admin",1,1,1,1
 

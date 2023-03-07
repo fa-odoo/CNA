@@ -6,16 +6,16 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                   <label for="date_start" string="Semaine"/>
-                    <div class="o_row">
-                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_end'}"/>
-                        <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                        <field name="date_end" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date_start'}"/>
-                    </div>
+                    <field name="is_graphique" widget="boolean_toggle"/>
+                    <field name="type" attrs="{'invisible':[('is_graphique','=', True)]}"/>
+                    <field name="date_start"/>
+                    <field name="date_end" force_save="1" attrs="{'invisible':[('is_graphique','=', True)]}"/>
+                    <field name="end_date" force_save="1" attrs="{'invisible':[('is_graphique','=', False)], 'required':[('is_graphique','=', True)]}"/>
                     <field name="navire_ids" widget="many2many_tags"/>
                 </group>
                 <footer>
-                    <button string="Générer" name="generate_report" type="object" class="oe_highlight"/>
+                    <button attrs="{'invisible':[('is_graphique','=', True)]}" string="Générer" name="generate_report" type="object" class="oe_highlight"/>
+                    <button attrs="{'invisible':[('is_graphique','=', False)]}" string="Temps de passage graphique" name="generate_xlsx_report" type="object" class="oe_highlight"/>
                     <button string="Cancel" class="btn btn-default" special="cancel"/>
                 </footer>
             </form>

@@ -2,8 +2,9 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
-from datetime import datetime
+from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
+from datetime import datetime, timedelta
+from pytz import timezone, utc
 
 
 class ProjectTask(models.Model):
@@ -24,6 +25,7 @@ class ProjectTask(models.Model):
     access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
                                     required = True, tracking = True, default = 'navire')
     lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
+
 
     @api.depends('anomalie_ids')
     def compute_has_anomalies(self):
@@ -166,24 +168,58 @@ class TaskTagsLine(models.Model):
     _name = 'task.tags.line'
     _rec_name = 'task_id'
 
-    tag_id = fields.Many2one('tags.tags', 'Tag', required=True)
-    task_id = fields.Many2one('project.task', 'Tournée')
+    tag_id = fields.Many2one('tags.tags', 'Tag', required=True, index=True)
+    navire_id = fields.Many2one(related='tag_id.navire_id', store=True, string='Navire', index=True)
+
+    task_id = fields.Many2one('project.task', 'Tournée', ondelete='cascade')
     anomalie_ids = fields.One2many('tags.task.anomalie', 'line_id', 'Anomalies')
     state = fields.Selection([('draft', 'Brouillon'), ('done', 'Scané')], default='draft', string='Etat')
-    scan_date = fields.Datetime('Moment du scan')
+    scan_date = fields.Datetime('Moment du scan', index=True)
     is_required = fields.Boolean(string="Obligatoire")
     hors_parcours = fields.Boolean(string="Hors Parcours", compute='_compute_hors_parcours', store=True)
     temps_passage = fields.Float(compute='compute_temps_passage', store=True, string='Temps passage(min)')
-    date_scan_ok = fields.Boolean(compute='check_scan_date', store=True)
+    # temps_passage_daily = fields.Float( string='Temps passage journalière(min)')
+    temps_passage_daily = fields.Float(compute='compute_temps_passage_daily', store=True, string='Temps passage journalière(min)')
+    date_scan_ok = fields.Boolean(compute='check_scan_date', store=True, index=True)
+
+    # scan_week = fields.Char(compute='compute_date_parameters', store=True, string="Semaine")
+    # scan_month = fields.Char(compute='compute_date_parameters', store=True, string="Mois")
+    # scan_year = fields.Char(compute='compute_date_parameters', store=True, string="Année")
+    # scan_week_first_day = fields.Date(compute='compute_date_parameters', store=True,
+    #                                   string="Premier jours de la semaine")
+    # scan_week_last_day = fields.Date(compute='compute_date_parameters', store=True,
+    #                                  string="Premier jours de la semaine")
+
+    @api.depends('scan_date')
+    def compute_date_parameters(self):
+        for rec in self:
+            scan_week = ''
+            scan_month = ''
+            scan_year = ''
+            scan_week_first_day = False
+            scan_week_last_day = False
+            # if rec.scan_date:
+            #     scan_week = rec.scan_date.isocalendar()[1]
+            #     scan_month = rec.scan_date.month
+            #     scan_year = rec.scan_date.year
+            #     scan_week_first_day = rec.scan_date - timedelta(days=rec.scan_date.weekday())
+            #     scan_week_last_day = scan_week_first_day + timedelta(days=6)
+            rec.scan_week = scan_week
+            rec.scan_month = scan_month
+            rec.scan_year = scan_year
+            rec.scan_week_first_day = scan_week_first_day
+            rec.scan_week_last_day = scan_week_last_day
 
     @api.depends('scan_date')
     def check_scan_date(self):
         for rec in self:
             date_scan_ok = False
+            tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
+
             if rec.scan_date:
-                if 0<= rec.scan_date.weekday() <=4 and  6<=rec.scan_date.hour<=22:
+                if 0<= rec.scan_date.weekday() <=4 and 6<=rec.scan_date.astimezone(tz).hour<=21:
                     date_scan_ok = True
-                elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.hour<=14:
+                elif rec.scan_date.weekday() ==5 and 6<=rec.scan_date.astimezone(tz).hour<=13:
                     date_scan_ok = True
             rec.date_scan_ok = date_scan_ok
 
@@ -192,11 +228,29 @@ class TaskTagsLine(models.Model):
         for rec in self:
             temps_passage =0
             if rec.scan_date and rec.date_scan_ok:
-                previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
-                if previous_scans  and  previous_scans[0].date_scan_ok:
+                previous_scans = rec.task_id.tag_anomalie_ids.filtered(lambda r:  r.id != rec.id and r.scan_date and
+                                                                                  r.scan_date <rec.scan_date).sorted('scan_date', reverse=True)
+                if previous_scans and previous_scans[0].date_scan_ok:
                     temps_passage = (rec.scan_date - previous_scans[0].scan_date).total_seconds()/60
             rec.temps_passage = temps_passage
 
+    @api.depends('tag_id', 'scan_date')
+    def compute_temps_passage_daily(self):
+        for rec in self:
+            temps_passage = 0
+            if rec.id and rec.scan_date and rec.date_scan_ok:
+                self.env.cr.execute("""select scan_date from task_tags_line where id < %s and scan_date is not null and
+                date_scan_ok is true and scan_date <= '%s' and date_trunc('days', scan_date) = '%s'
+                 and tag_id=%s order by scan_date desc;"""%(rec.id, rec.scan_date,
+                                                                                                        rec.scan_date.strftime(DEFAULT_SERVER_DATE_FORMAT), rec.tag_id.id))
+                # previous_scans = rec.tag_id.tag_line_ids.filtered(lambda r:  r.scan_date and
+                #                                                              r.scan_date <= rec.scan_date and r.id < rec.id and
+                #                                                             r.date_scan_ok and
+                #                                                              r.scan_date.strftime('%d/%m/%Y') == rec.scan_date.strftime('%d/%m/%Y')).sorted('scan_date', reverse=True)
+                previous_scans = self.env.cr.fetchone()
+                if previous_scans:
+                    temps_passage = (rec.scan_date - previous_scans[0]).total_seconds()/60
+            rec.temps_passage_daily = temps_passage
 
     @api.depends('tag_id')
     def _compute_hors_parcours(self):
