@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="avg_navire_time_report_wizard_form" model="ir.ui.view">
+            <field name="name">avg.navire.time.report.wizard.form</field>
+            <field name="model">avg.navire.time.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="date_start" required="1"/>
+                        <field name="date_end" required="1"/>
+                        <field name="navire_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <footer>
+                        <button string="Générer" name="generate_report" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="avg_navire_time_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Temps de passage moyen</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">avg.navire.time.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="activities.model_navire_navire"/>
+            <field name="binding_type">report</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
