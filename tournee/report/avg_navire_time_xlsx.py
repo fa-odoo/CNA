@@ -34,13 +34,13 @@ class AvgNavireTimeXlsx(models.AbstractModel):
 
             docs[data['navire_names'][i]] = {}
             while end <= end_date:
-                hour_res, res_label = self.get_avg_time(tag_ids, start, end, cr)
+                hour_res, res_label, res_label_end = self.get_avg_time(tag_ids, start, end, cr)
 
                 start = end + timedelta(days=1)
                 end = start - timedelta(days=start.weekday()) + timedelta(days=6)
-                docs[data['navire_names'][i]][str(res_label)] = str(hour_res).split('.')[0]
+                docs[data['navire_names'][i]][str(res_label)+' à '+ str(res_label_end)] = str(hour_res).split('.')[0]
                 if not date_index:
-                    date_res.append(str(res_label))
+                    date_res.append(str(res_label)+' à '+ str(res_label_end))
             if not date_index:
                 date_index = date_res
             i += 1
@@ -75,4 +75,4 @@ class AvgNavireTimeXlsx(models.AbstractModel):
         sql_res = self.env.cr.fetchone()
         scan_tot, row_count = sql_res[0] or 1, sql_res[1] or 1
 
-        return timedelta(hours=(88 * int(row_count)) / int(scan_tot)), start_date
+        return timedelta(hours=(88 * int(row_count)) / int(scan_tot)), start_date, end_date
