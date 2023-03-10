@@ -34,11 +34,15 @@ class AvgNavireTimeXlsx(models.AbstractModel):
 
             docs[data['navire_names'][i]] = {}
             while end <= end_date:
-                hour_res, res_label, res_label_end = self.get_avg_time(tag_ids, start, end, cr)
+                hour_res, res_label, res_label_end,data_x,data_y = self.get_avg_time(tag_ids, start, end, cr)
 
+                res_label =res_label.strftime("%d/%m/%Y")
+                res_label_end =res_label_end.strftime("%d/%m/%Y")
+                print('res_labeeeeeeeeee', res_label)
+                print('res_labeeeeeeeeee_end', res_label_end)
                 start = end + timedelta(days=1)
                 end = start - timedelta(days=start.weekday()) + timedelta(days=6)
-                docs[data['navire_names'][i]][str(res_label)+' à '+ str(res_label_end)] = str(hour_res).split('.')[0]
+                docs[data['navire_names'][i]][str(res_label)+' à '+ str(res_label_end)] = (data_x,data_y,str(hour_res).split('.')[0])
                 if not date_index:
                     date_res.append(str(res_label)+' à '+ str(res_label_end))
             if not date_index:
@@ -47,17 +51,25 @@ class AvgNavireTimeXlsx(models.AbstractModel):
 
         sheet = workbook.add_worksheet(data['date_start'] + ' au ' + data['date_end'])
         sheet.write(0, 0, 'NAVIRE', th_format)
-        sheet.set_column(0, 0, 20)
+        sheet.set_column(0, 0, 15)
 
         for date_el in date_index:
-            x = 1
-            sheet.write(0, y, date_el, th_format)
+            x = 2
+            # sheet.write(0, y, date_el, th_format)
+            sheet.merge_range(0, y, 0 ,y+2, date_el, th_format)
+            sheet.write(1, y,"Tags scannés", td_format)
+            sheet.write(1, y+1,"Total scans", td_format)
+            sheet.write(1, y+2,"Temps de passage moyen", td_format)
             for key, value in docs.items():
                 sheet.write(x, 0, key, td_format)
-                sheet.write(x, y, value[str(date_el)], td_format)
-                sheet.set_column(x, y, 20)
+                sheet.write(x, y, value[str(date_el)][0], td_format)
+                sheet.write(x, y+1, value[str(date_el)][1], td_format)
+                sheet.write(x, y+2, value[str(date_el)][2].replace('day', 'jour'), td_format)
+                sheet.set_column(x, y, 10)
+                sheet.set_column(x, y+1, 10)
+                sheet.set_column(x, y+2, 15)
                 x += 1
-            y += 1
+            y += 3
 
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
         cr.execute("""
@@ -73,6 +85,8 @@ class AvgNavireTimeXlsx(models.AbstractModel):
                 """, (tuple(tag_ids), str(start_date), str(end_date)))
 
         sql_res = self.env.cr.fetchone()
-        scan_tot, row_count = sql_res[0] or 1, sql_res[1] or 1
+        scan_tot, row_count,data_y = sql_res[0] or 1, sql_res[1] or 0,sql_res[0] or 0
+        data_x= int(row_count)
 
-        return timedelta(hours=(88 * int(row_count)) / int(scan_tot)), start_date, end_date
+
+        return timedelta(hours=(88 * int(row_count)) / int(scan_tot)), start_date, end_date,data_x,data_y
