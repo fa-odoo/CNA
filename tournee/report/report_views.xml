@@ -68,5 +68,12 @@
             <field name="report_name">tournee.navire_transit_time_xlsx</field>
             <field name="report_file">tournee.navire_transit_time_xlsx</field>
         </record>
+        <record id="avg_navire_time_xlsx_action" model="ir.actions.report">
+            <field name="name">Temps de passage moyen Xlsx</field>
+            <field name="model">navire.navire</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">tournee.avg_navire_time_xlsx</field>
+            <field name="report_file">tournee.avg_navire_time_xlsx</field>
+        </record>
     </data>
 </odoo>

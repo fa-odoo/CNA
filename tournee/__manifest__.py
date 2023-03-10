@@ -34,6 +34,7 @@
         'wizard/add_tags_wizard.xml',
         'wizard/add_comment_task.xml',
         'wizard/navire_transit_time_wizard.xml',
+        'wizard/avg_navire_time_report_wizard.xml',
         'report/navire_time_template.xml',
 
         # views
