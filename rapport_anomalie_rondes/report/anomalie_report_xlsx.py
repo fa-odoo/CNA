@@ -1,4 +1,5 @@
 from odoo import models
+from pytz import timezone, utc
 
 class PartnerXlsx(models.AbstractModel):
     _name = 'report.rapport_anomalie_rondes.report_anomalie_xlsx'
@@ -70,12 +71,14 @@ class PartnerXlsx(models.AbstractModel):
             '11': 'Novembre',
             '12': 'Décembre'
         }
+
+        tz = timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')
         for obj in anomalies:
             sheet.write(y, 0, int(obj.year) if obj.year and obj.year.isdigit() else obj.year, body_center)
             sheet.write(y, 1, months[obj.month] if obj.month else None, body_center)
             sheet.write(y, 2, int(obj.week) if obj.week and obj.week.isdigit() else obj.week, body_center)
             sheet.write(y, 3, obj.day if obj.day else None, body_center)
-            sheet.write(y, 4, obj.date_anomalie.strftime('%d-%m-%Y %H:%M:%S') if obj.date_anomalie else None, body_center)
+            sheet.write(y, 4, str(utc.localize(obj.date_anomalie).astimezone(tz).strftime('%d-%m-%Y %H:%M:%S')) if obj.date_anomalie else None, body_center)
             sheet.write(y, 5, str(obj.lot) if obj.lot else None, body_center)
             sheet.write(y, 6, obj.designation if obj.designation else None, body_center)
             sheet.write(y, 7, obj.bd_td_axe if obj.bd_td_axe else None, body_center)
