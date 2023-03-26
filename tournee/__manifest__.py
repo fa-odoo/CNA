@@ -8,7 +8,7 @@
     """,
     'author': "SYENTYS",
     'website': "http://www.syentys.com",
-    'version': '0.1',
+    'version': '0.3',
     
     'depends': [
         'base', 'contacts', 'industry_fsm', 'hr', 'mail', 'activities', 'barcodes', 'documents',
@@ -36,6 +36,7 @@
         'wizard/navire_transit_time_wizard.xml',
         'wizard/avg_navire_time_report_wizard.xml',
         'report/navire_time_template.xml',
+        'report/navire_report_passage.xml',
 
         # views
         'views/anomalie_views.xml',

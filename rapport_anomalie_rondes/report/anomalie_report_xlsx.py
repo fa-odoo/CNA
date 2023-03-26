@@ -78,11 +78,14 @@ class PartnerXlsx(models.AbstractModel):
             sheet.write(y, 1, months[obj.month] if obj.month else None, body_center)
             sheet.write(y, 2, int(obj.week) if obj.week and obj.week.isdigit() else obj.week, body_center)
             sheet.write(y, 3, obj.day if obj.day else None, body_center)
+
             sheet.write(y, 4, str(utc.localize(obj.date_anomalie).astimezone(tz).strftime('%d-%m-%Y %H:%M:%S')) if obj.date_anomalie else None, body_center)
+
             sheet.write(y, 5, str(obj.lot) if obj.lot else None, body_center)
             sheet.write(y, 6, obj.designation if obj.designation else None, body_center)
             sheet.write(y, 7, obj.bd_td_axe if obj.bd_td_axe else None, body_center)
             sheet.write(y, 8, str(obj.couple) if obj.couple else None, body_center)
+
             sheet.write(y, 9, obj.navire_id.name if obj.navire_id else None, body_center)
             sheet.write(y, 10, obj.respo_zone_id.name if obj.respo_zone_id else None, body_center)
             sheet.write(y, 11, obj.anomalie_id.name if obj.anomalie_id else None, body_left)
