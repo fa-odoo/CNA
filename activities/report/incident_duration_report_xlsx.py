@@ -40,8 +40,8 @@ class IncidentDurationReportXlsx(models.AbstractModel):
         sheet.set_column(10, 10, 50)
 
         for incident_id in incident_ids:
-            sheet.write(i, 0, str(utc.localize(incident_id.create_date).astimezone(timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')).strftime('%d/%m/%Y')), td_format)
-            sheet.write(i, 1, str(utc.localize(incident_id.create_date).astimezone(timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')).strftime("%H:%M")), td_format)
+            sheet.write(i, 0, str(utc.localize(incident_id.date_start).astimezone(timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')).strftime('%d/%m/%Y')), td_format)
+            sheet.write(i, 1, str(utc.localize(incident_id.date_start).astimezone(timezone(self.env.user.tz or self.env.context.get('tz') or 'UTC')).strftime("%H:%M")), td_format)
             sheet.write(i, 2, incident_id.lieu.name if incident_id.lieu else "", td_format)
             sheet.write(i, 3, incident_id.incident_type_id.name if incident_id.incident_type_id else "", evnt_format)
             sheet.write(i, 4, incident_id.victime, td_format)
