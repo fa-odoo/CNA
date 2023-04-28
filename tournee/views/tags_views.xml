@@ -175,6 +175,7 @@ action = {
                             <field name="bd_td_axe"/>
                             <field name="respo_zone_id"/>
                             <field name="last_date_scan"/>
+                            <field name="active" invisible="1"/>
                         </group>
                         <field name="tag_file" widget="pdf_viewer"/>
                     </sheet>
@@ -215,8 +216,8 @@ action = {
                     <field name="navire_id"/>
                     <field name="respo_zone_id"/>
                     <filter string="Point d'accès" name="point_acces_group" context="{'group_by': 'access_point'}"/>
-
-
+                    <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                    <filter name="filter_inactive" string="Inactive" domain="[('active', '=', False)]"/>
                     <filter string="Non scanné plus 4H" name="last_date_scan"
                             domain="['|', ('last_date_scan','=', False), ('last_date_scan', '&lt;', (datetime.datetime.now() - relativedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 

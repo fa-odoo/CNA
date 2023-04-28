@@ -26,6 +26,7 @@ class Tags(models.Model):
 	access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
 									required = True, tracking = True, default='navire')
 	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
+	active = fields.Boolean('Active', default=True, tracking=True)
 
 	@api.onchange('access_point')
 	def onchange_access_point(self):
