@@ -27,7 +27,7 @@ class AvgNavireTimeXlsx(models.AbstractModel):
             cr.execute(
                 """
                 SELECT id FROM tags_tags 
-                WHERE navire_id IN {navire_ids}
+                WHERE navire_id IN {navire_ids} AND is_account_in_scan='true'
                 ORDER BY navire_id
                 """.format(navire_ids=navire_ids))
             tag_ids = [val[0] for val in cr.fetchall()]
