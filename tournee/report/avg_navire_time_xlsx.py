@@ -27,7 +27,7 @@ class AvgNavireTimeXlsx(models.AbstractModel):
             cr.execute(
                 """
                 SELECT id FROM tags_tags 
-                WHERE navire_id IN {navire_ids}
+                WHERE navire_id IN {navire_ids} AND is_account_in_scan is True
                 ORDER BY navire_id
                 """.format(navire_ids=navire_ids))
             tag_ids = [val[0] for val in cr.fetchall()]
@@ -38,8 +38,6 @@ class AvgNavireTimeXlsx(models.AbstractModel):
 
                 res_label =res_label.strftime("%d/%m/%Y")
                 res_label_end =res_label_end.strftime("%d/%m/%Y")
-                print('res_labeeeeeeeeee', res_label)
-                print('res_labeeeeeeeeee_end', res_label_end)
                 start = end + timedelta(days=1)
                 end = start - timedelta(days=start.weekday()) + timedelta(days=6)
                 docs[data['navire_names'][i]][str(res_label)+' à '+ str(res_label_end)] = (data_x,data_y,str(hour_res).split('.')[0])
