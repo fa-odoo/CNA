@@ -51,9 +51,6 @@ class PresenceTimeReportXlsx(models.AbstractModel):
                 sum_sold += presence_time_id.hours_sold
                 count_org += 1
                 y += 1
-            print('date_start',date_start)
-            print('date_end',date_end)
-            print('presence_time_ids',presence_time_ids)
             if presence_time_ids:
                 if count_org != 1:
                     sheet.merge_range(5, y_sum, 5, y_sum + count_org - 1, str(sum_sold) + " / " + str(sum_bord), td_format)
