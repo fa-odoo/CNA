@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_peripheral_timing_form" model="ir.ui.view">
+            <field name="name">view.peripheral.timing.form</field>
+            <field name="model">peripheral.timing</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="emp_id"/>
+                            </group>
+                            <group></group>
+                            <group>
+                                <field name="start_date"/>
+                            </group>
+                            <group>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_peripheral_timing_tree" model="ir.ui.view">
+            <field name="name">view.peripheral.timing.tree</field>
+            <field name="model">peripheral.timing</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                    <field name="emp_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_peripheral_timing_view" model="ir.actions.act_window">
+            <field name="name">Donnée d'utilisation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">peripheral.timing</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_peripheral_timing_view" name="Donnée d'utilisation" parent="industry_fsm.fsm_menu_settings" action="action_peripheral_timing_view" sequence="2" groups="activities.group_cna_admin"/>
+
+    </data>
+</odoo>
