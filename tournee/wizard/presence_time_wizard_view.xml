@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_presence_time_wizard_form" model="ir.ui.view">
+        <field name="name">presence.time.wizard.form</field>
+        <field name="model">presence.time.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <button class="oe_highlight" string="Génerer" name="generate_report" type="object" />
+                        <button string="Annuler" class="btn btn-default" special="cancel"/>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_presence_time" model="ir.actions.act_window">
+        <field name="name">Ratio temps de présence</field>
+        <field name="res_model">presence.time.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_presence_time_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_presence_time_report" name="Ratio temps de présence" parent="industry_fsm.fsm_menu_reporting" action="report_presence_time" sequence="54" />
+</odoo>

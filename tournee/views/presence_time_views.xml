@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_presence_time_form" model="ir.ui.view">
+            <field name="name">view.presence.time.form</field>
+            <field name="model">presence.time</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="navire_id"/>
+                                <field name="start_date"/>
+                                <field name="hours_sold"/>
+                            </group>
+                            <group>
+                                <field name="organisation_id"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_presence_time_tree" model="ir.ui.view">
+            <field name="name">view.presence.time.tree</field>
+            <field name="model">presence.time</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="navire_id"/>
+                    <field name="organisation_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="hours_sold"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_presence_time_view" model="ir.actions.act_window">
+            <field name="name">Temps de présence</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">presence.time</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_presence_time_view" name="Temps de présence" parent="industry_fsm.fsm_menu_settings" action="action_presence_time_view" sequence="3" groups="activities.group_cna_admin"/>
+
+    </data>
+</odoo>

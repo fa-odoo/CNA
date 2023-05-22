@@ -4,3 +4,4 @@ from . import navire_time_report_wizard
 from . import navire_duration_wizard
 from . import navire_transit_time_wizard
 from . import avg_navire_time_report_wizard
+from . import presence_time_wizard
