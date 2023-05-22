@@ -13,15 +13,10 @@ class PresenceTimeReportXlsx(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, obj):
         th_format = workbook.add_format({'bold': True, 'border': 1, 'align': 'left', 'valign': 'vcenter', 'bg_color': '#D9D9D9'})
         td_format = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
-        res = {}
         start_date = fields.Date.from_string(data['start_date'])
         end_date = fields.Date.from_string(data['end_date'])
         month_list = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
-        for dt in rrule.rrule(rrule.MONTHLY, dtstart=start_date, until=end_date):
-            if dt.year not in res.keys():
-                res[dt.year] = {}
-            res[dt.year][month_list[dt.month-1]] = []
-        print('res',res)
+
         sheet = workbook.add_worksheet(data['start_date'] + ' au ' + data['end_date'])
         y_sum = 1
         y = 1
