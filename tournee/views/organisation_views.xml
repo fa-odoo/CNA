@@ -39,7 +39,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_organisation_organisation_view" name="Organisation" parent="industry_fsm.fsm_menu_settings" action="action_organisation_organisation_view" sequence="4" groups="activities.group_cna_admin"/>
+        <menuitem id="menu_organisation_organisation_view" name="Organisation" parent="tournee.menu_presence_time_view_root"
+                  action="action_organisation_organisation_view" sequence="10" groups="activities.group_cna_admin"/>
 
     </data>
 </odoo>

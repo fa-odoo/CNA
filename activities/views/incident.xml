@@ -344,13 +344,13 @@
               parent="industry_fsm.fsm_menu_settings" action="action_site_site"/>
 
     <menuitem id="menu_secours" sequence="4" name='Secours' groups="activities.group_cna_admin"
-              parent="industry_fsm.fsm_menu_settings" action="action_secours"/>
+              parent="activities.action_incident_personne_avise_menu_root" action="action_secours"/>
 
     <menuitem id="menu_model_importance" sequence="5" name='Importance' groups="activities.group_cna_admin"
-              parent="industry_fsm.fsm_menu_settings" action="action_model_importance"/>
+              parent="activities.action_incident_personne_avise_menu_root" action="action_model_importance"/>
 
     <menuitem id="menu_model_importance" sequence="6" name='Mesure prise' groups="activities.group_cna_admin"
-              parent="industry_fsm.fsm_menu_settings" action="action_model_mesure_prise"/>
+              parent="activities.action_incident_personne_avise_menu_root" action="action_model_mesure_prise"/>
 
     <menuitem id="menu_rapport_main_courante" sequence="9" parent="menu_activities_root" groups="activities.group_cna_ads"
               action="action_rapport_main_courante"/>

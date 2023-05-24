@@ -20,11 +20,11 @@
 
         # data
         'data/sequence.xml',
-
+        'views/lieu.xml',
         # views
         'views/incident.xml',
         'views/incident_type.xml',
-        'views/lieu.xml',
+
         'views/activitie_type.xml',
         'wizard/incident_duration_wizard_view.xml',
 

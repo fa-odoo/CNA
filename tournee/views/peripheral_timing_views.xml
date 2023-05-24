@@ -50,8 +50,13 @@
             <field name="res_model">peripheral.timing</field>
             <field name="view_mode">tree,form</field>
         </record>
+   <menuitem id="menu_presence_time_view_root" name="Temps de présence"
+                  parent="industry_fsm.fsm_menu_settings"
+                  sequence="5" groups="activities.group_cna_admin"/>
 
-        <menuitem id="menu_peripheral_timing_view" name="Donnée d'utilisation" parent="industry_fsm.fsm_menu_settings" action="action_peripheral_timing_view" sequence="2" groups="activities.group_cna_admin"/>
+        <menuitem id="menu_peripheral_timing_view" name="Données d'utilisation"
+                  parent="tournee.menu_presence_time_view_root" action="action_peripheral_timing_view"
+                  sequence="10" groups="activities.group_cna_admin"/>
 
     </data>
 </odoo>
