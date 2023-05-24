@@ -39,6 +39,7 @@
                     <field name="emp_id"/>
                     <field name="start_date"/>
                     <field name="end_date"/>
+                    <field name="difference" widget="timesheet_uom" sum="Total"/>
                 </tree>
             </field>
         </record>
