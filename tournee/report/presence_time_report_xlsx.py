@@ -47,8 +47,11 @@ class PresenceTimeReportXlsx(models.AbstractModel):
                 count_org += 1
                 y += 1
             if presence_time_ids:
+                sum_seconds = sum_bord.seconds / 60
+                ratio = sum_seconds*100/sum_sold
+                res_string = "%s / %.2f = %.2f"% (sum_sold, sum_seconds, ratio) + " %"
                 if count_org != 1:
-                    sheet.merge_range(5, y_sum, 5, y_sum + count_org - 1, str(sum_sold) + " / " + str(sum_bord), td_format)
+                    sheet.merge_range(5, y_sum, 5, y_sum + count_org - 1, res_string, td_format)
                 else:
-                    sheet.write(5, y-1, str(sum_sold) + " / " + str(sum_bord), td_format)
+                    sheet.write(5, y-1, res_string, td_format)
                 y_sum += 1
