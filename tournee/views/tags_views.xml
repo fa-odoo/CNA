@@ -175,7 +175,7 @@ action = {
                             <field name="bd_td_axe"/>
                             <field name="respo_zone_id"/>
                             <field name="last_date_scan"/>
-                            <field name="is_account_in_scan"/>
+                            <field name="is_account_in_scan" invisible="1"/>
                             <field name="active" invisible="1"/>
                         </group>
                         <field name="tag_file" widget="pdf_viewer"/>
