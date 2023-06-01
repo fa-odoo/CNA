@@ -27,7 +27,8 @@ class Tags(models.Model):
 									required = True, tracking = True, default='navire')
 	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
 	active = fields.Boolean('Active', default=True, tracking=True)
-
+	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True)
+	
 	@api.onchange('access_point')
 	def onchange_access_point(self):
 		if self.access_point == 'navire':
