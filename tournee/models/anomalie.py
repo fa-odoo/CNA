@@ -186,7 +186,7 @@ class TaskTagsLine(models.Model):
     scan_week_first_day = fields.Date(compute='compute_date_parameters', store=True,
                                       string="Premier jours de la semaine")
     scan_week_last_day = fields.Date(compute='compute_date_parameters', store=True,
-                                     string="Premier jours de la semaine")
+                                     string="Dernier jours de la semaine")
 
     @api.depends('scan_date')
     def compute_date_parameters(self):
