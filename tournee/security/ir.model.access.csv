@@ -54,5 +54,6 @@
 
 "access_employee_ads","Employee ADS","hr.model_hr_employee","activities.group_cna_ads",1,0,0,0
 "access_res_partner_ads","Partner ADS","base.model_res_partner","activities.group_cna_ads",1,0,0,0
+access_tags_date_no_scan,Dates Tags No scan,tournee.model_tags_date_no_scan,base.group_user,1,1,1,1
 
 

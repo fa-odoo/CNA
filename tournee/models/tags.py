@@ -4,6 +4,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import unicodedata
 import regex
+import datetime
 
 class Tags(models.Model):
 	_name = 'tags.tags'
@@ -28,6 +29,20 @@ class Tags(models.Model):
 	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
 	active = fields.Boolean('Active', default=True, tracking=True)
 	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True)
+	date_no_scan_ids = fields.One2many(comodel_name="tags.date.no.scan", inverse_name="tag_id", string="Dates", compute='_compute_date_no_scan_ids', store=True)
+
+	@api.depends('is_account_in_scan')
+	def _compute_date_no_scan_ids(self):
+		for rec in self:
+			if not rec.is_account_in_scan:
+				self.env['tags.date.no.scan'].create({
+					'tag_id': self.id,
+					'start_date': datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().date().weekday())
+				})
+			elif rec.is_account_in_scan:
+				date = self.env['tags.date.no.scan'].search([('tag_id', '=', self.id), ('end_date', '=', False)])
+				for d in date:
+					d.end_date = datetime.datetime.now().date() + datetime.timedelta(days=(6 - datetime.datetime.now().date().weekday()))
 	
 	@api.onchange('access_point')
 	def onchange_access_point(self):
@@ -99,6 +114,16 @@ class Tags(models.Model):
 			'res_model': 'task.tags.line',
 			'domain': [('tag_id', '=', self.id)],
 		}
+
+
+class TagsDateNoScan(models.Model):
+	_name = 'tags.date.no.scan'
+	_rec_name = 'start_date'
+
+	start_date = fields.Date(string="Date Début", required=False)
+	end_date = fields.Date(string="Date Fin", required=False)
+
+	tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag")
 
 
 class Ronde(models.Model):
