@@ -70,6 +70,20 @@ class AvgNavireTimeXlsx(models.AbstractModel):
             y += 3
 
     def get_avg_time(self, tag_ids, start_date, end_date, cr):
+
+        tags = self.env['tags.tags'].search([('id', 'in', tag_ids)])
+        new_tags = []
+        for tag in tags:
+            if len(tag.date_no_scan_ids) == 0:
+                new_tags.append(tag.id)
+            else:
+                dates = tag.date_no_scan_ids.filtered(lambda d: d.start_date <= start_date and (not d.end_date  or d.end_date >= end_date))
+                if len(dates) == 0:
+                    new_tags.append(tag.id)
+
+        if len(new_tags) == 0:
+            return timedelta(hours=(0)), start_date, end_date, 0, 0
+
         cr.execute("""
                 SELECT MAX(res_t.total_count), COUNT(*)
                 FROM 
@@ -80,7 +94,7 @@ class AvgNavireTimeXlsx(models.AbstractModel):
                     DATE(scan_date) >= DATE(%s) AND 
                     DATE(scan_date) <= DATE(%s) AND date_scan_ok is true
                     GROUP BY tag_id) res_t
-                """, (tuple(tag_ids), str(start_date), str(end_date)))
+                """, (tuple(new_tags), str(start_date), str(end_date)))
 
         sql_res = self.env.cr.fetchone()
         scan_tot, row_count,data_y = sql_res[0] or 1, sql_res[1] or 0,sql_res[0] or 0

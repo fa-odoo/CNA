@@ -4,30 +4,49 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import unicodedata
 import regex
+import datetime
 
 class Tags(models.Model):
 	_name = 'tags.tags'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 
-	name = fields.Char('Nom', compute="compute_tags_name", store=True)
-	site_id = fields.Many2one('site.site', 'Site', required=True)
-	navire_id = fields.Many2one('navire.navire', 'Navire', required=False)
-	respo_zone_id = fields.Many2one('res.users', 'Responsable zone')
-	pont = fields.Char()
-	couple = fields.Char()
-	lot = fields.Char()
-	numero = fields.Char(required=True, default='/', copy=False)
-	designation = fields.Char()
-	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False, compute="compute_last_scan", store=True)
-	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False)
-	tag_file = fields.Binary(string="Fichier de tag")
+	name = fields.Char('Nom', compute="compute_tags_name", store=True, tracking = True)
+	site_id = fields.Many2one('site.site', 'Site', required=True, tracking = True)
+	navire_id = fields.Many2one('navire.navire', 'Navire', required=False, tracking = True)
+	respo_zone_id = fields.Many2one('res.users', 'Responsable zone', tracking = True)
+	pont = fields.Char( tracking = True)
+	couple = fields.Char( tracking = True)
+	lot = fields.Char(tracking = True)
+	numero = fields.Char(required=True, default='/', copy=False, tracking = True)
+	designation = fields.Char( tracking = True)
+	last_date_scan = fields.Datetime(string="Dernier date du scan", required=False, compute="compute_last_scan", store=True, tracking = True)
+	bd_td_axe = fields.Selection(string="Bd/Td/Axe", selection=[('bd', 'bd'), ('td', 'td'), ('axe', 'axe')], required=False, tracking = True)
+	tag_file = fields.Binary(string="Fichier de tag", tracking = True)
 	tag_line_ids = fields.One2many('task.tags.line', 'tag_id', 'Scan')
-	is_start_scan = fields.Boolean(string="Tag de démarrage", )
-	is_end_scan = fields.Boolean(string="Tag d'arrêt", )
+	is_start_scan = fields.Boolean(string="Tag de démarrage", tracking = True)
+	is_end_scan = fields.Boolean(string="Tag d'arrêt", tracking = True )
 	access_point = fields.Selection(string = "Point d'Accès", selection = [('navire', 'Navire'), ('sol', 'Sol')],
 									required = True, tracking = True, default='navire')
 	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
 	active = fields.Boolean('Active', default=True, tracking=True)
-	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True)
+	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True, tracking = True)
+	date_no_scan_ids = fields.One2many(comodel_name="tags.date.no.scan", inverse_name="tag_id", string="Dates", compute='_compute_date_no_scan_ids', store=True)
+
+	@api.depends('is_account_in_scan')
+	def _compute_date_no_scan_ids(self):
+		for rec in self:
+			if not rec.is_account_in_scan:
+				start_date = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().date().weekday())
+				old_change = self.env['tags.date.no.scan'].search([('tag_id', '=', self.id),('start_date', '=',start_date) ])
+				if not old_change:
+					self.env['tags.date.no.scan'].create({'change_date': fields.Date.context_today(self),
+						'tag_id': self.id,
+						'start_date': start_date
+					})
+			elif rec.is_account_in_scan:
+				date = self.env['tags.date.no.scan'].search([('tag_id', '=', self.id), ('end_date', '=', False)])
+				for d in date:
+					d.end_date = datetime.datetime.now().date() + datetime.timedelta(days=(6 - datetime.datetime.now().date().weekday()))
 	
 	@api.onchange('access_point')
 	def onchange_access_point(self):
@@ -99,6 +118,17 @@ class Tags(models.Model):
 			'res_model': 'task.tags.line',
 			'domain': [('tag_id', '=', self.id)],
 		}
+
+
+class TagsDateNoScan(models.Model):
+	_name = 'tags.date.no.scan'
+	_rec_name = 'start_date'
+
+	start_date = fields.Date(string="Date Début", required=True)
+	end_date = fields.Date(string="Date Fin", required=False)
+	change_date = fields.Date()
+
+	tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag", required=True, ondelete="cascade")
 
 
 class Ronde(models.Model):
