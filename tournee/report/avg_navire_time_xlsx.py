@@ -77,7 +77,7 @@ class AvgNavireTimeXlsx(models.AbstractModel):
             if len(tag.date_no_scan_ids) == 0:
                 new_tags.append(tag.id)
             else:
-                dates = tag.date_no_scan_ids.filtered(lambda d: d.start_date == start_date or d.end_date == end_date)
+                dates = tag.date_no_scan_ids.filtered(lambda d: d.start_date <= start_date and (not d.end_date  or d.end_date >= end_date))
                 if len(dates) == 0:
                     new_tags.append(tag.id)
 
