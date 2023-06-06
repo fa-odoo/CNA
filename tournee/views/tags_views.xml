@@ -187,7 +187,8 @@ action = {
                                         <field name="start_date"/>
                                         <field name="end_date"/>
                                         <field name="change_date" optional="hide" readonly="1" force_save="1"/>
-                                        <field name="create_uid" string="Utilisateur"/>
+                                        <field name="create_uid" string="créé par"  readonly="1" force_save="1"/>
+                                        <field name="write_uid" string="Modifié par"  readonly="1" force_save="1"/>
                                     </tree>
                                 </field>
                             </page>
