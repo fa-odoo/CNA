@@ -30,7 +30,45 @@ class Tags(models.Model):
 	lieu = fields.Many2one('site.lieu', "Lieu", tracking = True)
 	active = fields.Boolean('Active', default=True, tracking=True)
 	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True, tracking = True)
-	date_no_scan_ids = fields.One2many(comodel_name="tags.date.no.scan", inverse_name="tag_id", string="Dates", compute='_compute_date_no_scan_ids', store=True)
+	date_no_scan_ids = fields.One2many(comodel_name="tags.date.no.scan", inverse_name="tag_id", string="Dates")
+
+	@api.model
+	def create(self, vals):
+		if not vals.get('numero', False) or vals['numero'] == '/':
+			vals['numero'] = self.env['ir.sequence'].next_by_code('tags.tags') or ''
+		res = super(Tags, self).create(vals)
+		if not res.is_account_in_scan:
+			start_date = datetime.datetime.now().date() - datetime.timedelta(
+				days=datetime.datetime.now().date().weekday())
+			old_change = self.env['tags.date.no.scan'].search(
+				[('tag_id', '=', res.id), ('start_date', '=', start_date)])
+			if not old_change:
+				self.env['tags.date.no.scan'].create({'change_date': fields.Date.context_today(self),
+													  'tag_id': res.id,
+													  'start_date': start_date
+													  })
+		return res
+	def write(self, vals):
+		is_account_in_scan_dict = {l.id: l.is_account_in_scan for l in self}
+		res = super().write(vals)
+		for rec in self:
+			if any('is_account_in_scan' in value for value in vals):
+				if rec.is_account_in_scan != is_account_in_scan_dict[rec.id]:
+					if rec.is_account_in_scan:
+						dates_lines = self.env['tags.date.no.scan'].search([('tag_id', '=', rec.id), ('end_date', '=', False)])
+						dates_lines.write({'end_date': datetime.datetime.now().date() + datetime.timedelta(
+								days=(6 - datetime.datetime.now().date().weekday()))})
+					else:
+						start_date = datetime.datetime.now().date() - datetime.timedelta(
+							days=datetime.datetime.now().date().weekday())
+						old_change = self.env['tags.date.no.scan'].search(
+							[('tag_id', '=', rec.id), ('start_date', '=', start_date)])
+						if not old_change:
+							self.env['tags.date.no.scan'].create({'change_date': fields.Date.context_today(self),
+																  'tag_id': rec.id,
+																  'start_date': start_date
+																  })
+		return res
 
 	@api.depends('is_account_in_scan')
 	def _compute_date_no_scan_ids(self):
@@ -104,11 +142,6 @@ class Tags(models.Model):
 			rec.name = regex.sub(r"\p{Mn}", "", unicodedata.normalize("NFKD", name.strip()))
 
 
-	@api.model
-	def create(self, vals):
-		if not vals.get('numero', False) or vals['numero'] == '/':
-			vals['numero'] = self.env['ir.sequence'].next_by_code('tags.tags') or ''
-		return super(Tags, self).create(vals)
 
 	def action_see_all_scan(self):
 		return {
@@ -130,6 +163,21 @@ class TagsDateNoScan(models.Model):
 
 	tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag",  ondelete="cascade")
 
+	def unlink(self):
+		message_log_list = []
+		for line in self:
+			message_log= "Ligne 'date omis du temps de passage'du : " + str(line.start_date)
+			if line.end_date:
+				message_log +=' au '+str(line.end_date)
+			message_log +=" supprimée par "+ self.env.user.partner_id.name
+			message_log_dict ={'tag_id': line.tag_id,'message_log':message_log
+						 }
+			message_log_list.append(message_log_dict)
+		res = super().unlink()
+		if res:
+			for log_dict in message_log_list:
+				log_dict['tag_id'].message_post(body=log_dict['message_log'])
+		return res
 
 class Ronde(models.Model):
 	_name = 'ronde.ronde'
