@@ -128,7 +128,7 @@ class TagsDateNoScan(models.Model):
 	end_date = fields.Date(string="Date Fin", required=False)
 	change_date = fields.Date()
 
-	tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag", required=True, ondelete="cascade")
+	tag_id = fields.Many2one(comodel_name="tags.tags", string="Tag",  ondelete="cascade")
 
 
 class Ronde(models.Model):
