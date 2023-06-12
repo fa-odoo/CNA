@@ -259,6 +259,17 @@ action = {
             <field name="context">{'search_default_point_acces_group':1}</field>
         </record>
 
+        <record model="ir.actions.server" id="action_uncheck_is_account_in_scan">
+            <field name="name">Décoche Prise en compte temps de passage</field>
+            <field name="model_id" ref="tournee.model_tags_tags"/>
+            <field name="binding_model_id" ref="tournee.model_tags_tags" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.uncheck_is_account_in_scan()
+            </field>
+        </record>
+
         <record id="action_ronde" model="ir.actions.act_window">
             <field name="name">Ronde</field>
             <field name="res_model">ronde.ronde</field>
