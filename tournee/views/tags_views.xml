@@ -226,6 +226,7 @@ action = {
                     <field name="bd_td_axe"/>
                     <field name="couple"/>
                     <field name="respo_zone_id"/>
+                    <field name="is_account_in_scan" optional="show"/>
                 </tree>
             </field>
         </record>
