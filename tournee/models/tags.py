@@ -32,6 +32,11 @@ class Tags(models.Model):
 	is_account_in_scan = fields.Boolean(string="Prise en compte temps de passage", default=True, tracking = True)
 	date_no_scan_ids = fields.One2many(comodel_name="tags.date.no.scan", inverse_name="tag_id", string="Dates")
 
+	def uncheck_is_account_in_scan(self):
+		for rec in self:
+			rec.is_account_in_scan = False
+
+
 	@api.model
 	def create(self, vals):
 		if not vals.get('numero', False) or vals['numero'] == '/':
