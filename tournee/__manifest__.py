@@ -48,6 +48,7 @@
         'views/peripheral_timing_views.xml',
         'views/organisation_views.xml',
         'views/presence_time_views.xml',
+        'views/res_company_views.xml',
 
 
 
