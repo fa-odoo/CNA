@@ -7,3 +7,4 @@ from . import document
 from . import peripheral_timing
 from . import organisation
 from . import presence_time
+from . import res_company
