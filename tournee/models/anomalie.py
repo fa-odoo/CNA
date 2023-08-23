@@ -32,6 +32,7 @@ class ProjectTask(models.Model):
         for rec in self:
             rec.has_anomalies = True if rec.anomalie_ids else False
 
+    # changement des dépendances à cause de la solicitation à chaque scan
     # @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
     @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.task_id', 'tag_anomalie_ids.task_id.stage_id')
     def compute_temps_passage_avg(self):
