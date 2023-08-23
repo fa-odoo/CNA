@@ -9,6 +9,9 @@ class Navire(models.Model):
 	tourne_duration = fields.Float('temps moyen passé à bord', compute = 'compute_temps_total', store = True)
 	duration_ids = fields.One2many('navire.duration', 'navire_id', 'Duration')
 
+
+
+	# pour optimiser les ressources
 	# @api.depends('ronde_ids', 'ronde_ids.tourne_duration')
 	@api.depends('ronde_ids', 'ronde_ids.stage_id')
 	def compute_temps_total(self):
@@ -18,6 +21,9 @@ class Navire(models.Model):
 			if ronde_ids:
 				tourne_duration = sum(r.tourne_duration for r in ronde_ids)/len(ronde_ids)
 			rec.tourne_duration = tourne_duration
+
+
+	# pour optimiser les ressources
 
 	# @api.depends('ronde_ids', 'ronde_ids.temps_passage_avg')
 	@api.depends('ronde_ids', 'ronde_ids.stage_id')
