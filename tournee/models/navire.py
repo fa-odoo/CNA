@@ -9,20 +9,22 @@ class Navire(models.Model):
 	tourne_duration = fields.Float('temps moyen passé à bord', compute = 'compute_temps_total', store = True)
 	duration_ids = fields.One2many('navire.duration', 'navire_id', 'Duration')
 
-	@api.depends('ronde_ids', 'ronde_ids.tourne_duration')
+	# @api.depends('ronde_ids', 'ronde_ids.tourne_duration')
+	@api.depends('ronde_ids', 'ronde_ids.stage_id')
 	def compute_temps_total(self):
 		for rec in self:
 			tourne_duration =0.0
-			ronde_ids = rec.ronde_ids.filtered(lambda r: r.tourne_duration)
+			ronde_ids = rec.ronde_ids.filtered(lambda r: r.tourne_duration and r.stage_id.is_closed)
 			if ronde_ids:
 				tourne_duration = sum(r.tourne_duration for r in ronde_ids)/len(ronde_ids)
 			rec.tourne_duration = tourne_duration
 
-	@api.depends('ronde_ids', 'ronde_ids.temps_passage_avg')
+	# @api.depends('ronde_ids', 'ronde_ids.temps_passage_avg')
+	@api.depends('ronde_ids', 'ronde_ids.stage_id')
 	def compute_temps_passage_avg(self):
 		for rec in self:
 			temps_passage_avg = 0.0
-			ronde_ids = rec.ronde_ids.filtered(lambda r: r.temps_passage_avg)
+			ronde_ids = rec.ronde_ids.filtered(lambda r: r.temps_passage_avg and r.stage_id.is_closed)
 			if ronde_ids:
 				temps_passage_avg = sum(r.temps_passage_avg for r in ronde_ids)/len(ronde_ids)
 			rec.temps_passage_avg = temps_passage_avg
