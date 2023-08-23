@@ -32,12 +32,13 @@ class ProjectTask(models.Model):
         for rec in self:
             rec.has_anomalies = True if rec.anomalie_ids else False
 
-    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
+    # @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
+    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.task_id', 'tag_anomalie_ids.task_id.stage_id')
     def compute_temps_passage_avg(self):
         for rec in self:
             temps_passage_avg =0
             if rec.tag_anomalie_ids:
-                tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.date_scan_ok)
+                tag_anomalie_ids = rec.tag_anomalie_ids.filtered(lambda r: r.date_scan_ok and r.task_id and r.task_id.stage_id and r.task_id.stage_id.is_closed)
                 if tag_anomalie_ids and len(tag_anomalie_ids)>1:
                     temps_passage_avg = sum(t.temps_passage for t in tag_anomalie_ids)/(len(tag_anomalie_ids)-1)
             rec.temps_passage_avg =temps_passage_avg
