@@ -58,7 +58,7 @@ class PresenceTimeReportXlsx(models.AbstractModel):
                 y += 1
             if presence_time_ids:
                 sum_seconds = sum_bord.seconds / 3600
-                ratio = sum_seconds*100/sum_sold
+                ratio = round(sum_seconds*100/sum_sold,2)
                 # res_string = " %.2f/ %s = %.2f"% (sum_seconds ,sum_sold, ratio) + " %"
                 if count_org != 1:
 
