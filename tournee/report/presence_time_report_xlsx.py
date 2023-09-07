@@ -13,6 +13,7 @@ class PresenceTimeReportXlsx(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, obj):
         th_format = workbook.add_format({'bold': True, 'border': 1, 'align': 'left', 'valign': 'vcenter', 'bg_color': '#D9D9D9'})
         td_format = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
+        heure_format = workbook.add_format({'num_format': 'hh:mm','border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
         start_date = fields.Date.from_string(data['start_date'])
         end_date = fields.Date.from_string(data['end_date'])
         month_list = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
@@ -42,7 +43,7 @@ class PresenceTimeReportXlsx(models.AbstractModel):
                 sheet.write(1, y, month_list[dt.month - 1], td_format)
                 sheet.write(2, y, str(presence_time_id.navire_id.name), td_format)
                 sheet.write(3, y, str(presence_time_id.organisation_id.name), td_format)
-                sheet.write(4, y, str(presence_time_id.hours_sold), td_format)
+                sheet.write(4, y, presence_time_id.hours_sold/24, heure_format)
                 sum_sold += presence_time_id.hours_sold
                 count_org += 1
                 y += 1
