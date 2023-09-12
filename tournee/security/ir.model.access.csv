@@ -52,6 +52,15 @@
 
 "access_project_task_ads","Project task ADS","tournee.model_project_task","activities.group_cna_ads",1,1,1,0
 
+"access_peripheral_timing_ads","Donnée d'utilisation ADS","tournee.model_peripheral_timing","activities.group_cna_ads",1,1,1,0
+"access_presence_time_wizard_ads","Donnée d'utilisation ADS","tournee.model_presence_time_wizard","activities.group_cna_ads",1,1,1,1
+
+"access_organisation_organisation_cdp","Navire Duration wizard CDP","tournee.model_organisation_organisation","activities.group_cna_cdp",1,1,1,0
+"access_organisation_organisation_admin","Navire Duration wizard ADMIN","tournee.model_organisation_organisation","activities.group_cna_admin",1,1,1,1
+
+"access_presence_time_cdp","Navire Duration wizard CDP","tournee.model_presence_time","activities.group_cna_cdp",1,1,1,0
+"access_presence_time_admin","Navire Duration wizard ADMIN","tournee.model_presence_time","activities.group_cna_admin",1,1,1,1
+
 "access_employee_ads","Employee ADS","hr.model_hr_employee","activities.group_cna_ads",1,0,0,0
 "access_res_partner_ads","Partner ADS","base.model_res_partner","activities.group_cna_ads",1,0,0,0
 access_tags_date_no_scan,Dates Tags No scan,tournee.model_tags_date_no_scan,base.group_user,1,1,1,1

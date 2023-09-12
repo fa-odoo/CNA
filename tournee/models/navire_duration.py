@@ -32,5 +32,6 @@ class NavireDuration(models.Model):
     @api.onchange('start_date')
     def onchange_date_start(self):
         if self.start_date:
-            self.end_date = self.start_date.replace(month=self.start_date.month+1, day=1) - datetime.timedelta(days=1)
+            next_month = self.start_date.replace(day=28) + datetime.timedelta(days=4)
+            self.end_date = next_month - datetime.timedelta(days=next_month.day)
 

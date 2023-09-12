@@ -37,6 +37,7 @@
         'wizard/avg_navire_time_report_wizard.xml',
         'report/navire_time_template.xml',
         'report/navire_report_passage.xml',
+        'wizard/presence_time_wizard_view.xml',
 
         # views
         'views/anomalie_views.xml',
@@ -44,6 +45,9 @@
         'views/incident_extend.xml',
         'views/activitie_extend.xml',
         'views/tourne_views.xml',
+        'views/peripheral_timing_views.xml',
+        'views/organisation_views.xml',
+        'views/presence_time_views.xml',
 
 
 
