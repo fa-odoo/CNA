@@ -16,6 +16,9 @@ class PresenceTimeReportXlsx(models.AbstractModel):
         heure_format = workbook.add_format({'num_format': 'hh:mm','border': 1, 'align': 'center', 'valign': 'vcenter', 'text_wrap': True})
         start_date = fields.Date.from_string(data['start_date'])
         end_date = fields.Date.from_string(data['end_date'])
+        start_datetime = fields.Datetime.from_string(data['start_date']).replace(hour=0, minute=0, second=0)
+        end_datetime = fields.Datetime.from_string(data['end_date']).replace(hour=23, minute=59, second=59)
+
         month_list = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
 
         sheet = workbook.add_worksheet(data['start_date'] + ' au ' + data['end_date'])
@@ -32,7 +35,7 @@ class PresenceTimeReportXlsx(models.AbstractModel):
             date_start = date(year=dt.year, month=dt.month, day=1)
             date_end = date(year=dt.year, month=dt.month, day=calendar.monthrange(dt.year, dt.month)[1])
             presence_time_ids = self.env['presence.time'].search([('start_date', '>=', date_start), ('end_date', '<=', date_end)])
-            peripheral_timing_ids = self.env['peripheral.timing'].search([('start_date', '>=', date_start), ('end_date', '<=', date_end)])
+            peripheral_timing_ids = self.env['peripheral.timing'].search([('start_date', '>=', start_datetime), ('end_date', '<=', end_datetime)])
             total_vendu = sum(l.hours_sold for l in presence_time_ids)
             heures_vendu = int(total_vendu)
             minutes_vendu = int((total_vendu - heures_vendu) * 60)
@@ -57,7 +60,7 @@ class PresenceTimeReportXlsx(models.AbstractModel):
                 count_org += 1
                 y += 1
             if presence_time_ids:
-                sum_seconds = sum_bord.seconds / 3600
+                sum_seconds = sum_bord.total_seconds() / 3600
                 ratio = round(sum_seconds*100/sum_sold,2)
                 # res_string = " %.2f/ %s = %.2f"% (sum_seconds ,sum_sold, ratio) + " %"
                 if count_org != 1:
