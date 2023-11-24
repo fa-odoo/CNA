@@ -58,6 +58,9 @@
     ],
     'assets': {
             'web.assets_qweb': ["tournee/static/src/xml/paperclip_attachment.xml"],
+            'documents.public_page_assets': [
+                ('replace', 'documents/static/src/js/documents_public_pages.js', 'tournee/static/src/js/documents_public_pages.js'),
+            ],
     },
     'installable': True,
 }
