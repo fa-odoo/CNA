@@ -355,10 +355,9 @@ class TagsTaskAnomalie(models.Model):
     depuis_le = fields.Datetime('Depuis le', default=fields.Datetime.now)
     state = fields.Selection([('draft', 'Prise en compte'), ('resolu', 'Résolu')], string='Etat')
     comment = fields.Char("Notes")
-    document_id = fields.Many2one('documents.document', compute="compute_attachement")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
-    url = fields.Char(related='create_share_id.full_url', string="Lien photo")
-    create_share_id = fields.Many2one('documents.share', compute="compute_attachement")
+    url = fields.Char(string='Lien photo', compute='compute_attachement', store=True)
+    image_ids = fields.Many2many('ir.attachment', string='Photo', attachment=True)
 
     # attachement_id = fields.Many2one('documents.share', compute="compute_doc_url")
 
@@ -385,6 +384,24 @@ class TagsTaskAnomalie(models.Model):
     blue_color_state = fields.Boolean(compute="_compute_state_colors", default=False)
 
     already_reported = fields.Boolean(compute='compute_already_reported', default=False)
+
+    @api.model
+    def create(self, vals):
+        # Her we check the creticiti
+        res = super(TagsTaskAnomalie, self).create(vals)
+        for rec in res:
+            if not rec.image_ids and rec.criticite in ['1', '2']:
+                raise UserError('Attention, il faut ajouter une image')
+            rec.image_ids.write({'res_id': rec.id, 'res_model': self._name})
+        return res
+
+    def write(self, vals):
+        # Her we check the creticiti
+        res = super(TagsTaskAnomalie, self).write(vals)
+        for rec in self:
+            if not rec.image_ids and rec.criticite in ['1', '2']:
+                raise UserError('Attention, il faut ajouter une image')
+        return res
 
 
     @api.depends('tag_id', 'anomalie_id', 'anomalie_commentaire_id', 'date_anomalie')
@@ -440,22 +457,22 @@ class TagsTaskAnomalie(models.Model):
                 anomalie.green_color_state = False
                 anomalie.blue_color_state = False
 
+    @api.depends('image_ids')
     def compute_attachement(self):
         for rec in self:
             document = self.env['documents.document'].search([('res_id', '=', rec.id), ('type', '=', 'binary'),
                                                               ('mimetype', 'like', 'image'),
-                                                              ('res_model', '=', 'tags.task.anomalie')])
-            if document:
-                rec.document_id = document[0].id
+                                                              ('res_model', '=', 'tags.task.anomalie')], limit=1)
 
-                share = self.env['documents.share'].search([('document_ids', 'in', document[0].id)])
+            if document:
+                share = self.env['documents.share'].search([('document_ids', 'in', document.id)])
                 if share:
-                    rec.create_share_id = share[0].id
+                    rec.url = share[0].full_url
                 else:
                     vals = {
                         'type'        : 'ids',
-                        'document_ids': [(6, 0, document[0].ids)],
-                        'folder_id'   : document[0].folder_id.id,
+                        'document_ids': [(6, 0, document.ids)],
+                        'folder_id'   : document.folder_id.id,
                     }
                     new_context = dict(self.env.context)
                     new_context.update({
@@ -468,17 +485,9 @@ class TagsTaskAnomalie(models.Model):
                     })
                     share = self.with_context(new_context).env['documents.share'].create(vals)
                     share.action_generate_url()
-                    # document[0].create_share()
-                    # share = self.env['documents.share'].search([('document_ids', 'in', document[0].id)])
-                    if share:
-
-                        rec.create_share_id = share.id
-                    else:
-                        rec.create_share_id = False
-
+                    rec.url = share.full_url
             else:
-                rec.document_id = False
-                rec.create_share_id = False
+                rec.url = False
 
     def open_tournee(self):
         return {
