@@ -153,7 +153,6 @@
                     <field name="depuis_le"/>
                     <field name="state"/>
                     <field name="comment"/>
-                    <field name="document_id" invisible="1"/>
                     <field name="url" widget="url"  />
                 </tree>
             </field>
@@ -210,10 +209,8 @@
                             <field name="depuis_le"/>
                             <field name="state"/>
                             <field name="comment"/>
-                            <field name="document_id" invisible="1"/>
-
                             <field name="url" widget="url" />
-                            <field name="create_share_id" invisible="1"/>
+                            <field name="image_ids" widget="many2many_binary"/>
                             <field name="company_id" invisible="1"/>
                         </group>
 
