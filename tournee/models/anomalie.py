@@ -394,14 +394,14 @@ class TagsTaskAnomalie(models.Model):
                 raise UserError('Attention, il faut ajouter une image')
             rec.image_ids.write({'res_id': rec.id, 'res_model': self._name})
         return res
-    #
-    # def write(self, vals):
-    #     # Her we check the creticiti
-    #     res = super(TagsTaskAnomalie, self).write(vals)
-    #     for rec in self:
-    #         if not rec.image_ids and rec.criticite in ['1', '2']:
-    #             raise UserError('Attention, il faut ajouter une image')
-    #     return res
+
+    def write(self, vals):
+        # Her we check the creticiti
+        res = super(TagsTaskAnomalie, self).write(vals)
+        for rec in self:
+            if not rec.image_ids and rec.criticite in ['1', '2']:
+                raise UserError('Attention, il faut ajouter une image')
+        return res
 
 
     @api.depends('tag_id', 'anomalie_id', 'anomalie_commentaire_id', 'date_anomalie')
