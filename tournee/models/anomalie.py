@@ -459,36 +459,35 @@ class TagsTaskAnomalie(models.Model):
 
     @api.depends('image_ids')
     def compute_attachement(self):
-        self.url = False
-        # for rec in self:
-        #     document = self.env['documents.document'].search([('res_id', '=', rec.id), ('type', '=', 'binary'),
-        #                                                       ('mimetype', 'like', 'image'),
-        #                                                       ('res_model', '=', 'tags.task.anomalie')], limit=1)
-        #
-        #     if document:
-        #         share = self.env['documents.share'].search([('document_ids', 'in', document.id)])
-        #         if share:
-        #             rec.url = share[0].full_url
-        #         else:
-        #             vals = {
-        #                 'type'        : 'ids',
-        #                 'document_ids': [(6, 0, document.ids)],
-        #                 'folder_id'   : document.folder_id.id,
-        #             }
-        #             new_context = dict(self.env.context)
-        #             new_context.update({
-        #                 'default_owner_id'    : self.env.uid,
-        #                 'default_folder_id'   : vals.get('folder_id'),
-        #                 'default_tag_ids'     : vals.get('tag_ids'),
-        #                 'default_type'        : vals.get('type', 'domain'),
-        #                 'default_domain'      : vals.get('domain') if vals.get('type', 'domain') == 'domain' else False,
-        #                 'default_document_ids': vals.get('document_ids', False),
-        #             })
-        #             share = self.with_context(new_context).env['documents.share'].create(vals)
-        #             share.action_generate_url()
-        #             rec.url = share.full_url
-        #     else:
-        #         rec.url = False
+        for rec in self:
+            document = self.env['documents.document'].search([('res_id', '=', rec.id), ('type', '=', 'binary'),
+                                                              ('mimetype', 'like', 'image'),
+                                                              ('res_model', '=', 'tags.task.anomalie')], limit=1)
+
+            if document:
+                share = self.env['documents.share'].search([('document_ids', 'in', document.id)])
+                if share:
+                    rec.url = share[0].full_url
+                else:
+                    vals = {
+                        'type'        : 'ids',
+                        'document_ids': [(6, 0, document.ids)],
+                        'folder_id'   : document.folder_id.id,
+                    }
+                    new_context = dict(self.env.context)
+                    new_context.update({
+                        'default_owner_id'    : self.env.uid,
+                        'default_folder_id'   : vals.get('folder_id'),
+                        'default_tag_ids'     : vals.get('tag_ids'),
+                        'default_type'        : vals.get('type', 'domain'),
+                        'default_domain'      : vals.get('domain') if vals.get('type', 'domain') == 'domain' else False,
+                        'default_document_ids': vals.get('document_ids', False),
+                    })
+                    share = self.with_context(new_context).env['documents.share'].create(vals)
+                    share.action_generate_url()
+                    rec.url = share.full_url
+            else:
+                rec.url = False
 
     def open_tournee(self):
         return {
