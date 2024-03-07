@@ -43,7 +43,8 @@ class ProjectTask(models.Model):
             rec.temps_passage_avg =temps_passage_avg
 
     # @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.scan_date')
-    @api.depends('tag_anomalie_ids.scan_date')
+    # @api.depends('tag_anomalie_ids.scan_date')
+    @api.depends('stage_id')
     def compute_temps_total(self):
         for rec in self:
             tourne_duration =0
