@@ -67,6 +67,7 @@ class ProjectTask(models.Model):
     def compute_score(self):
         for rec in self:
             all_tags = rec.tag_anomalie_ids.filtered(lambda line: line.hors_parcours == False)
+
             all_scaned_tags = rec.tag_anomalie_ids.filtered(
                 lambda line: line.hors_parcours == False and line.state == 'done')
 
