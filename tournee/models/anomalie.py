@@ -16,7 +16,7 @@ class ProjectTask(models.Model):
     has_anomalies = fields.Boolean(compute='compute_has_anomalies', store=True)
     navire_id = fields.Many2one('navire.navire', 'Navire')
     ronde_id = fields.Many2one('ronde.ronde', 'Ronde')
-    score = fields.Float(string="Score", compute='_compute_score', store=True)
+    score = fields.Float(string="Score", compute='compute_score', store=True)
     comments = fields.Text(string="commentaires", required=False)
     tourne_duration = fields.Float('Temps total passé à bord (min)', compute='compute_temps_total', store=True)
     temps_passage_avg = fields.Float('Temps passage moyen', compute='compute_temps_passage_avg', store=True)
@@ -32,7 +32,7 @@ class ProjectTask(models.Model):
         for rec in self:
             rec.has_anomalies = True if rec.anomalie_ids else False
 
-    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.temps_passage', 'tag_anomalie_ids.date_scan_ok')
+    @api.depends('stage_id')
     def compute_temps_passage_avg(self):
         for rec in self:
             temps_passage_avg =0
@@ -63,8 +63,8 @@ class ProjectTask(models.Model):
     def _compute_fsm_done(self):
         super()._compute_fsm_done()
 
-    @api.depends('tag_anomalie_ids', 'tag_anomalie_ids.state')
-    def _compute_score(self):
+    @api.depends('stage_id')
+    def compute_score(self):
         for rec in self:
             all_tags = rec.tag_anomalie_ids.filtered(lambda line: line.hors_parcours == False)
             all_scaned_tags = rec.tag_anomalie_ids.filtered(
@@ -320,7 +320,6 @@ class TagsTaskAnomalie(models.Model):
             'mark_so_as_sent': True,
             'force_email': True,
         }
-        print('template_itemplate_idd', template_id, ctx)
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
